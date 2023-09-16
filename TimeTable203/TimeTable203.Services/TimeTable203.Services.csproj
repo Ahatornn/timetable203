@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TimeTable203.Repositories.Contracts\TimeTable203.Repositories.Contracts.csproj" />
+    <ProjectReference Include="..\TimeTable203.Services.C0ntracts\TimeTable203.Services.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
