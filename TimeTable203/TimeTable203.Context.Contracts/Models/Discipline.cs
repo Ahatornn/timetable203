@@ -3,21 +3,16 @@
     /// <summary>
     /// Предмет
     /// </summary>
-    public class Discipline
+    public class Discipline : BaseAuditEntity
     {
         /// <summary>
-        /// ИД
+        /// Наименование
         /// </summary>
-        public Guid Id { get; set; }
-
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Описание
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
     }
 }
