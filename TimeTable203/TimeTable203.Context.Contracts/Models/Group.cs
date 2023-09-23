@@ -18,11 +18,11 @@
         /// <summary>
         /// Студенты группы
         /// </summary>
-        public ICollection<Person> Students { get; set; } = Array.Empty<Person>();
+        public ICollection<Guid> Students { get; set; } = Array.Empty<Guid>();
 
         /// <summary>
         /// Классный руководитель
         /// </summary>
-        public Person? ClassroomTeacher { get; set; }
+        public Guid? EmployeeId { get; set; }
     }
 }

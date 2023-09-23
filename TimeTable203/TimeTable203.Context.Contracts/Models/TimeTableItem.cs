@@ -33,6 +33,6 @@
         /// <summary>
         /// Преподаватель
         /// </summary>
-        public Person? Teacher { get; set; }
+        public Guid? Teacher { get; set; }
     }
 }
