@@ -1,9 +1,9 @@
 ﻿namespace TimeTable203.Context.Contracts.Models
 {
     /// <summary>
-    /// Модель участника
+    /// Модель ответа сущность участника
     /// </summary>
-    public class PersonModel
+    public class PersonResponse
     {
 
         /// <summary>

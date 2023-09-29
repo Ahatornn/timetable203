@@ -1,9 +1,9 @@
 ﻿namespace TimeTable203.Context.Contracts.Models
 {
     /// <summary>
-    /// Модель элемент расписания
+    /// Модель ответа сущности элемент расписания
     /// </summary>
-    public class TimeTableItemModel
+    public class TimeTableItemResponse
     {
 
         /// <summary>

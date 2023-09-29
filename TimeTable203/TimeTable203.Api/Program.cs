@@ -16,6 +16,22 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IDisciplineService, DisciplineService>();
 builder.Services.AddScoped<IDisciplineReadRepository, DisciplineReadRepository>();
+
+builder.Services.AddScoped<IDocumentService, DocumentService>();
+builder.Services.AddScoped<IDocumentReadRepository, DocumentReadRepository>();
+
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IEmployeeReadRepository, EmployeeReadRepository>();
+
+builder.Services.AddScoped<IGroupService, GroupService>();
+builder.Services.AddScoped<IGroupReadRepository, GroupReadRepository>();
+
+builder.Services.AddScoped<IPersonService, PersonService>();
+builder.Services.AddScoped<IPersonReadRepository, PersonReadRepository>();
+
+builder.Services.AddScoped<ITimeTableItemService, TimeTableItemService>();
+builder.Services.AddScoped<ITimeTableItemReadRepository, TimeTableItemReadRepository>();
+
 builder.Services.AddSingleton<ITimeTableContext, TimeTableContext>();
 
 var app = builder.Build();

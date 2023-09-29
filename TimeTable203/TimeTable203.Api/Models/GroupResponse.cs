@@ -1,9 +1,9 @@
 ﻿namespace TimeTable203.Context.Contracts.Models
 {
     /// <summary>
-    /// Модель группы
+    /// Модель ответа сущности группы
     /// </summary>
-    public class GroupModel
+    public class GroupResponse
     {
 
         /// <summary>
