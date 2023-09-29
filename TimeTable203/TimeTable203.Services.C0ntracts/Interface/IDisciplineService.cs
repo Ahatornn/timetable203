@@ -1,6 +1,6 @@
 ﻿using TimeTable203.Services.Contracts.Models;
 
-namespace TimeTable203.Services.Contracts
+namespace TimeTable203.Services.Contracts.Interface
 {
     public interface IDisciplineService
     {

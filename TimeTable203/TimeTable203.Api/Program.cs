@@ -1,8 +1,8 @@
 using TimeTable203.Context;
 using TimeTable203.Context.Contracts;
-using TimeTable203.Repositories;
-using TimeTable203.Repositories.Contracts;
-using TimeTable203.Services.Contracts;
+using TimeTable203.Repositories.Contracts.Interface;
+using TimeTable203.Repositories.Implementations;
+using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);

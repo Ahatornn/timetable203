@@ -1,6 +1,6 @@
 ﻿using TimeTable203.Context.Contracts.Models;
 
-namespace TimeTable203.Repositories.Contracts
+namespace TimeTable203.Repositories.Contracts.Interface
 {
     /// <summary>
     /// Репозиторий чтения <see cref="Discipline"/>
