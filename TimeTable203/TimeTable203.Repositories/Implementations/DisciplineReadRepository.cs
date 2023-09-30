@@ -1,10 +1,10 @@
 ﻿using TimeTable203.Context.Contracts;
 using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Repositories.Contracts;
+using TimeTable203.Repositories.Contracts.Interface;
 
-namespace TimeTable203.Repositories
+namespace TimeTable203.Repositories.Implementations
 {
-    public class DisciplineReadRepository: IDisciplineReadRepository
+    public class DisciplineReadRepository : IDisciplineReadRepository
     {
         private readonly ITimeTableContext context;
 

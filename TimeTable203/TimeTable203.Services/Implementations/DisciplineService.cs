@@ -1,5 +1,5 @@
-﻿using TimeTable203.Repositories.Contracts;
-using TimeTable203.Services.Contracts;
+﻿using TimeTable203.Repositories.Contracts.Interface;
+using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 
 namespace TimeTable203.Services.Implementations
