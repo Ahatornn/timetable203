@@ -1,4 +1,5 @@
-﻿using TimeTable203.Repositories.Contracts.Interface;
+﻿using AutoMapper;
+using TimeTable203.Repositories.Contracts.Interface;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 
@@ -7,21 +8,19 @@ namespace TimeTable203.Services.Implementations
     public class DisciplineService: IDisciplineService
     {
         private readonly IDisciplineReadRepository disciplineReadRepository;
+        private readonly IMapper mapper;
 
-        public DisciplineService(IDisciplineReadRepository disciplineReadRepository)
+        public DisciplineService(IDisciplineReadRepository disciplineReadRepository,
+            IMapper mapper)
         {
             this.disciplineReadRepository = disciplineReadRepository;
+            this.mapper = mapper;
         }
 
         async Task<IEnumerable<DisciplineModel>> IDisciplineService.GetAllAsync(CancellationToken cancellationToken)
         {
             var result = await disciplineReadRepository.GetAllAsync(cancellationToken);
-            return result.Select(x => new DisciplineModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-            });
+            return mapper.Map<IEnumerable<DisciplineModel>>(result);
         }
 
         async Task<DisciplineModel?> IDisciplineService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -32,12 +31,7 @@ namespace TimeTable203.Services.Implementations
                 return null;
             }
 
-            return new DisciplineModel
-            {
-                Id = item.Id,
-                Name = item.Name,
-                Description = item.Description,
-            };
+            return mapper.Map<DisciplineModel>(item);
         }
     }
 }

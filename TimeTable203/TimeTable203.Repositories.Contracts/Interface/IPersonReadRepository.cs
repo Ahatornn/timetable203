@@ -18,6 +18,10 @@ namespace TimeTable203.Repositories.Contracts.Interface
         /// </summary>
         Task<Person?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Получить список <see cref="Person"/> по идентификаторам
+        /// </summary>
+        Task<List<Person>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation);
     }
 
 }

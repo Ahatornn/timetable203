@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TimeTable203.Context.Contracts.Models;
+using TimeTable203.Api.Models;
+using TimeTable203.Api.Models.Enums;
 using TimeTable203.Services.Contracts.Interface;
 
 namespace TimeTable203.Api.Controllers
@@ -26,8 +27,9 @@ namespace TimeTable203.Api.Controllers
             return Ok(result.Select(x => new EmployeeResponse
             {
                 Id = x.Id,
-                EmployeeType = x.EmployeeType,
-                PersonId = x.PersonId,
+                EmployeeType = (EmployeeTypesResponse)x.EmployeeType,
+                Name = $"{x.Person?.LastName} {x.Person?.FirstName} {x.Person?.Patronymic}",
+                MobilePhone = x.Person?.Phone ?? string.Empty,
             }));
         }
 
@@ -43,8 +45,7 @@ namespace TimeTable203.Api.Controllers
             return Ok(new EmployeeResponse
             {
                 Id = item.Id,
-                EmployeeType = item.EmployeeType,
-                PersonId = item.PersonId,
+                EmployeeType = (EmployeeTypesResponse)item.EmployeeType,
             });
         }
     }

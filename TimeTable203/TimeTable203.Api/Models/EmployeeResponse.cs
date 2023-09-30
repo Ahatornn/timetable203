@@ -1,6 +1,6 @@
-﻿using TimeTable203.Context.Contracts.Enums;
+﻿using TimeTable203.Api.Models.Enums;
 
-namespace TimeTable203.Context.Contracts.Models
+namespace TimeTable203.Api.Models
 {
     /// <summary>
     /// Модель ответа сущности работников
@@ -13,12 +13,17 @@ namespace TimeTable203.Context.Contracts.Models
         /// </summary>
         public Guid Id { get; set; }
 
-        /// <inheritdoc cref="EmployeeTypes"/>
-        public EmployeeTypes EmployeeType { get; set; }
+        /// <inheritdoc cref="EmployeeTypesResponse"/>
+        public EmployeeTypesResponse EmployeeType { get; set; }
 
         /// <summary>
-        /// Идентификатор <inheritdoc cref="PersonResponse"/>
+        /// ФИО
         /// </summary>
-        public Guid PersonId { get; set; }
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Мобильный телефон
+        /// </summary>
+        public string MobilePhone { get; set; } = string.Empty;
     }
 }

@@ -1,27 +1,49 @@
 ﻿using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts.Interface;
 using TimeTable203.Services.Contracts.Interface;
+using TimeTable203.Services.Contracts.Models;
 
 namespace TimeTable203.Services.Implementations
 {
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeReadRepository employeeReadRepository;
+        private readonly IPersonReadRepository personReadRepository;
 
-        public EmployeeService(IEmployeeReadRepository employeeReadRepository)
+        public EmployeeService(IEmployeeReadRepository employeeReadRepository,
+            IPersonReadRepository personReadRepository)
         {
             this.employeeReadRepository = employeeReadRepository;
+            this.personReadRepository = personReadRepository;
         }
 
         async Task<IEnumerable<EmployeeModel>> IEmployeeService.GetAllAsync(CancellationToken cancellationToken)
         {
-            var result = await employeeReadRepository.GetAllAsync(cancellationToken);
-            return result.Select(x => new EmployeeModel
+            var employees = await employeeReadRepository.GetAllAsync(cancellationToken);
+            var persons = await personReadRepository.GetByIdsAsync(employees.Select(x => x.PersonId).Distinct(), cancellationToken);
+            var result = new List<EmployeeModel>();
+            foreach (var employee in employees)
             {
-                Id = x.Id,
-                EmployeeType = x.EmployeeType,
-                PersonId = x.PersonId,
-            });
+                var person = persons.FirstOrDefault(x => x.Id == employee.PersonId);
+                result.Add(new EmployeeModel
+                {
+                    Id = employee.Id,
+                    EmployeeType = employee.EmployeeType,
+                    Person = person == null
+                        ? null
+                        : new PersonModel
+                        {
+                            Id = person.Id,
+                            FirstName = person.FirstName,
+                            LastName = person.LastName,
+                            Patronymic = person.Patronymic,
+                            Email = person.Email,
+                            Phone = person.Phone,
+                        },
+                });
+            }
+
+            return result;
         }
 
         async Task<EmployeeModel?> IEmployeeService.GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -36,7 +58,6 @@ namespace TimeTable203.Services.Implementations
             {
                 Id = item.Id,
                 EmployeeType = item.EmployeeType,
-                PersonId = item.PersonId,
             };
         }
     }

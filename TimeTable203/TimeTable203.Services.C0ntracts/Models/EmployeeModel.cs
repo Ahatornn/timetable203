@@ -1,6 +1,7 @@
 ﻿using TimeTable203.Context.Contracts.Enums;
+using TimeTable203.Context.Contracts.Models;
 
-namespace TimeTable203.Context.Contracts.Models
+namespace TimeTable203.Services.Contracts.Models
 {
     /// <summary>
     /// Модель работников
@@ -17,8 +18,8 @@ namespace TimeTable203.Context.Contracts.Models
         public EmployeeTypes EmployeeType { get; set; }
 
         /// <summary>
-        /// Идентификатор <inheritdoc cref="PersonModel"/>
+        /// <inheritdoc cref="PersonModel"/>
         /// </summary>
-        public Guid PersonId { get; set; }
+        public PersonModel? Person { get; set; }
     }
 }
