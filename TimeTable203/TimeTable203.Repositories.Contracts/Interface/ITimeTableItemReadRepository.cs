@@ -16,6 +16,7 @@ namespace TimeTable203.Repositories.Contracts.Interface
         /// Получить <see cref="TimeTableItem"/> по идентификатору
         /// </summary>
         Task<TimeTableItem?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
     }
 
 }
