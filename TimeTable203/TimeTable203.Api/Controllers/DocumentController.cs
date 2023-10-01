@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TimeTable203.Context.Contracts.Models;
+using TimeTable203.Api.Models;
+using TimeTable203.Api.Models.Enums;
 using TimeTable203.Services.Contracts.Interface;
 
 namespace TimeTable203.Api.Controllers
@@ -29,7 +30,7 @@ namespace TimeTable203.Api.Controllers
                 Series = x.Series,
                 IssuedAt = x.IssuedAt,
                 IssuedBy = x.IssuedBy,
-                DocumentType = x.DocumentType,
+                DocumentType = (DocumentTypesResponse)x.DocumentType,
                 PersonId = x.PersonId,
             }));
         }
@@ -50,7 +51,7 @@ namespace TimeTable203.Api.Controllers
                 Series = item.Series,
                 IssuedAt = item.IssuedAt,
                 IssuedBy = item.IssuedBy,
-                DocumentType = item.DocumentType,
+                DocumentType = (DocumentTypesResponse)item.DocumentType,
                 PersonId = item.PersonId,
             });
         }

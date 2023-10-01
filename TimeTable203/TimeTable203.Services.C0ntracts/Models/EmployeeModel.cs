@@ -1,5 +1,4 @@
-﻿using TimeTable203.Context.Contracts.Enums;
-using TimeTable203.Context.Contracts.Models;
+﻿using TimeTable203.Services.Contracts.Models.Enums;
 
 namespace TimeTable203.Services.Contracts.Models
 {
@@ -15,7 +14,7 @@ namespace TimeTable203.Services.Contracts.Models
         public Guid Id { get; set; }
 
         /// <inheritdoc cref="EmployeeTypes"/>
-        public EmployeeTypes EmployeeType { get; set; }
+        public EmployeeTypesModel EmployeeType { get; set; }
 
         /// <summary>
         /// <inheritdoc cref="PersonModel"/>

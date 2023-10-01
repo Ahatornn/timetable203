@@ -5,7 +5,7 @@ namespace TimeTable203.Context.Contracts.Models
     /// <summary>
     /// Документы
     /// </summary>
-    public class Document: BaseAuditEntity
+    public class Document : BaseAuditEntity
     {
         /// <summary>
         /// Номер документа

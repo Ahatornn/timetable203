@@ -1,4 +1,4 @@
-﻿namespace TimeTable203.Context.Contracts.Models
+﻿namespace TimeTable203.Services.Contracts.Models
 {
     /// <summary>
     /// Модель элемент расписания
