@@ -1,7 +1,9 @@
+using AutoMapper;
 using TimeTable203.Context;
 using TimeTable203.Context.Contracts;
 using TimeTable203.Repositories.Contracts.Interface;
 using TimeTable203.Repositories.Implementations;
+using TimeTable203.Services.Automappers;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Implementations;
 
@@ -14,7 +16,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddScoped<IDisciplineService, DisciplineService>();
+
 builder.Services.AddScoped<IDisciplineReadRepository, DisciplineReadRepository>();
 
 builder.Services.AddScoped<IDocumentService, DocumentService>();
@@ -33,6 +37,14 @@ builder.Services.AddScoped<ITimeTableItemService, TimeTableItemService>();
 builder.Services.AddScoped<ITimeTableItemReadRepository, TimeTableItemReadRepository>();
 
 builder.Services.AddSingleton<ITimeTableContext, TimeTableContext>();
+
+var mapperConfig = new MapperConfiguration(ms =>
+{
+    ms.AddProfile(new ServiceProfile());
+});
+var mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
 
 var app = builder.Build();
 
