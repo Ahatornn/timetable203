@@ -9,6 +9,7 @@ namespace TimeTable203.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [ApiExplorerSettings(GroupName = "Discipline")]
     public class DisciplineController : ControllerBase
     {
         private readonly IDisciplineService disciplineService;

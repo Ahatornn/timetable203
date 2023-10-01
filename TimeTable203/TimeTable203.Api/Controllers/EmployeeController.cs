@@ -11,6 +11,7 @@ namespace TimeTable203.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [ApiExplorerSettings(GroupName = "Employee")]
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService employeeService;

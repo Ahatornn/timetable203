@@ -9,6 +9,7 @@ namespace TimeTable203.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [ApiExplorerSettings(GroupName = "Group")]
     public class GroupController : Controller
     {
         private readonly IGroupService groupService;
