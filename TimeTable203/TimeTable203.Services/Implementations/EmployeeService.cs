@@ -1,7 +1,7 @@
-﻿using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Repositories.Contracts.Interface;
+﻿using TimeTable203.Repositories.Contracts.Interface;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.Models.Enums;
 
 namespace TimeTable203.Services.Implementations
 {
@@ -28,7 +28,7 @@ namespace TimeTable203.Services.Implementations
                 result.Add(new EmployeeModel
                 {
                     Id = employee.Id,
-                    EmployeeType = employee.EmployeeType,
+                    EmployeeType = (EmployeeTypesModel)employee.EmployeeType,
                     Person = person == null
                         ? null
                         : new PersonModel
@@ -57,7 +57,7 @@ namespace TimeTable203.Services.Implementations
             return new EmployeeModel
             {
                 Id = item.Id,
-                EmployeeType = item.EmployeeType,
+                EmployeeType = (EmployeeTypesModel)item.EmployeeType,
             };
         }
     }

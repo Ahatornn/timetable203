@@ -1,5 +1,5 @@
-﻿using TimeTable203.Context.Contracts.Enums;
-namespace TimeTable203.Context.Contracts.Models
+﻿using TimeTable203.Api.Models.Enums;
+namespace TimeTable203.Api.Models
 {
     /// <summary>
     /// Модель ответа сущности документов
@@ -33,7 +33,7 @@ namespace TimeTable203.Context.Contracts.Models
         /// <summary>
         /// Тип документов
         /// </summary>
-        public DocumentTypes DocumentType { get; set; }
+        public DocumentTypesResponse DocumentType { get; set; }
 
         /// <summary>
         /// Идентификатор <see cref="PersonResponse"/>

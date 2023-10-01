@@ -1,6 +1,7 @@
-﻿using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Repositories.Contracts.Interface;
+﻿using TimeTable203.Repositories.Contracts.Interface;
 using TimeTable203.Services.Contracts.Interface;
+using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.Models.Enums;
 
 namespace TimeTable203.Services.Implementations
 {
@@ -23,7 +24,7 @@ namespace TimeTable203.Services.Implementations
                 Series = x.Series,
                 IssuedAt = x.IssuedAt,
                 IssuedBy = x.IssuedBy,
-                DocumentType = x.DocumentType,
+                DocumentType = (DocumentTypesModel)x.DocumentType,
                 PersonId = x.PersonId,
             });
         }
@@ -43,7 +44,7 @@ namespace TimeTable203.Services.Implementations
                 Series = item.Series,
                 IssuedAt = item.IssuedAt,
                 IssuedBy = item.IssuedBy,
-                DocumentType = item.DocumentType,
+                DocumentType = (DocumentTypesModel)item.DocumentType,
                 PersonId = item.PersonId,
             };
         }

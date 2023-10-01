@@ -3,7 +3,7 @@
     /// <summary>
     /// Элемент расписания
     /// </summary>
-    public class TimeTableItem: BaseAuditEntity
+    public class TimeTableItem : BaseAuditEntity
     {
         /// <summary>
         /// Дата начала

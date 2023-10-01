@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TimeTable203.Context.Contracts.Models;
+using TimeTable203.Api.Models;
 using TimeTable203.Services.Contracts.Interface;
 
 namespace TimeTable203.Api.Controllers
@@ -22,7 +22,7 @@ namespace TimeTable203.Api.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await groupService.GetAllAsync(cancellationToken);
-            return Ok(result.Select(x => new GroupResponse 
+            return Ok(result.Select(x => new GroupResponse
             {
                 Id = x.Id,
                 Name = x.Name,
