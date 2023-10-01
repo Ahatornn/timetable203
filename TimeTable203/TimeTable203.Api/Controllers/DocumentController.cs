@@ -10,6 +10,7 @@ namespace TimeTable203.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [ApiExplorerSettings(GroupName = "Document")]
     public class DocumentController : ControllerBase
     {
         private readonly IDocumentService documentService;

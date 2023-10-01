@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.OpenApi.Models;
 using TimeTable203.Context;
 using TimeTable203.Context.Contracts;
 using TimeTable203.Repositories.Contracts.Interface;
@@ -14,7 +15,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("Discipline", new OpenApiInfo{Title = "Сущность дисциплины", Version = "v1"});
+    c.SwaggerDoc("Document", new OpenApiInfo{Title = "Сущность документы", Version = "v1"});
+    c.SwaggerDoc("Employee", new OpenApiInfo{Title = "Сущность работники", Version = "v1"});
+    c.SwaggerDoc("Group", new OpenApiInfo{Title = "Сущность группы", Version = "v1"});
+    c.SwaggerDoc("Person", new OpenApiInfo{Title = "Сущность ученики", Version = "v1"});
+    c.SwaggerDoc("TimeTableItem", new OpenApiInfo{Title = "Сущность элемент расписания", Version = "v1"});
+});
 
 
 builder.Services.AddScoped<IDisciplineService, DisciplineService>();
@@ -52,7 +61,15 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(x =>
+    {
+        x.SwaggerEndpoint("Discipline/swagger.json", "Дисциплины");
+        x.SwaggerEndpoint("Document/swagger.json", "Документы");
+        x.SwaggerEndpoint("Employee/swagger.json", "Работники");
+        x.SwaggerEndpoint("Group/swagger.json", "Группы");
+        x.SwaggerEndpoint("Person/swagger.json", "Ученики");
+        x.SwaggerEndpoint("TimeTableItem/swagger.json", "Элемент расписания");
+    });
 }
 
 app.UseHttpsRedirection();
