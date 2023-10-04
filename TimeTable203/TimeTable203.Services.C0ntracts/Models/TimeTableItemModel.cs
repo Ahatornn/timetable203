@@ -22,14 +22,14 @@
         public DateTimeOffset EndDate { get; set; }
 
         /// <summary>
-        /// Идентификатор дисциплины
+        /// <inheritdoc cref="DisciplineModel"/>
         /// </summary>
-        public Guid DisciplineId { get; set; }
+        public DisciplineModel? Discipline { get; set; }
 
         /// <summary>
-        /// Идентификатор группы
+        /// <inheritdoc cref="GroupModel"/>
         /// </summary>
-        public Guid GroupId { get; set; }
+        public GroupModel? Group { get; set; }
 
         /// <summary>
         /// Номер аудитории
@@ -37,8 +37,8 @@
         public short RoomNumber { get; set; }
 
         /// <summary>
-        /// Преподаватель
+        /// <inheritdoc cref="EmployeeModel"/>
         /// </summary>
-        public Guid? Teacher { get; set; }
+        public EmployeeModel? Teacher { get; set; }
     }
 }

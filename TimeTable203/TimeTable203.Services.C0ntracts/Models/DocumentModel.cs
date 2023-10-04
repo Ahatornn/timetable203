@@ -37,8 +37,8 @@ namespace TimeTable203.Services.Contracts.Models
         public DocumentTypesModel DocumentType { get; set; }
 
         /// <summary>
-        /// Идентификатор <see cref="PersonModel"/>
+        /// <inheritdoc cref="PersonModel"/>
         /// </summary>
-        public Guid PersonId { get; set; }
+        public PersonModel? Person { get; set; }
     }
 }

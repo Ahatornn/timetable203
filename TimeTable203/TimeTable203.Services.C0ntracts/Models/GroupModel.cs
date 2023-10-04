@@ -27,8 +27,8 @@
         public ICollection<Guid> Students { get; set; } = Array.Empty<Guid>();
 
         /// <summary>
-        /// Классный руководитель
+        /// <inheritdoc cref="EmployeeModel"/>
         /// </summary>
-        public Guid? EmployeeId { get; set; }
+        public EmployeeModel? Employee { get; set; }
     }
 }
