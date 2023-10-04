@@ -22,8 +22,7 @@ namespace TimeTable203.Repositories.Implementations
             => Task.FromResult(context.Persons.FirstOrDefault(x => x.Id == id));
 
         Task<List<Person>> IPersonReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
-            => Task.FromResult(context.Persons.Where(x => x.DeletedAt == null &&
-                                                          ids.Contains(x.Id))
+            => Task.FromResult(context.Persons.Where(x => x.DeletedAt == null && ids.Contains(x.Id))
                 .OrderBy(x => x.LastName)
                 .ToList());
     }

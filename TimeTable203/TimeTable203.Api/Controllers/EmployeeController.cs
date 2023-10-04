@@ -47,6 +47,8 @@ namespace TimeTable203.Api.Controllers
             {
                 Id = item.Id,
                 EmployeeType = (EmployeeTypesResponse)item.EmployeeType,
+                Name = $"{item.Person?.LastName} {item.Person?.FirstName} {item.Person?.Patronymic}",
+                MobilePhone = item.Person?.Phone ?? string.Empty,
             });
         }
     }

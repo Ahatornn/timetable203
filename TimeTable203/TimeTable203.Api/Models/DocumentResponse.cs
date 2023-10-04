@@ -31,13 +31,18 @@ namespace TimeTable203.Api.Models
         public string IssuedBy { get; set; } = string.Empty;
 
         /// <summary>
-        /// Тип документов
+        /// Названия документа
         /// </summary>
-        public DocumentTypesResponse DocumentType { get; set; }
+        public string DocumentType { get; set; }
 
         /// <summary>
-        /// Идентификатор <see cref="PersonResponse"/>
+        /// ФИО
         /// </summary>
-        public Guid PersonId { get; set; }
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Мобильный телефон
+        /// </summary>
+        public string MobilePhone { get; set; } = string.Empty;
     }
 }
