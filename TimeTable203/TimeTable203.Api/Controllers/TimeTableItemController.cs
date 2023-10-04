@@ -28,11 +28,11 @@ namespace TimeTable203.Api.Controllers
                 Id = x.Id,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
-                NameDiscipline = $"{x.Discipline?.Name}",
-                NameGroup = $"{x.Group?.Name}",
+                NameDiscipline = x.Discipline?.Name ?? string.Empty,
+                NameGroup = x.Group?.Name ?? string.Empty,
                 RoomNumber = x.RoomNumber,
                 NamePerson = $"{x.Teacher?.LastName} {x.Teacher?.FirstName} {x.Teacher?.Patronymic}",
-                Phone = $"{x.Teacher?.Phone}"
+                Phone = x.Teacher?.Phone ?? string.Empty
             }));
         }
 
@@ -47,14 +47,15 @@ namespace TimeTable203.Api.Controllers
 
             return Ok(new TimeTableItemResponse
             {
+
                 Id = item.Id,
                 StartDate = item.StartDate,
                 EndDate = item.EndDate,
-                NameDiscipline = $"{item.Discipline?.Name}",
-                NameGroup = $"{item.Group?.Name}",
+                NameDiscipline = item.Discipline?.Name ?? string.Empty,
+                NameGroup = item.Group?.Name ?? string.Empty,
                 RoomNumber = item.RoomNumber,
                 NamePerson = $"{item.Teacher?.LastName} {item.Teacher?.FirstName} {item.Teacher?.Patronymic}",
-                Phone = $"{item.Teacher?.Phone}"
+                Phone = item.Teacher?.Phone ?? string.Empty
             });
         }
     }
