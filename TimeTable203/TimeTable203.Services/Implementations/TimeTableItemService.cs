@@ -49,7 +49,7 @@ namespace TimeTable203.Services.Implementations
             {
                 var discipline = disciplines.FirstOrDefault(x => x.Id == timeTableItem.DisciplineId);
                 var group = groups.FirstOrDefault(x => x.Id == timeTableItem.GroupId);
-                var person = persons.FirstOrDefault(x => x.Id == timeTableItem.Teacher);
+                var person = persons.FirstOrDefault(x => x.Id == employees.FirstOrDefault(s => s.Id == timeTableItem.Teacher).PersonId);
 
                 var timeTable = mapper.Map<TimeTableItemModel>(timeTableItem);
                 var timeTableItemDiscipline = mapper.Map<TimeTableItemModel>(discipline);
@@ -58,7 +58,10 @@ namespace TimeTable203.Services.Implementations
 
                 timeTable.Discipline = timeTableItemDiscipline.Discipline;
                 timeTable.Group = timeTableItemGroup.Group;
-                timeTable.Teacher = timeTableItemPerson.Teacher;
+                if (timeTableItemPerson != null)
+                {
+                    timeTable.Teacher = timeTableItemPerson.Teacher ?? new PersonModel() { Id = Guid.Empty };
+                }
 
 
                 listTimeTableItemModel.Add(timeTable);
@@ -93,7 +96,7 @@ namespace TimeTable203.Services.Implementations
 
             timeTable.Discipline = timeTableItemDiscipline.Discipline;
             timeTable.Group = timeTableItemGroup.Group;
-            timeTable.Teacher = timeTableItemPerson.Teacher;
+            timeTable.Teacher = timeTableItemPerson.Teacher ?? new PersonModel();
             return timeTable;
         }
     }
