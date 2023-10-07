@@ -27,36 +27,16 @@ namespace TimeTable203.Services.Implementations
         async Task<IEnumerable<DocumentModel>> IDocumentService.GetAllAsync(CancellationToken cancellationToken)
         {
             var documents = await documentReadRepository.GetAllAsync(cancellationToken);
-            var persons = await personReadRepository.GetByIdsAsync(documents.Select(x => x.PersonId).Distinct(),cancellationToken);
+            var persons = await personReadRepository.GetByIdsAsync(documents.Select(x => x.PersonId).Distinct(), cancellationToken);
             var result = new List<DocumentModel>();
             foreach (var document in documents)
             {
-                var person = persons.FirstOrDefault(s => s.Id == document.PersonId);
-                //var documentModel = new DocumentModel
-                //{
-                //    Id = document.Id,
-                //    Number = document.Number,
-                //    Series = document.Series,
-                //    IssuedAt = document.IssuedAt,
-                //    IssuedBy = document.IssuedBy,
-                //    DocumentType = (DocumentTypesModel)document.DocumentType,
-                //    Person = person == null
-                //        ? null
-                //        : new PersonModel
-                //        {
-                //            Id = person.Id,
-                //            FirstName = person.FirstName,
-                //            LastName = person.LastName,
-                //            Patronymic = person.Patronymic,
-                //            Email = person.Email,
-                //            Phone = person.Phone
-                //        },
-                //};
-                //result.Add(documentModel);
-               var docPerson = mapper.Map<DocumentModel>(person);
-               var doc = mapper.Map<DocumentModel>(document);
-               doc.Person = docPerson.Person;
-               result.Add(doc);
+                persons.TryGetValue(document.PersonId, out var person);
+                var doc = mapper.Map<DocumentModel>(document);
+                doc.Person = person != null
+                    ? mapper.Map<PersonModel>(person)
+                    : null;
+                result.Add(doc);
             }
             return result;
         }

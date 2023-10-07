@@ -1,12 +1,7 @@
 using AutoMapper;
 using Microsoft.OpenApi.Models;
-using TimeTable203.Context;
-using TimeTable203.Context.Contracts;
-using TimeTable203.Repositories.Contracts.Interface;
-using TimeTable203.Repositories.Implementations;
+using TimeTable203.Api.Infrastructures;
 using TimeTable203.Services.Automappers;
-using TimeTable203.Services.Contracts.Interface;
-using TimeTable203.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,26 +21,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 
-builder.Services.AddScoped<IDisciplineService, DisciplineService>();
-
-builder.Services.AddScoped<IDisciplineReadRepository, DisciplineReadRepository>();
-
-builder.Services.AddScoped<IDocumentService, DocumentService>();
-builder.Services.AddScoped<IDocumentReadRepository, DocumentReadRepository>();
-
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-builder.Services.AddScoped<IEmployeeReadRepository, EmployeeReadRepository>();
-
-builder.Services.AddScoped<IGroupService, GroupService>();
-builder.Services.AddScoped<IGroupReadRepository, GroupReadRepository>();
-
-builder.Services.AddScoped<IPersonService, PersonService>();
-builder.Services.AddScoped<IPersonReadRepository, PersonReadRepository>();
-
-builder.Services.AddScoped<ITimeTableItemService, TimeTableItemService>();
-builder.Services.AddScoped<ITimeTableItemReadRepository, TimeTableItemReadRepository>();
-
-builder.Services.AddSingleton<ITimeTableContext, TimeTableContext>();
+builder.Services.AddDependences();
 
 var mapperConfig = new MapperConfiguration(ms =>
 {

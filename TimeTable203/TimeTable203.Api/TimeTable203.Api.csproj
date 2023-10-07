@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TimeTable203.Common\TimeTable203.Common.csproj" />
     <ProjectReference Include="..\TimeTable203.Context\TimeTable203.Context.csproj" />
     <ProjectReference Include="..\TimeTable203.Repositories\TimeTable203.Repositories.csproj" />
     <ProjectReference Include="..\TimeTable203.Services\TimeTable203.Services.csproj" />
