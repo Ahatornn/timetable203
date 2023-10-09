@@ -5,7 +5,7 @@ using TimeTable203.Services.Contracts.Models;
 
 namespace TimeTable203.Services.Implementations
 {
-    public class GroupService : IGroupService
+    public class GroupService : IGroupService, IServiceAnchor
     {
         private readonly IGroupReadRepository groupReadRepository;
         private readonly IEmployeeReadRepository employeeReadRepository;

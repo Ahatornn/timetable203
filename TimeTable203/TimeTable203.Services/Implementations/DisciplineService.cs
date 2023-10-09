@@ -5,7 +5,7 @@ using TimeTable203.Services.Contracts.Models;
 
 namespace TimeTable203.Services.Implementations
 {
-    public class DisciplineService : IDisciplineService
+    public class DisciplineService : IDisciplineService, IServiceAnchor
     {
         private readonly IDisciplineReadRepository disciplineReadRepository;
         private readonly IMapper mapper;

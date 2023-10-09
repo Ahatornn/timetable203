@@ -4,7 +4,7 @@ using TimeTable203.Repositories.Contracts.Interface;
 
 namespace TimeTable203.Repositories.Implementations
 {
-    public class TimeTableItemReadRepository : ITimeTableItemReadRepository
+    public class TimeTableItemReadRepository : ITimeTableItemReadRepository, IReadRepositoryAnchor
     {
         private readonly ITimeTableContext context;
 

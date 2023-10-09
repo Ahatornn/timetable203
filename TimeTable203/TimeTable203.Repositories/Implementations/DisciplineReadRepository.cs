@@ -4,7 +4,7 @@ using TimeTable203.Repositories.Contracts.Interface;
 
 namespace TimeTable203.Repositories.Implementations
 {
-    public class DisciplineReadRepository : IDisciplineReadRepository
+    public class DisciplineReadRepository : IDisciplineReadRepository, IReadRepositoryAnchor
     {
         private readonly ITimeTableContext context;
 

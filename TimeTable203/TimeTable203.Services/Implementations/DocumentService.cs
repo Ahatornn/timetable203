@@ -1,15 +1,11 @@
-﻿using System.Reflection.Metadata;
-using System;
-using AutoMapper;
-using TimeTable203.Context.Contracts.Models;
+﻿using AutoMapper;
 using TimeTable203.Repositories.Contracts.Interface;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
-using TimeTable203.Services.Contracts.Models.Enums;
 
 namespace TimeTable203.Services.Implementations
 {
-    public class DocumentService : IDocumentService
+    public class DocumentService : IDocumentService, IServiceAnchor
     {
         private readonly IDocumentReadRepository documentReadRepository;
         private readonly IPersonReadRepository personReadRepository;

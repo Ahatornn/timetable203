@@ -5,7 +5,7 @@ using TimeTable203.Services.Contracts.Models;
 
 namespace TimeTable203.Services.Implementations
 {
-    public class PersonService : IPersonService
+    public class PersonService : IPersonService, IServiceAnchor
     {
         private readonly IPersonReadRepository personReadRepository;
         private readonly IMapper mapper;
