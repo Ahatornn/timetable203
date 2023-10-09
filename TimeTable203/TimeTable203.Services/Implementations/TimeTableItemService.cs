@@ -80,7 +80,7 @@ namespace TimeTable203.Services.Implementations
             var discipline = await disciplineReadRepository.GetByIdAsync(item.DisciplineId, cancellationToken);
             var group = await groupReadRepository.GetByIdAsync(item.GroupId, cancellationToken);
             var employee = await employeeReadRepository.GetByIdAsync(item.Teacher ?? Guid.Empty, cancellationToken);
-            if(employee != null)
+            if (employee != null)
             {
                 if (employee.EmployeeType != EmployeeTypes.Teacher)
                 {

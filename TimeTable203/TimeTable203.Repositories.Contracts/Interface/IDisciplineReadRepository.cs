@@ -19,6 +19,6 @@ namespace TimeTable203.Repositories.Contracts.Interface
         /// <summary>
         /// Получить список <see cref="Discipline"/> по идентификаторам
         /// </summary>
-        Task<List<Discipline>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation);
+        Task<Dictionary<Guid, Discipline>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation);
     }
 }
