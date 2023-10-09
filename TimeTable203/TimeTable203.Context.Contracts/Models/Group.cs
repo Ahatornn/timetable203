@@ -3,7 +3,7 @@
     /// <summary>
     /// Группа
     /// </summary>
-    public class Group: BaseAuditEntity
+    public class Group : BaseAuditEntity
     {
         /// <summary>
         /// Наименование группы

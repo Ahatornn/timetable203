@@ -41,30 +41,30 @@ namespace TimeTable203.Services.Implementations
 
             var disciplines = await disciplineReadRepository.GetByIdsAsync(disciplineId, cancellationToken);
             var groups = await groupReadRepository.GetByIdsAsync(groupId, cancellationToken);
-            var employees = await employeeReadRepository.GetByIdsWithTeacherAsync(employeeId, cancellationToken);
-            var persons = await personReadRepository.GetByIdsAsync(employees.Select(x => x.PersonId).Distinct(), cancellationToken);
+            var employees = await employeeReadRepository.GetByIdsAsync(employeeId, cancellationToken);
+            var persons = await personReadRepository.GetByIdsAsync(employeeId, cancellationToken);
 
             var listTimeTableItemModel = new List<TimeTableItemModel>();
             foreach (var timeTableItem in timeTableItems)
             {
-                var discipline = disciplines.FirstOrDefault(x => x.Id == timeTableItem.DisciplineId);
-                var group = groups.FirstOrDefault(x => x.Id == timeTableItem.GroupId);
-                var person = persons.FirstOrDefault(x => x.Id == employees.FirstOrDefault(s => s.Id == timeTableItem.Teacher).PersonId);
+                //var discipline = disciplines.FirstOrDefault(x => x.Id == timeTableItem.DisciplineId);
+                //var group = groups.FirstOrDefault(x => x.Id == timeTableItem.GroupId);
+                //var person = persons.FirstOrDefault(x => x.Id == employees.FirstOrDefault(s => s.Id == timeTableItem.Teacher).PersonId);
 
                 var timeTable = mapper.Map<TimeTableItemModel>(timeTableItem);
-                var timeTableItemDiscipline = mapper.Map<TimeTableItemModel>(discipline);
-                var timeTableItemGroup = mapper.Map<TimeTableItemModel>(group);
-                var timeTableItemPerson = mapper.Map<TimeTableItemModel>(person);
+                //var timeTableItemDiscipline = mapper.Map<TimeTableItemModel>(discipline);
+                //var timeTableItemGroup = mapper.Map<TimeTableItemModel>(group);
+                //var timeTableItemPerson = mapper.Map<TimeTableItemModel>(person);
 
-                timeTable.Discipline = timeTableItemDiscipline.Discipline;
-                timeTable.Group = timeTableItemGroup.Group;
-                if (timeTableItemPerson != null)
-                {
-                    timeTable.Teacher = timeTableItemPerson.Teacher ?? new PersonModel() { Id = Guid.Empty };
-                }
+                // timeTable.Discipline = timeTableItemDiscipline.Discipline;
+                //timeTable.Group = timeTableItemGroup.Group;
+                //if (timeTableItemPerson != null)
+                //{
+                //    timeTable.Teacher = timeTableItemPerson.Teacher ?? new PersonModel() { Id = Guid.Empty };
+                // }
 
 
-                listTimeTableItemModel.Add(timeTable);
+                //listTimeTableItemModel.Add(timeTable);
             }
 
             return listTimeTableItemModel;

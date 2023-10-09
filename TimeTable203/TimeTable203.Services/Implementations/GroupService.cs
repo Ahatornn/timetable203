@@ -28,11 +28,12 @@ namespace TimeTable203.Services.Implementations
             var listGroupModel = new List<GroupModel>();
             foreach (var group in groups)
             {
-                var employee = employees.FirstOrDefault(x => x.Id == group.EmployeeId);
-                var groupEmployee = mapper.Map<GroupModel>(employee);
-                var gr = mapper.Map<GroupModel>(group);
-                gr.Employee = groupEmployee.Employee;
-                listGroupModel.Add(gr);
+                employees.TryGetValue((Guid)group.EmployeeId, out var employee);
+                var _group = mapper.Map<GroupModel>(group);
+                _group.Employee = employee != null
+                    ? mapper.Map<EmployeeModel>(employee)
+                    : null;
+                listGroupModel.Add(_group);
             }
             return listGroupModel;
         }
@@ -46,10 +47,11 @@ namespace TimeTable203.Services.Implementations
             }
 
             var employee = await employeeReadRepository.GetByIdAsync(item.EmployeeId ?? Guid.Empty, cancellationToken);
-            var groupEmployee = mapper.Map<GroupModel>(employee);
-            var gr = mapper.Map<GroupModel>(item);
-            gr.Employee = groupEmployee.Employee;
-            return gr;
+            var group = mapper.Map<GroupModel>(item);
+            group.Employee = employee != null
+                ? mapper.Map<EmployeeModel>(item)
+                : null;
+            return group;
         }
     }
 }

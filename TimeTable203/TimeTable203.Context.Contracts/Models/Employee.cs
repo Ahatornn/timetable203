@@ -2,7 +2,7 @@
 
 namespace TimeTable203.Context.Contracts.Models
 {
-    public class Employee: BaseAuditEntity
+    public class Employee : BaseAuditEntity
     {
         /// <inheritdoc cref="EmployeeTypes"/>
         public EmployeeTypes EmployeeType { get; set; }

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Extensions;
 using TimeTable203.Api.Models;
-using TimeTable203.Api.Models.Enums;
 using TimeTable203.Services.Contracts.Interface;
 
 namespace TimeTable203.Api.Controllers
@@ -32,9 +30,9 @@ namespace TimeTable203.Api.Controllers
                 Series = x.Series,
                 IssuedAt = x.IssuedAt,
                 IssuedBy = x.IssuedBy,
-                DocumentType = x.DocumentType.GetDisplayName(),
-                Name = $"{x.Person?.LastName} {x.Person?.FirstName} {x.Person?.Patronymic}",
-                MobilePhone = x.Person?.Phone ?? string.Empty
+                //DocumentType = x.DocumentType.GetDisplayName(),
+                //Name = $"{x.Person?.LastName} {x.Person?.FirstName} {x.Person?.Patronymic}",
+                //MobilePhone = x.Person?.Phone ?? string.Empty
             }));
         }
 
@@ -54,9 +52,9 @@ namespace TimeTable203.Api.Controllers
                 Series = item.Series,
                 IssuedAt = item.IssuedAt,
                 IssuedBy = item.IssuedBy,
-                DocumentType = item.DocumentType.GetDisplayName(),
-                Name = $"{item.Person?.LastName} {item.Person?.FirstName} {item.Person?.Patronymic}",
-                MobilePhone = item.Person?.Phone ?? string.Empty
+                //DocumentType = item.DocumentType.GetDisplayName(),
+                //Name = $"{item.Person?.LastName} {item.Person?.FirstName} {item.Person?.Patronymic}",
+                //MobilePhone = item.Person?.Phone ?? string.Empty
             });
         }
     }

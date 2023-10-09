@@ -51,9 +51,10 @@ namespace TimeTable203.Services.Implementations
 
             var person = await personReadRepository.GetByIdAsync(item.PersonId, cancellationToken);
 
-            var docPerson = mapper.Map<DocumentModel>(person);
             var document = mapper.Map<DocumentModel>(item);
-            document.Person = docPerson.Person;
+            document.Person = person != null
+                ? mapper.Map<PersonModel>(person)
+                : null;
             return document;
         }
     }
