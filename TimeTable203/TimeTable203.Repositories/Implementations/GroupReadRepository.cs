@@ -20,5 +20,10 @@ namespace TimeTable203.Repositories.Implementations
 
         Task<Group?> IGroupReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => Task.FromResult(context.Groups.FirstOrDefault(x => x.Id == id));
+
+        Task<List<Group>> IGroupReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
+            => Task.FromResult(context.Groups.Where(x => x.DeletedAt == null && ids.Contains(x.Id))
+                .OrderBy(x => x.Name)
+                .ToList());
     }
 }

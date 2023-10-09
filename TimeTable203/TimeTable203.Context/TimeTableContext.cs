@@ -40,7 +40,7 @@ namespace TimeTable203.Context
         {
             var person1 = new Person
             {
-                Id = Guid.NewGuid(),
+                Id = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc51348a66"),
                 FirstName = "FirstName1",
                 Phone = "Phone1",
                 Patronymic = "Patronymic1",
@@ -49,7 +49,7 @@ namespace TimeTable203.Context
             };
             var person2 = new Person
             {
-                Id = Guid.NewGuid(),
+                Id = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc51348a65"),
                 FirstName = "FirstName2",
                 Phone = "Phone2",
                 Patronymic = "Patronymic2",
@@ -69,13 +69,82 @@ namespace TimeTable203.Context
 
             var employee2 = new Employee
             {
-                Id = Guid.NewGuid(),
+                Id = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc00000000"),
                 PersonId = person2.Id,
-                EmployeeType = EmployeeTypes.Student,
+                EmployeeType = EmployeeTypes.Teacher,
             };
 
             employees.Add(employee1);
             employees.Add(employee2);
+
+            var dicsipline1 = new Discipline
+            {
+                Id = Guid.NewGuid(),
+                Name = "Русский язык",
+                Description = "Предмет обязательный ",
+            };
+
+            var dicsipline2 = new Discipline
+            {
+                Id = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc51348a11"),
+                Name = "Математика",
+                Description = "Предмет обязательный ",
+            };
+            var dicsipline3 = new Discipline
+            {
+                Id = Guid.NewGuid(),
+                Name = "Философия",
+                Description = "Предмет не обязательный ",
+                DeletedAt = DateTimeOffset.Now
+            };
+
+            disciplines.Add(dicsipline1);
+            disciplines.Add(dicsipline2);
+            disciplines.Add(dicsipline3);
+
+            var document = new Document
+            {
+                Id = Guid.NewGuid(),
+                Number = "2132",
+                Series = "21323",
+                DocumentType = DocumentTypes.Passport,
+                IssuedAt = DateTime.Now,
+                IssuedBy = "Вапа",
+                PersonId = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc51348a65")
+            };
+            var document2 = new Document
+            {
+                Id = Guid.NewGuid(),
+                Number = "Очевидно",
+                Series = "Ух ты, работает!",
+                DocumentType = DocumentTypes.BirthCertificate,
+                IssuedAt = DateTime.Now,
+                IssuedBy = "нет",
+                PersonId = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc51348a66")
+            };
+            documents.Add(document);
+            documents.Add(document2);
+            var group = new Group
+            {
+                Id = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc51348a00"),
+                Name = "ИП-20-3",
+                Description = "Информационные системы и программирования",
+                EmployeeId = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc00000000"),
+            };
+            groups.Add(group);
+            var timeTableItem = new TimeTableItem
+            {
+                Id = Guid.NewGuid(),
+                StartDate = DateTimeOffset.Now,
+                EndDate = DateTimeOffset.Now.AddHours(6),
+                DisciplineId = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc51348a11"),
+                RoomNumber = 123,
+                GroupId = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc51348a00"),
+                Teacher = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc00000000")
+            };
+            timeTableItems.Add(timeTableItem);
+
+
         }
     }
 }

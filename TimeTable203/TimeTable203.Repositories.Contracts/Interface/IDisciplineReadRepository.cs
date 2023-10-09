@@ -16,5 +16,9 @@ namespace TimeTable203.Repositories.Contracts.Interface
         /// Получить <see cref="Discipline"/> по идентификатору
         /// </summary>
         Task<Discipline?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        /// <summary>
+        /// Получить список <see cref="Discipline"/> по идентификаторам
+        /// </summary>
+        Task<List<Discipline>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation);
     }
 }

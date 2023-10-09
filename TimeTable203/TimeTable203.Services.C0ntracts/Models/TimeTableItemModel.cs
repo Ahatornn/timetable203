@@ -36,9 +36,10 @@
         /// </summary>
         public short RoomNumber { get; set; }
 
+
         /// <summary>
-        /// <inheritdoc cref="EmployeeModel"/>
+        /// <inheritdoc cref="PersonModel"/>
         /// </summary>
-        public EmployeeModel? Teacher { get; set; }
+        public PersonModel? Teacher { get; set; }
     }
 }

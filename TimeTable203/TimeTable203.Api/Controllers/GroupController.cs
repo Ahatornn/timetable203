@@ -29,7 +29,7 @@ namespace TimeTable203.Api.Controllers
                 Name = x.Name,
                 Description = x.Description,
                 Students = x.Students,
-                EmployeeId = x.EmployeeId,
+                EmployeeId = x.Employee?.Id,
             }));
         }
 
@@ -48,7 +48,7 @@ namespace TimeTable203.Api.Controllers
                 Name = item.Name,
                 Description = item.Description,
                 Students = item.Students,
-                EmployeeId = item.EmployeeId,
+                EmployeeId = item.Employee?.Id,
             });
         }
     }
