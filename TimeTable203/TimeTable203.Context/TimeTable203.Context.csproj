@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TimeTable203.Common\TimeTable203.Common.csproj" />
     <ProjectReference Include="..\TimeTable203.Context.Contracts\TimeTable203.Context.Contracts.csproj" />
   </ItemGroup>
 

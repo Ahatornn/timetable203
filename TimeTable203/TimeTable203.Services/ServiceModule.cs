@@ -17,4 +17,8 @@ namespace TimeTable203.Services
             service.AddScoped<ITimeTableItemService, TimeTableItemService>();
         }
     }
+    /// <summary>
+    /// Интерфейсный маркер, для регистрации Service
+    /// </summary>
+    public interface IServiceAnchor { };
 }

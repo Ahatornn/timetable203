@@ -1,14 +1,11 @@
-﻿using System;
-using AutoMapper;
-using TimeTable203.Context.Contracts.Models;
+﻿using AutoMapper;
 using TimeTable203.Repositories.Contracts.Interface;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
-using TimeTable203.Services.Contracts.Models.Enums;
 
 namespace TimeTable203.Services.Implementations
 {
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService : IEmployeeService, IServiceAnchor
     {
         private readonly IEmployeeReadRepository employeeReadRepository;
         private readonly IPersonReadRepository personReadRepository;
@@ -30,26 +27,11 @@ namespace TimeTable203.Services.Implementations
             var result = new List<EmployeeModel>();
             foreach (var employee in employees)
             {
-                var person = persons.FirstOrDefault(x => x.Id == employee.PersonId);
-                //result.Add(new EmployeeModel
-                //{
-                //    Id = employee.Id,
-                //    EmployeeType = (EmployeeTypesModel)employee.EmployeeType,
-                //    Person = person == null
-                //        ? null
-                //        : new PersonModel
-                //        {
-                //            Id = person.Id,
-                //            FirstName = person.FirstName,
-                //            LastName = person.LastName,
-                //            Patronymic = person.Patronymic,
-                //            Email = person.Email,
-                //            Phone = person.Phone,
-                //        },
-                //});
-                var employeePerson = mapper.Map<EmployeeModel>(person);
+                persons.TryGetValue(employee.PersonId, out var person);
                 var empl = mapper.Map<EmployeeModel>(employee);
-                empl.Person = employeePerson.Person;
+                empl.Person = person != null
+                    ? mapper.Map<PersonModel>(person)
+                    : null;
                 result.Add(empl);
             }
 
@@ -64,9 +46,10 @@ namespace TimeTable203.Services.Implementations
                 return null;
             }
             var person = await personReadRepository.GetByIdAsync(item.PersonId, cancellationToken);
-            var employeePerson = mapper.Map<EmployeeModel>(person);
             var employee = mapper.Map<EmployeeModel>(item);
-            employee.Person = employeePerson.Person;
+            employee.Person = person != null
+                ? mapper.Map<PersonModel>(person)
+                : null;
             return employee;
         }
     }

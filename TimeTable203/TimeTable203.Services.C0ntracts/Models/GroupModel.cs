@@ -29,6 +29,6 @@
         /// <summary>
         /// <inheritdoc cref="EmployeeModel"/>
         /// </summary>
-        public EmployeeModel? Employee { get; set; }
+        public PersonModel? Employee { get; set; }
     }
 }
