@@ -29,7 +29,8 @@ namespace TimeTable203.Api.Controllers
                 Name = x.Name,
                 Description = x.Description,
                 Students = x.Students,
-                EmployeeId = x.Employee?.Id,
+                FIO = $"{x.Employee?.LastName} {x.Employee?.FirstName} {x.Employee?.Patronymic}",
+                MobilePhone = x.Employee?.Phone ?? string.Empty
             }));
         }
 
@@ -48,7 +49,8 @@ namespace TimeTable203.Api.Controllers
                 Name = item.Name,
                 Description = item.Description,
                 Students = item.Students,
-                EmployeeId = item.Employee?.Id,
+                FIO = $"{item.Employee?.LastName} {item.Employee?.FirstName} {item.Employee?.Patronymic}",
+                MobilePhone = item.Employee?.Phone ?? string.Empty
             });
         }
     }

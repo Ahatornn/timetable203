@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
 using TimeTable203.Context.Contracts.Enums;
 using TimeTable203.Context.Contracts.Models;
@@ -12,6 +11,10 @@ namespace TimeTable203.Services.Automappers
         public ServiceProfile()
         {
             CreateMap<DocumentTypes, DocumentTypesModel>()
+                .ConvertUsingEnumMapping(opt => opt.MapByName())
+                .ReverseMap();
+
+            CreateMap<EmployeeTypes, EmployeeTypesModel>()
                 .ConvertUsingEnumMapping(opt => opt.MapByName())
                 .ReverseMap();
 
