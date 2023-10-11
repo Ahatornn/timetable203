@@ -7,7 +7,6 @@ namespace TimeTable203.Repositories.Implementations
     public class DisciplineReadRepository : IDisciplineReadRepository, IReadRepositoryAnchor
     {
         private readonly ITimeTableContext context;
-
         public DisciplineReadRepository(ITimeTableContext context)
         {
             this.context = context;

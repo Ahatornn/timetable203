@@ -1,6 +1,8 @@
-﻿using TimeTable203.Context.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using TimeTable203.Context.Contracts;
 using TimeTable203.Context.Contracts.Enums;
 using TimeTable203.Context.Contracts.Models;
+using TimeTable203.Context.DB;
 
 namespace TimeTable203.Context
 {
@@ -13,17 +15,20 @@ namespace TimeTable203.Context
         private readonly IList<Person> persons;
         private readonly IList<TimeTableItem> timeTableItems;
 
+        private readonly DbContextOptions<TimeTableApplicationContext> options;
         public TimeTableContext()
         {
-            disciplines = new List<Discipline>();
-            documents = new List<Document>();
-            employees = new List<Employee>();
-            groups = new List<Group>();
-            persons = new List<Person>();
-            timeTableItems = new List<TimeTableItem>();
-            Seed();
+            options = DataBaseHelper.Options();
+            using (var timeTableApplicationContext = new TimeTableApplicationContext(options))
+            {
+                disciplines = timeTableApplicationContext.Disciplines.ToList();
+                documents = timeTableApplicationContext.Documents.ToList();
+                employees = timeTableApplicationContext.Employees.ToList();
+                groups = timeTableApplicationContext.Groups.ToList();
+                persons = timeTableApplicationContext.Persons.ToList();
+                timeTableItems = timeTableApplicationContext.TimeTableItems.ToList();
+            }
         }
-
         IEnumerable<Discipline> ITimeTableContext.Disciplines => disciplines;
 
         IEnumerable<Document> ITimeTableContext.Documents => documents;
@@ -36,6 +41,7 @@ namespace TimeTable203.Context
 
         IEnumerable<TimeTableItem> ITimeTableContext.TimeTableItems => timeTableItems;
 
+        /*
         private void Seed()
         {
             var person1 = new Person
@@ -146,5 +152,6 @@ namespace TimeTable203.Context
 
 
         }
+        */
     }
 }
