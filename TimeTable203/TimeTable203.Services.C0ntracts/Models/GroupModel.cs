@@ -24,7 +24,7 @@
         /// <summary>
         /// Студенты группы
         /// </summary>
-        public ICollection<Guid> Students { get; set; } = Array.Empty<Guid>();
+        public ICollection<PersonModel> Students { get; set; }
 
         /// <summary>
         /// <inheritdoc cref="EmployeeModel"/>

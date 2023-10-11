@@ -1,4 +1,5 @@
-﻿using TimeTable203.Context.Contracts.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TimeTable203.Context.Contracts.Enums;
 
 namespace TimeTable203.Context.Contracts.Models
 {
@@ -20,17 +21,17 @@ namespace TimeTable203.Context.Contracts.Models
         /// <summary>
         /// Дата выдачи
         /// </summary>
-        public DateTime IssuedAt { get; set; }
+        public DateTime? IssuedAt { get; set; }
 
         /// <summary>
         /// Кем выдан
         /// </summary>
-        public string IssuedBy { get; set; } = string.Empty;
+        public string? IssuedBy { get; set; } = string.Empty;
 
         /// <summary>
         /// Тип документов
         /// </summary>
-        public DocumentTypes DocumentType { get; set; }
+        public string DocumentType { get; set; }
 
         /// <summary>
         /// Идентификатор <see cref="Person"/>

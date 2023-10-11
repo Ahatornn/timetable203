@@ -5,7 +5,7 @@ namespace TimeTable203.Context.Contracts.Models
     public class Employee : BaseAuditEntity
     {
         /// <inheritdoc cref="EmployeeTypes"/>
-        public EmployeeTypes EmployeeType { get; set; }
+        public string EmployeeType { get; set; }
 
         /// <summary>
         /// Идентификатор <inheritdoc cref="Person"/>

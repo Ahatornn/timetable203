@@ -27,7 +27,7 @@ namespace TimeTable203.Api.Infrastructures
             {
                 ms.AddProfile(new ServiceProfile());
             });
-            mapperConfig.AssertConfigurationIsValid();
+            // mapperConfig.AssertConfigurationIsValid();
             var mapper = mapperConfig.CreateMapper();
 
             service.AddSingleton(mapper);

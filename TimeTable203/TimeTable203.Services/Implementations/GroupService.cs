@@ -36,7 +36,6 @@ namespace TimeTable203.Services.Implementations
                 listEmployees.Add(employee);
             }
             var persons = await personReadRepository.GetByIdsAsync(listEmployees.Select(x => x.PersonId), cancellationToken);
-
             var listGroupModel = new List<GroupModel>();
             foreach (var group in groups)
             {
@@ -47,6 +46,10 @@ namespace TimeTable203.Services.Implementations
                 _group.Employee = person != null
                     ? mapper.Map<PersonModel>(person)
                     : null;
+                foreach (var per in persons)
+                {
+                    _group.Students.Add(mapper.Map<PersonModel>(per));
+                }
                 listGroupModel.Add(_group);
             }
             return listGroupModel;

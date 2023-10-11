@@ -55,6 +55,10 @@ namespace TimeTable203.Services.Implementations
                 disciplines.TryGetValue(timeTableItem.DisciplineId, out var discipline);
                 groups.TryGetValue(timeTableItem.GroupId, out var group);
                 employees.TryGetValue(timeTableItem.Teacher ?? Guid.Empty, out var employee);
+                if (employee == null)
+                {
+                    employee = new Employee();
+                }
                 persons.TryGetValue(employee.PersonId, out var person);
 
                 var timeTable = mapper.Map<TimeTableItemModel>(timeTableItem);

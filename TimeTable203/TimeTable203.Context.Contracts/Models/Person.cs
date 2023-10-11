@@ -18,7 +18,7 @@
         /// <summary>
         /// Отчество
         /// </summary>
-        public string Patronymic { get; set; } = string.Empty;
+        public string? Patronymic { get; set; } = string.Empty;
 
 
         /// <summary>
@@ -30,5 +30,10 @@
         /// Телефон
         /// </summary>
         public string Phone { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Группа
+        /// </summary>
+        public Guid? Group { get; set; }
     }
 }

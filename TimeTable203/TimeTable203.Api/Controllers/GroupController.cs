@@ -28,7 +28,7 @@ namespace TimeTable203.Api.Controllers
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-                Students = x.Students,
+                Students = x.Students.Select(x => x.Id).ToList(),
                 FIO = $"{x.Employee?.LastName} {x.Employee?.FirstName} {x.Employee?.Patronymic}",
                 MobilePhone = x.Employee?.Phone ?? string.Empty
             }));
@@ -48,7 +48,7 @@ namespace TimeTable203.Api.Controllers
                 Id = item.Id,
                 Name = item.Name,
                 Description = item.Description,
-                Students = item.Students,
+                Students = item.Students.Select(x => x.Id).ToList(),
                 FIO = $"{item.Employee?.LastName} {item.Employee?.FirstName} {item.Employee?.Patronymic}",
                 MobilePhone = item.Employee?.Phone ?? string.Empty
             });

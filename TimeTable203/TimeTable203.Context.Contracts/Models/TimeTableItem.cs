@@ -8,12 +8,12 @@
         /// <summary>
         /// Дата начала
         /// </summary>
-        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset? StartDate { get; set; }
 
         /// <summary>
         /// Дата окончания
         /// </summary>
-        public DateTimeOffset EndDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
 
         /// <summary>
         /// Идентификатор дисциплины
