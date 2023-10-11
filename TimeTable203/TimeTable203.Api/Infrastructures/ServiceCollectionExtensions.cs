@@ -33,6 +33,7 @@ namespace TimeTable203.Api.Infrastructures
             service.AddSingleton(mapper);
         }
 
+
         //public static void RegisterModule<TModule>(this IServiceCollection services) where TModule : Module
         //{
         //    var type = typeof(TModule);
