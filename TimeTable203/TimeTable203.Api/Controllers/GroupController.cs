@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
 using TimeTable203.Services.Contracts.Interface;
+using TimeTable203.Services.Contracts.Models;
 
 namespace TimeTable203.Api.Controllers
 {
@@ -28,7 +29,7 @@ namespace TimeTable203.Api.Controllers
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-                Students = x.Students.Select(x => x.Id).ToList(),
+                Students = x.Students.Select(y => $"{y.LastName} {y.FirstName} {y.Phone}").ToList(),
                 FIO = $"{x.Employee?.LastName} {x.Employee?.FirstName} {x.Employee?.Patronymic}",
                 MobilePhone = x.Employee?.Phone ?? string.Empty
             }));
@@ -48,7 +49,7 @@ namespace TimeTable203.Api.Controllers
                 Id = item.Id,
                 Name = item.Name,
                 Description = item.Description,
-                Students = item.Students.Select(x => x.Id).ToList(),
+                Students = item.Students.Select(y => $"{y.LastName} {y.FirstName} {y.Phone}").ToList(),
                 FIO = $"{item.Employee?.LastName} {item.Employee?.FirstName} {item.Employee?.Patronymic}",
                 MobilePhone = item.Employee?.Phone ?? string.Empty
             });

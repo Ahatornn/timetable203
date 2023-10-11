@@ -1,4 +1,6 @@
-﻿namespace TimeTable203.Api.Models
+﻿using TimeTable203.Services.Contracts.Models;
+
+namespace TimeTable203.Api.Models
 {
     /// <summary>
     /// Модель ответа сущности группы
@@ -24,7 +26,7 @@
         /// <summary>
         /// Студенты группы
         /// </summary>
-        public ICollection<Guid> Students { get; set; } = Array.Empty<Guid>();
+        public ICollection<string> Students { get; set; }
 
         /// <summary>
         /// ФИО

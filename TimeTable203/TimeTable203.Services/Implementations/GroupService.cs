@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections;
+using AutoMapper;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts.Interface;
 using TimeTable203.Services.Contracts.Interface;
@@ -36,6 +37,7 @@ namespace TimeTable203.Services.Implementations
                 listEmployees.Add(employee);
             }
             var persons = await personReadRepository.GetByIdsAsync(listEmployees.Select(x => x.PersonId), cancellationToken);
+            var personsAll = await personReadRepository.GetAllAsync(cancellationToken);
             var listGroupModel = new List<GroupModel>();
             foreach (var group in groups)
             {
@@ -46,9 +48,12 @@ namespace TimeTable203.Services.Implementations
                 _group.Employee = person != null
                     ? mapper.Map<PersonModel>(person)
                     : null;
-                foreach (var per in persons)
+                foreach (var pers in personsAll)
                 {
-                    _group.Students.Add(mapper.Map<PersonModel>(per));
+                    if (pers.Group == group.Id)
+                    {
+                        _group.Students.Add(mapper.Map<PersonModel>(pers));
+                    }
                 }
                 listGroupModel.Add(_group);
             }
