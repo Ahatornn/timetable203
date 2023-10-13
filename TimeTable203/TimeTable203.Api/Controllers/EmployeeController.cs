@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Extensions;
 using TimeTable203.Api.Models;
-using TimeTable203.Api.Models.Enums;
 using TimeTable203.Services.Contracts.Interface;
 
 namespace TimeTable203.Api.Controllers

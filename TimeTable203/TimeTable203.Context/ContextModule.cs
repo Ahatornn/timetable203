@@ -1,6 +1,6 @@
-﻿using TimeTable203.Common;
-using TimeTable203.Context.Contracts;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using TimeTable203.Common;
+
 namespace TimeTable203.Context
 {
     public class ContextModule : Module
