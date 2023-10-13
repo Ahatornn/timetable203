@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Text.RegularExpressions;
 using AutoMapper;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts.Interface;
@@ -71,10 +72,20 @@ namespace TimeTable203.Services.Implementations
             var employee = await employeeReadRepository.GetByIdAsync(item.EmployeeId ?? Guid.Empty, cancellationToken);
 
             var person = await personReadRepository.GetByIdAsync(employee?.PersonId ?? Guid.Empty, cancellationToken);
+
+            var personsAll = await personReadRepository.GetAllAsync(cancellationToken);
             var group = mapper.Map<GroupModel>(item);
             group.Employee = person != null
                 ? mapper.Map<PersonModel>(person)
                 : null;
+
+            foreach (var pers in personsAll)
+            {
+                if (pers.Group == group.Id)
+                {
+                    group.Students.Add(mapper.Map<PersonModel>(pers));
+                }
+            }
             return group;
         }
     }

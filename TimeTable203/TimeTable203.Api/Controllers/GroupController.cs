@@ -29,7 +29,7 @@ namespace TimeTable203.Api.Controllers
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-                Students = x.Students.Select(y => $"{y.LastName} {y.FirstName} {y.Phone}").ToList(),
+                Students = x.Students.Select(y => $"{y.LastName} {y.FirstName} {y.Phone} {y.Id}").ToList(),
                 FIO = $"{x.Employee?.LastName} {x.Employee?.FirstName} {x.Employee?.Patronymic}",
                 MobilePhone = x.Employee?.Phone ?? string.Empty
             }));
