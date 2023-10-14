@@ -19,5 +19,10 @@
         /// Описание
         /// </summary>
         public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Type { get; set; }
     }
 }

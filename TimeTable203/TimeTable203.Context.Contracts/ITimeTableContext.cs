@@ -1,4 +1,5 @@
-﻿using TimeTable203.Context.Contracts.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using TimeTable203.Context.Contracts.Models;
 
 namespace TimeTable203.Context.Contracts
 {
@@ -7,16 +8,16 @@ namespace TimeTable203.Context.Contracts
     /// </summary>
     public interface ITimeTableContext
     {
-        IEnumerable<Discipline> Disciplines { get; }
+        DbSet<Discipline> Disciplines { get; }
 
-        IEnumerable<Document> Documents { get; }
+        DbSet<Document> Documents { get; }
 
-        IEnumerable<Employee> Employees { get; }
+        DbSet<Employee> Employees { get; }
 
-        IEnumerable<Group> Groups { get; }
+        DbSet<Group> Groups { get; }
 
-        IEnumerable<Person> Persons { get; }
+        DbSet<Person> Persons { get; }
 
-        IEnumerable<TimeTableItem> TimeTableItems { get; }
+        DbSet<TimeTableItem> TimeTableItems { get; }
     }
 }
