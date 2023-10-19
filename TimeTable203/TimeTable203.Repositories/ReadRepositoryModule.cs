@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TimeTable203.Common;
-using TimeTable203.Repositories.Contracts.Interface;
-using TimeTable203.Repositories.Implementations;
+using TimeTable203.Repositories.Anchors;
+using TimeTable203.Shared;
 
 namespace TimeTable203.Repositories
 {
@@ -9,16 +9,7 @@ namespace TimeTable203.Repositories
     {
         public override void CreateModule(IServiceCollection service)
         {
-            service.AddScoped<IDisciplineReadRepository, DisciplineReadRepository>();
-            service.AddScoped<IDocumentReadRepository, DocumentReadRepository>();
-            service.AddScoped<IEmployeeReadRepository, EmployeeReadRepository>();
-            service.AddScoped<IGroupReadRepository, GroupReadRepository>();
-            service.AddScoped<IPersonReadRepository, PersonReadRepository>();
-            service.AddScoped<ITimeTableItemReadRepository, TimeTableItemReadRepository>();  
+            service.AssemblyInterfaceAssignableTo<IReadRepositoryAnchor>(ServiceLifetime.Scoped);
         }
     }
-    /// <summary>
-    /// Интерфейсный маркер, для регистрации ReadRepository
-    /// </summary>
-    public interface IReadRepositoryAnchor { };
 }

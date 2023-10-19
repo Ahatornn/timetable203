@@ -12,8 +12,6 @@ builder.Services.GetSwaggerDocument();
 
 builder.Services.AddDependences();
 
-builder.Services.AddMapper();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

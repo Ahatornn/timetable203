@@ -4,7 +4,7 @@ using TimeTable203.Context.Contracts.Models;
 
 namespace TimeTable203.Context
 {
-    public class TimeTableContext : ITimeTableContext, IContextAnchor
+    public class TimeTableContext : ITimeTableContext
     {
         private readonly IList<Discipline> disciplines;
         private readonly IList<Document> documents;
@@ -140,7 +140,7 @@ namespace TimeTable203.Context
                 DisciplineId = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc51348a11"),
                 RoomNumber = 123,
                 GroupId = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc51348a00"),
-                Teacher = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc00000000")
+                Teacher = new Guid("1cc8c3fc-daf3-4eef-b145-bfbc51348a65")
             };
             timeTableItems.Add(timeTableItem);
 

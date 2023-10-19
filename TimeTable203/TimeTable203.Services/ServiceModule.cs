@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using TimeTable203.Common;
-using TimeTable203.Services.Contracts.Interface;
-using TimeTable203.Services.Implementations;
+using TimeTable203.Services.Anchors;
+using TimeTable203.Services.Automappers;
+using TimeTable203.Shared;
 
 namespace TimeTable203.Services
 {
@@ -9,16 +11,9 @@ namespace TimeTable203.Services
     {
         public override void CreateModule(IServiceCollection service)
         {
-            service.AddScoped<IDisciplineService, DisciplineService>();
-            service.AddScoped<IDocumentService, DocumentService>();
-            service.AddScoped<IEmployeeService, EmployeeService>();
-            service.AddScoped<IGroupService, GroupService>();
-            service.AddScoped<IPersonService, PersonService>();
-            service.AddScoped<ITimeTableItemService, TimeTableItemService>();
+            service.AssemblyInterfaceAssignableTo<IServiceAnchor>(ServiceLifetime.Scoped);
+
+            service.AddMapper<Profile>();
         }
     }
-    /// <summary>
-    /// Интерфейсный маркер, для регистрации Service
-    /// </summary>
-    public interface IServiceAnchor { };
 }

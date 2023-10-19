@@ -1,11 +1,7 @@
-﻿using System.Reflection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.OpenApi.Models;
 using TimeTable203.Context;
 using TimeTable203.Repositories;
 using TimeTable203.Services;
-using Microsoft.OpenApi.Models;
-using AutoMapper;
-using TimeTable203.Services.Automappers;
 
 namespace TimeTable203.Api.Infrastructures
 {
@@ -13,55 +9,20 @@ namespace TimeTable203.Api.Infrastructures
     {
         public static void AddDependences(this IServiceCollection service)
         {
-            //service.RegisterModule<ServiceModule>();
-            //service.RegisterModule<ReadRepositoryModule>();
-            //service.RegisterModule<ContextModule>();
-
-            service.RegisterAssemblyInterfaceAssignableTo<IContextAnchor>(ServiceLifetime.Singleton);
-            service.RegisterAssemblyInterfaceAssignableTo<IReadRepositoryAnchor>(ServiceLifetime.Scoped);
-            service.RegisterAssemblyInterfaceAssignableTo<IServiceAnchor>(ServiceLifetime.Scoped);
-        }
-        public static void AddMapper(this IServiceCollection service)
-        {
-            var mapperConfig = new MapperConfiguration(ms =>
-            {
-                ms.AddProfile(new ServiceProfile());
-            });
-            mapperConfig.AssertConfigurationIsValid();
-            var mapper = mapperConfig.CreateMapper();
-
-            service.AddSingleton(mapper);
+            service.RegisterModule<ServiceModule>();
+            service.RegisterModule<ReadRepositoryModule>();
+            service.RegisterModule<ContextModule>();
         }
 
-
-        //public static void RegisterModule<TModule>(this IServiceCollection services) where TModule : Module
-        //{
-        //    var type = typeof(TModule);
-        //    var instance = Activator.CreateInstance(type) as Module;
-        //    if (instance == null)
-        //    {
-        //        return;
-        //    }
-        //    instance.CreateModule(services);
-        //}
-
-        public static void RegisterAssemblyInterfaceAssignableTo<TInterface>(this IServiceCollection services, ServiceLifetime lifetime)
+        public static void RegisterModule<TModule>(this IServiceCollection services) where TModule : Common.Module
         {
-            var serviceType = typeof(TInterface);
-            var types = serviceType.Assembly.GetTypes()
-                .Where(x => serviceType.IsAssignableFrom(x) && !(x.IsAbstract || x.IsInterface));
-            foreach (var type in types)
+            var type = typeof(TModule);
+            var instance = Activator.CreateInstance(type) as Common.Module;
+            if (instance == null)
             {
-                services.TryAdd(new ServiceDescriptor(type, type, lifetime));
-                var interfaces = type.GetTypeInfo().ImplementedInterfaces
-                .Where(i => i != typeof(IDisposable) && i.IsPublic && i != serviceType);
-                foreach (var interfaceType in interfaces)
-                {
-                    services.TryAdd(new ServiceDescriptor(interfaceType,
-                        provider => provider.GetRequiredService(type),
-                        lifetime));
-                }
+                return;
             }
+            instance.CreateModule(services);
         }
 
         public static void GetSwaggerDocument(this IServiceCollection services)
