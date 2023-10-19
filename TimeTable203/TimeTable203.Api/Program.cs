@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using TimeTable203.Api.Infrastructures;
+using TimeTable203.Context.DB;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,13 @@ builder.Services.GetSwaggerDocument();
 
 builder.Services.AddDependences();
 
+var conString = DataBaseHelper.GetConnectingString();
+builder.Services.AddDbContext<TimeTableContext>(Options =>
+                    Options.UseSqlServer(conString));
+
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

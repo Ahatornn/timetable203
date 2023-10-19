@@ -13,21 +13,19 @@ namespace TimeTable203.Services.Implementations
         private readonly ITimeTableItemReadRepository timeTableItemReadRepository;
         private readonly IDisciplineReadRepository disciplineReadRepository;
         private readonly IGroupReadRepository groupReadRepository;
-        private readonly IEmployeeReadRepository employeeReadRepository;
+
         private readonly IPersonReadRepository personReadRepository;
         private readonly IMapper mapper;
 
         public TimeTableItemService(ITimeTableItemReadRepository timeTableItemReadRepository,
             IDisciplineReadRepository disciplineReadRepository,
             IGroupReadRepository groupReadRepository,
-            IEmployeeReadRepository employeeReadRepository,
             IPersonReadRepository personReadRepository,
             IMapper mapper)
         {
             this.timeTableItemReadRepository = timeTableItemReadRepository;
             this.disciplineReadRepository = disciplineReadRepository;
             this.groupReadRepository = groupReadRepository;
-            this.employeeReadRepository = employeeReadRepository;
             this.personReadRepository = personReadRepository;
             this.mapper = mapper;
         }
