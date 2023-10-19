@@ -31,6 +31,7 @@ namespace TimeTable203.Shared
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p));
+
             foreach (var classType in types)
             {
                 service.AddAutoMapper(classType);
