@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TimeTable203.Context.Contracts.Models;
+using TimeTable203.Api.Models;
 using TimeTable203.Services.Contracts.Interface;
 
 namespace TimeTable203.Api.Controllers
@@ -9,6 +9,7 @@ namespace TimeTable203.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [ApiExplorerSettings(GroupName = "Group")]
     public class GroupController : Controller
     {
         private readonly IGroupService groupService;
@@ -22,13 +23,14 @@ namespace TimeTable203.Api.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await groupService.GetAllAsync(cancellationToken);
-            return Ok(result.Select(x => new GroupResponse 
+            return Ok(result.Select(x => new GroupResponse
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
                 Students = x.Students,
-                EmployeeId = x.EmployeeId,
+                FIO = $"{x.Employee?.LastName} {x.Employee?.FirstName} {x.Employee?.Patronymic}",
+                MobilePhone = x.Employee?.Phone ?? string.Empty
             }));
         }
 
@@ -47,7 +49,8 @@ namespace TimeTable203.Api.Controllers
                 Name = item.Name,
                 Description = item.Description,
                 Students = item.Students,
-                EmployeeId = item.EmployeeId,
+                FIO = $"{item.Employee?.LastName} {item.Employee?.FirstName} {item.Employee?.Patronymic}",
+                MobilePhone = item.Employee?.Phone ?? string.Empty
             });
         }
     }

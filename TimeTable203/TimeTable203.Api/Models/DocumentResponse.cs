@@ -1,5 +1,5 @@
-﻿using TimeTable203.Context.Contracts.Enums;
-namespace TimeTable203.Context.Contracts.Models
+﻿using TimeTable203.Api.Models.Enums;
+namespace TimeTable203.Api.Models
 {
     /// <summary>
     /// Модель ответа сущности документов
@@ -31,13 +31,18 @@ namespace TimeTable203.Context.Contracts.Models
         public string IssuedBy { get; set; } = string.Empty;
 
         /// <summary>
-        /// Тип документов
+        /// Названия документа
         /// </summary>
-        public DocumentTypes DocumentType { get; set; }
+        public string DocumentType { get; set; }
 
         /// <summary>
-        /// Идентификатор <see cref="PersonResponse"/>
+        /// ФИО
         /// </summary>
-        public Guid PersonId { get; set; }
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Мобильный телефон
+        /// </summary>
+        public string MobilePhone { get; set; } = string.Empty;
     }
 }

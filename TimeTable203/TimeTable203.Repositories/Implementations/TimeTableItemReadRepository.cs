@@ -1,10 +1,11 @@
 ﻿using TimeTable203.Context.Contracts;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts.Interface;
+using TimeTable203.Repositories.Anchors;
 
 namespace TimeTable203.Repositories.Implementations
 {
-    public class TimeTableItemReadRepository : ITimeTableItemReadRepository
+    public class TimeTableItemReadRepository : ITimeTableItemReadRepository, IReadRepositoryAnchor
     {
         private readonly ITimeTableContext context;
 

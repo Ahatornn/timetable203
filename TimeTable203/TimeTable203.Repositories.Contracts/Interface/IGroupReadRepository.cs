@@ -17,6 +17,11 @@ namespace TimeTable203.Repositories.Contracts.Interface
         /// Получить <see cref="Group"/> по идентификатору
         /// </summary>
         Task<Group?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Получить список <see cref="Group"/> по идентификаторам
+        /// </summary>
+        Task<Dictionary<Guid, Group>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation);
     }
 
 }

@@ -14,7 +14,7 @@ namespace TimeTable203.Api.Models
         public Guid Id { get; set; }
 
         /// <inheritdoc cref="EmployeeTypesResponse"/>
-        public EmployeeTypesResponse EmployeeType { get; set; }
+        public string EmployeeType { get; set; }
 
         /// <summary>
         /// ФИО

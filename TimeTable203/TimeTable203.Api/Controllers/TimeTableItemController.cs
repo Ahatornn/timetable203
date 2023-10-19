@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TimeTable203.Context.Contracts.Models;
+using TimeTable203.Api.Models;
 using TimeTable203.Services.Contracts.Interface;
 
 namespace TimeTable203.Api.Controllers
@@ -9,6 +9,7 @@ namespace TimeTable203.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [ApiExplorerSettings(GroupName = "TimeTableItem")]
     public class TimeTableItemController : Controller
     {
         private readonly ITimeTableItemService timeTableItemService;
@@ -27,10 +28,11 @@ namespace TimeTable203.Api.Controllers
                 Id = x.Id,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
-                DisciplineId = x.DisciplineId,
-                GroupId = x.GroupId,
+                NameDiscipline = x.Discipline?.Name ?? string.Empty,
+                NameGroup = x.Group?.Name ?? string.Empty,
                 RoomNumber = x.RoomNumber,
-                Teacher = x.Teacher,
+                NamePerson = $"{x.Teacher?.LastName} {x.Teacher?.FirstName} {x.Teacher?.Patronymic}",
+                Phone = x.Teacher?.Phone ?? string.Empty
             }));
         }
 
@@ -45,13 +47,15 @@ namespace TimeTable203.Api.Controllers
 
             return Ok(new TimeTableItemResponse
             {
+
                 Id = item.Id,
                 StartDate = item.StartDate,
                 EndDate = item.EndDate,
-                DisciplineId = item.DisciplineId,
-                GroupId = item.GroupId,
+                NameDiscipline = item.Discipline?.Name ?? string.Empty,
+                NameGroup = item.Group?.Name ?? string.Empty,
                 RoomNumber = item.RoomNumber,
-                Teacher = item.Teacher,
+                NamePerson = $"{item.Teacher?.LastName} {item.Teacher?.FirstName} {item.Teacher?.Patronymic}",
+                Phone = item.Teacher?.Phone ?? string.Empty
             });
         }
     }

@@ -1,10 +1,11 @@
 ﻿using TimeTable203.Context.Contracts;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts.Interface;
+using TimeTable203.Repositories.Anchors;
 
 namespace TimeTable203.Repositories.Implementations
 {
-    public class PersonReadRepository : IPersonReadRepository
+    public class PersonReadRepository : IPersonReadRepository, IReadRepositoryAnchor
     {
         private readonly ITimeTableContext context;
 
@@ -21,10 +22,9 @@ namespace TimeTable203.Repositories.Implementations
         Task<Person?> IPersonReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => Task.FromResult(context.Persons.FirstOrDefault(x => x.Id == id));
 
-        Task<List<Person>> IPersonReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
-            => Task.FromResult(context.Persons.Where(x => x.DeletedAt == null &&
-                                                          ids.Contains(x.Id))
+        Task<Dictionary<Guid, Person>> IPersonReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
+            => Task.FromResult(context.Persons.Where(x => x.DeletedAt == null && ids.Contains(x.Id))
                 .OrderBy(x => x.LastName)
-                .ToList());
+                .ToDictionary(key => key.Id));
     }
 }

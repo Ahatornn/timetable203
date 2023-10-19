@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
 using TimeTable203.Services.Contracts.Interface;
 
@@ -9,13 +10,17 @@ namespace TimeTable203.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [ApiExplorerSettings(GroupName = "Discipline")]
     public class DisciplineController : ControllerBase
     {
         private readonly IDisciplineService disciplineService;
+        private readonly IMapper mapper;
 
-        public DisciplineController(IDisciplineService disciplineService)
+        public DisciplineController(IDisciplineService disciplineService,
+            IMapper mapper)
         {
             this.disciplineService = disciplineService;
+            this.mapper = mapper;
         }
 
         [HttpGet]

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TimeTable203.Api.Infrastructures;
-using TimeTable203.Context;
+using TimeTable203.Context.DB;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,22 +9,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-builder.Services.AddDependencies();
+builder.Services.GetSwaggerDocument();
 
-// получаем строку подключения из файла конфигурации
-var connection = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<TimeTableContext>(options =>
-                options.UseSqlServer(connection));
+builder.Services.AddDependences();
+
+var conString = DataBaseHelper.GetConnectingString();
+builder.Services.AddDbContext<TimeTableContext>(Options =>
+                    Options.UseSqlServer(conString));
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.GetSwaggerDocumentUI();
 }
 
 app.UseHttpsRedirection();

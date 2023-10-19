@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using TimeTable203.Repositories.Contracts.Interface;
+using TimeTable203.Services.Anchors;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 
 namespace TimeTable203.Services.Implementations
 {
-    public class DisciplineService : IDisciplineService
+    public class DisciplineService : IDisciplineService, IServiceAnchor
     {
         private readonly IDisciplineReadRepository disciplineReadRepository;
         private readonly IMapper mapper;

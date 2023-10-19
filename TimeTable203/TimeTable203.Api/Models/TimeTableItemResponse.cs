@@ -1,4 +1,4 @@
-﻿namespace TimeTable203.Context.Contracts.Models
+﻿namespace TimeTable203.Api.Models
 {
     /// <summary>
     /// Модель ответа сущности элемент расписания
@@ -22,14 +22,14 @@
         public DateTimeOffset EndDate { get; set; }
 
         /// <summary>
-        /// Идентификатор дисциплины
+        /// Наименование дисциплины
         /// </summary>
-        public Guid DisciplineId { get; set; }
+        public string NameDiscipline { get; set; } = string.Empty;
 
         /// <summary>
-        /// Идентификатор группы
+        /// Наименование группы
         /// </summary>
-        public Guid GroupId { get; set; }
+        public string NameGroup { get; set; } = string.Empty;
 
         /// <summary>
         /// Номер аудитории
@@ -37,8 +37,13 @@
         public short RoomNumber { get; set; }
 
         /// <summary>
-        /// Преподаватель
+        /// Преподаватель ФИО
         /// </summary>
-        public Guid? Teacher { get; set; }
+        public string NamePerson { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Телефон
+        /// </summary>
+        public string Phone { get; set; } = string.Empty;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Extensions;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Enums;
 using TimeTable203.Services.Contracts.Interface;
@@ -11,6 +12,7 @@ namespace TimeTable203.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [ApiExplorerSettings(GroupName = "Employee")]
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService employeeService;
@@ -27,7 +29,7 @@ namespace TimeTable203.Api.Controllers
             return Ok(result.Select(x => new EmployeeResponse
             {
                 Id = x.Id,
-                EmployeeType = (EmployeeTypesResponse)x.EmployeeType,
+                EmployeeType = x.EmployeeType.GetDisplayName(),
                 Name = $"{x.Person?.LastName} {x.Person?.FirstName} {x.Person?.Patronymic}",
                 MobilePhone = x.Person?.Phone ?? string.Empty,
             }));
@@ -45,7 +47,9 @@ namespace TimeTable203.Api.Controllers
             return Ok(new EmployeeResponse
             {
                 Id = item.Id,
-                EmployeeType = (EmployeeTypesResponse)item.EmployeeType,
+                EmployeeType = item.EmployeeType.GetDisplayName(),
+                Name = $"{item.Person?.LastName} {item.Person?.FirstName} {item.Person?.Patronymic}",
+                MobilePhone = item.Person?.Phone ?? string.Empty,
             });
         }
     }

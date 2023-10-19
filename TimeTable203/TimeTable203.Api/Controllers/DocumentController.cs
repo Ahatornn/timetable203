@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TimeTable203.Context.Contracts.Models;
+using Microsoft.OpenApi.Extensions;
+using TimeTable203.Api.Models;
 using TimeTable203.Services.Contracts.Interface;
 
 namespace TimeTable203.Api.Controllers
@@ -9,6 +10,7 @@ namespace TimeTable203.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [ApiExplorerSettings(GroupName = "Document")]
     public class DocumentController : ControllerBase
     {
         private readonly IDocumentService documentService;
@@ -29,8 +31,9 @@ namespace TimeTable203.Api.Controllers
                 Series = x.Series,
                 IssuedAt = x.IssuedAt,
                 IssuedBy = x.IssuedBy,
-                DocumentType = x.DocumentType,
-                PersonId = x.PersonId,
+                DocumentType = x.DocumentType.GetDisplayName(),
+                Name = $"{x.Person?.LastName} {x.Person?.FirstName} {x.Person?.Patronymic}",
+                MobilePhone = x.Person?.Phone ?? string.Empty
             }));
         }
 
@@ -50,8 +53,9 @@ namespace TimeTable203.Api.Controllers
                 Series = item.Series,
                 IssuedAt = item.IssuedAt,
                 IssuedBy = item.IssuedBy,
-                DocumentType = item.DocumentType,
-                PersonId = item.PersonId,
+                DocumentType = item.DocumentType.GetDisplayName(),
+                Name = $"{item.Person?.LastName} {item.Person?.FirstName} {item.Person?.Patronymic}",
+                MobilePhone = item.Person?.Phone ?? string.Empty
             });
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace TimeTable203.Context.Contracts.Models
+﻿namespace TimeTable203.Api.Models
 {
     /// <summary>
     /// Модель ответа сущности группы
@@ -27,8 +27,13 @@
         public ICollection<Guid> Students { get; set; } = Array.Empty<Guid>();
 
         /// <summary>
-        /// Классный руководитель
+        /// ФИО
         /// </summary>
-        public Guid? EmployeeId { get; set; }
+        public string FIO { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Мобильный телефон
+        /// </summary>
+        public string MobilePhone { get; set; } = string.Empty;
     }
 }

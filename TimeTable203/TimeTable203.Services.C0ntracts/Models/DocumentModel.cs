@@ -1,5 +1,6 @@
-﻿using TimeTable203.Context.Contracts.Enums;
-namespace TimeTable203.Context.Contracts.Models
+﻿using TimeTable203.Services.Contracts.Models.Enums;
+
+namespace TimeTable203.Services.Contracts.Models
 {
     /// <summary>
     /// Модель документов
@@ -33,11 +34,11 @@ namespace TimeTable203.Context.Contracts.Models
         /// <summary>
         /// Тип документов
         /// </summary>
-        public DocumentTypes DocumentType { get; set; }
+        public DocumentTypesModel DocumentType { get; set; }
 
         /// <summary>
-        /// Идентификатор <see cref="PersonModel"/>
+        /// <inheritdoc cref="PersonModel"/>
         /// </summary>
-        public Guid PersonId { get; set; }
+        public PersonModel? Person { get; set; }
     }
 }
