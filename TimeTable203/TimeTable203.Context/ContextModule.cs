@@ -10,11 +10,4 @@ namespace TimeTable203.Context
             service.AddSingleton<ITimeTableContext, TimeTableContext>();
         }
     }
-
-    /// <summary>
-    /// Интерфейсный маркер, для регистрации Context
-    /// </summary>
-    public interface IContextAnchor { };
-
-
 }

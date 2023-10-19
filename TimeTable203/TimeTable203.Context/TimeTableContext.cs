@@ -4,7 +4,7 @@ using TimeTable203.Context.Contracts.Models;
 
 namespace TimeTable203.Context
 {
-    public class TimeTableContext : ITimeTableContext, IContextAnchor
+    public class TimeTableContext : ITimeTableContext
     {
         private readonly IList<Discipline> disciplines;
         private readonly IList<Document> documents;

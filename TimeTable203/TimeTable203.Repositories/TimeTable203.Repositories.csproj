@@ -10,6 +10,7 @@
     <ProjectReference Include="..\TimeTable203.Common\TimeTable203.Common.csproj" />
     <ProjectReference Include="..\TimeTable203.Context.Contracts\TimeTable203.Context.Contracts.csproj" />
     <ProjectReference Include="..\TimeTable203.Repositories.Contracts\TimeTable203.Repositories.Contracts.csproj" />
+    <ProjectReference Include="..\TimeTable203.Shared\TimeTable203.Shared.csproj" />
   </ItemGroup>
 
 </Project>
