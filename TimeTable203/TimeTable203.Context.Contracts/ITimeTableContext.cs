@@ -19,5 +19,6 @@ namespace TimeTable203.Context.Contracts
         DbSet<Person> Persons { get; }
 
         DbSet<TimeTableItem> TimeTableItems { get; }
+
     }
 }

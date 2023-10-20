@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TimeTable203.Api.Infrastructures;
+using TimeTable203.Context.Contracts;
 using TimeTable203.Context.DB;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +16,7 @@ builder.Services.GetSwaggerDocument();
 builder.Services.AddDependences();
 
 var conString = DataBaseHelper.GetConnectingString();
-builder.Services.AddDbContext<TimeTableContext>(Options =>
-                    Options.UseSqlServer(conString));
+builder.Services.AddDbContextFactory<TimeTableContext>(Options => Options.UseSqlServer(conString));
 
 var app = builder.Build();
 
