@@ -15,11 +15,10 @@ builder.Services.GetSwaggerDocument();
 
 builder.Services.AddDependences();
 
-var conString = DataBaseHelper.GetConnectingString();
+var conString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContextFactory<TimeTableContext>(Options => Options.UseSqlServer(conString));
 
 var app = builder.Build();
-
 
 
 // Configure the HTTP request pipeline.

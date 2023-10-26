@@ -28,18 +28,7 @@ namespace TimeTable203.Context.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Discipline>().HasKey(x => x.Id);
-
-            modelBuilder.Entity<Document>().HasKey(x => x.Id);
-
-            modelBuilder.Entity<Employee>().HasKey(x => x.Id);
-
-            modelBuilder.Entity<Group>().HasKey(x => x.Id);
-            modelBuilder.Entity<Group>().Ignore(x => x.Students);
-
-            modelBuilder.Entity<Person>().HasKey(x => x.Id);
-
-            modelBuilder.Entity<TimeTableItem>().HasKey(x => x.Id);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(IEntityTypeConfiguration<Discipline>).Assembly);
         }
     }
 }

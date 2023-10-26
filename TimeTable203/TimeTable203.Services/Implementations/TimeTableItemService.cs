@@ -46,7 +46,7 @@ namespace TimeTable203.Services.Implementations
                 disciplines.TryGetValue(timeTableItem.DisciplineId, out var discipline);
                 groups.TryGetValue(timeTableItem.GroupId, out var group);
 
-                var person = await personReadRepository.GetByIdAsync(timeTableItem.Teacher ?? Guid.Empty, cancellationToken);
+                var person = await personReadRepository.GetByIdAsync(timeTableItem.TeacherId ?? Guid.Empty, cancellationToken);
 
                 var timeTable = mapper.Map<TimeTableItemModel>(timeTableItem);
                 timeTable.Discipline = mapper.Map<DisciplineModel>(discipline);
@@ -68,7 +68,7 @@ namespace TimeTable203.Services.Implementations
             var discipline = await disciplineReadRepository.GetByIdAsync(item.DisciplineId, cancellationToken);
             var group = await groupReadRepository.GetByIdAsync(item.GroupId, cancellationToken);
 
-            var person = await personReadRepository.GetByIdAsync(item.Teacher ?? Guid.Empty, cancellationToken);
+            var person = await personReadRepository.GetByIdAsync(item.TeacherId ?? Guid.Empty, cancellationToken);
 
             var timeTable = mapper.Map<TimeTableItemModel>(item);
             timeTable.Discipline = discipline != null

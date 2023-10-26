@@ -36,5 +36,10 @@ namespace TimeTable203.Context.Contracts.Models
         /// Идентификатор <see cref="Person"/>
         /// </summary>
         public Guid PersonId { get; set; }
+
+        /// <summary>
+        /// Делаем связь один ко многим
+        /// </summary>
+        public Person Person { get; set; }
     }
 }

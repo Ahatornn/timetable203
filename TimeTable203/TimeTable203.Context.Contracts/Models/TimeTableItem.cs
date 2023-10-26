@@ -21,9 +21,19 @@
         public Guid DisciplineId { get; set; }
 
         /// <summary>
+        /// Делаем связь один ко многим
+        /// </summary>
+        public Discipline Discipline { get; set; }
+
+        /// <summary>
         /// Идентификатор группы
         /// </summary>
         public Guid GroupId { get; set; }
+
+        /// <summary>
+        /// Делаем связь один ко многим
+        /// </summary>
+        public Group Group { get; set; }
 
         /// <summary>
         /// Номер аудитории
@@ -33,6 +43,12 @@
         /// <summary>
         /// Преподаватель
         /// </summary>
-        public Guid? Teacher { get; set; }
+        public Guid? TeacherId { get; set; }
+
+        /// <summary>
+        /// Преподаватель
+        /// </summary>
+        public Person? Person { get; set; }
+
     }
 }
