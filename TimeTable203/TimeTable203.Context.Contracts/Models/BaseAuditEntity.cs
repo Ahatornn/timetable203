@@ -10,7 +10,6 @@
         /// </summary>
         public Guid Id { get; set; }
 
-
         /// <summary>
         /// Когда создан
         /// </summary>

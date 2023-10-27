@@ -20,7 +20,6 @@
         /// </summary>
         public string? Patronymic { get; set; } = string.Empty;
 
-
         /// <summary>
         /// Адрес электронной почты
         /// </summary>
@@ -40,7 +39,6 @@
         /// сваязь один ко многим
         /// </summary>
         public Group Group { get; set; }
-
 
         /// <summary>
         /// нужна для связи один ко многим по вторичному ключю <see cref="TimeTableItem"/>
