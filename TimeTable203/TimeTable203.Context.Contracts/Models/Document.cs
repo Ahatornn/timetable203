@@ -10,27 +10,27 @@ namespace TimeTable203.Context.Contracts.Models
         /// <summary>
         /// Номер документа
         /// </summary>
-        public string Number { get; set; } = string.Empty;
+        public string Number { get; set; }
 
         /// <summary>
         /// Серия документа
         /// </summary>
-        public string Series { get; set; } = string.Empty;
+        public string Series { get; set; }
 
         /// <summary>
         /// Дата выдачи
         /// </summary>
-        public DateTime IssuedAt { get; set; }
+        public DateTime IssuedAt { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Кем выдан
         /// </summary>
-        public string IssuedBy { get; set; } = string.Empty;
+        public string? IssuedBy { get; set; } = string.Empty;
 
         /// <summary>
         /// Тип документов
         /// </summary>
-        public DocumentTypes DocumentType { get; set; }
+        public DocumentTypes DocumentType { get; set; } = DocumentTypes.None;
 
         /// <summary>
         /// Идентификатор <see cref="Person"/>

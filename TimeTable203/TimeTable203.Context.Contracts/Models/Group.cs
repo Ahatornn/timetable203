@@ -8,12 +8,12 @@
         /// <summary>
         /// Наименование группы
         /// </summary>
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
 
         /// <summary>
         /// Описание группы
         /// </summary>
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Студенты группы связь один ко многим

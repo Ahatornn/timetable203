@@ -5,7 +5,7 @@ namespace TimeTable203.Context.Contracts.Models
     public class Employee : BaseAuditEntity
     {
         /// <inheritdoc cref="EmployeeTypes"/>
-        public EmployeeTypes EmployeeType { get; set; }
+        public EmployeeTypes EmployeeType { get; set; } = EmployeeTypes.Student;
 
         /// <summary>
         /// нужна для связи один ко многим по вторичному ключю <see cref="Group"/>

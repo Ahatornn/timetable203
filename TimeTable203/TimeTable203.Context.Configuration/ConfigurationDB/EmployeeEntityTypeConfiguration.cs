@@ -8,8 +8,14 @@ namespace TimeTable203.Context.Configuration.ConfigurationDB
     {
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.ToTable("TableEmployee");
+            builder.ToTable("TEmployee");
+
+            builder.HasIndex(x => x.EmployeeType)
+                .HasDatabaseName($"IX_{nameof(Employee)}_" +
+                                 $"{nameof(Employee.EmployeeType)}_" +
+                                 $"{nameof(Employee.Person.FirstName)}_" +
+                                 $"{nameof(Employee.Person.LastName)}_")
+                .HasFilter($"{nameof(Employee.EmployeeType)} is Teacher");
         }
     }
 }

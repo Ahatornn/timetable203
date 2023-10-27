@@ -8,8 +8,29 @@ namespace TimeTable203.Context.Configuration.ConfigurationDB
     {
         public void Configure(EntityTypeBuilder<Person> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.ToTable("TablePerson");
+            builder.ToTable("TPerson");
+
+            builder.Property(x => new
+            {
+                x.FirstName,
+                x.LastName,
+                x.Email,
+                x.Phone
+            }).IsRequired();
+
+            builder.HasIndex(x => x.Email)
+                .IsUnique()
+                .HasDatabaseName($"IX_{nameof(Person)}_" +
+                                 $"{nameof(Person.Email)}_" +
+                                 $"{nameof(Person.CreatedAt)}")
+                .HasFilter($"{nameof(Person.DeletedAt)} is null");
+
+            builder.HasIndex(x => x.Phone)
+               .IsUnique()
+               .HasDatabaseName($"IX_{nameof(Person)}_" +
+                                $"{nameof(Person.Phone)}_" +
+                                $"{nameof(Person.CreatedAt)}")
+               .HasFilter($"{nameof(Person.DeletedAt)} is null");
         }
     }
 }

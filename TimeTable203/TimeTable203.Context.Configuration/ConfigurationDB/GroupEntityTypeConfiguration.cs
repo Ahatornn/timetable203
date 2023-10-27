@@ -8,8 +8,19 @@ namespace TimeTable203.Context.Configuration.ConfigurationDB
     {
         public void Configure(EntityTypeBuilder<Group> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.ToTable("TableGroup");
+            builder.ToTable("TGroup");
+
+            builder.Property(x => x.Name)
+               .HasMaxLength(200)
+               .IsRequired();
+
+
+            builder.HasIndex(x => x.Name)
+                .IsUnique()
+                .HasDatabaseName($"IX_{nameof(Group)}_" +
+                                 $"{nameof(Group.Name)}_" +
+                                 $"{nameof(Group.CreatedAt)}")
+                .HasFilter($"{nameof(Group.DeletedAt)} is null");
         }
     }
 }

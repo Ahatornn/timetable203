@@ -8,28 +8,28 @@
         /// <summary>
         /// Фамилия
         /// </summary>
-        public string LastName { get; set; } = string.Empty;
+        public string LastName { get; set; }
 
         /// <summary>
         /// Имя
         /// </summary>
-        public string FirstName { get; set; } = string.Empty;
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Отчество
         /// </summary>
-        public string Patronymic { get; set; } = string.Empty;
+        public string? Patronymic { get; set; } = string.Empty;
 
 
         /// <summary>
         /// Адрес электронной почты
         /// </summary>
-        public string Email { get; set; } = string.Empty;
+        public string Email { get; set; }
 
         /// <summary>
         /// Телефон
         /// </summary>
-        public string Phone { get; set; } = string.Empty;
+        public string Phone { get; set; }
 
         /// <summary>
         /// сваязь один ко многим

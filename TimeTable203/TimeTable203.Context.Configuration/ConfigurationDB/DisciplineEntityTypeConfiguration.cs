@@ -8,8 +8,18 @@ namespace TimeTable203.Context.Configuration.ConfigurationDB
     {
         public void Configure(EntityTypeBuilder<Discipline> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.ToTable("TableDiscipline");
+            builder.ToTable("TDiscipline");
+
+            builder.Property(x => x.Name)
+                .HasMaxLength(200)
+                .IsRequired();
+
+            builder.HasIndex(x => x.Name)
+                .IsUnique()
+                .HasDatabaseName($"IX_{nameof(Discipline)}_" +
+                                 $"{nameof(Discipline.Name)}_" +
+                                 $"{nameof(Discipline.CreatedAt)}")
+                .HasFilter($"{nameof(Discipline.DeletedAt)} is null");
         }
     }
 }
