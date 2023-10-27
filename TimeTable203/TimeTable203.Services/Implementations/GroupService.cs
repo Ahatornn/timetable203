@@ -41,13 +41,15 @@ namespace TimeTable203.Services.Implementations
             var listGroupModel = new List<GroupModel>();
             foreach (var group in groups)
             {
-                employees.TryGetValue(group.EmployeeId ?? Guid.Empty, out var employee);
-                persons.TryGetValue(employee.PersonId, out var person);
-
                 var _group = mapper.Map<GroupModel>(group);
-                _group.Employee = person != null
+                if (group.EmployeeId != null)
+                {
+                    employees.TryGetValue((Guid)group.EmployeeId, out var employee);
+                    persons.TryGetValue(employee!.PersonId, out var person);
+                    _group.Employee = person != null
                     ? mapper.Map<PersonModel>(person)
                     : null;
+                }
                 listGroupModel.Add(_group);
             }
             return listGroupModel;
@@ -61,13 +63,16 @@ namespace TimeTable203.Services.Implementations
                 return null;
             }
 
-            var employee = await employeeReadRepository.GetByIdAsync(item.EmployeeId ?? Guid.Empty, cancellationToken);
-
-            var person = await personReadRepository.GetByIdAsync(employee?.PersonId ?? Guid.Empty, cancellationToken);
             var group = mapper.Map<GroupModel>(item);
-            group.Employee = person != null
-                ? mapper.Map<PersonModel>(person)
-                : null;
+
+            if (item.EmployeeId != null)
+            {
+                var employee = await employeeReadRepository.GetByIdAsync((Guid)item.EmployeeId, cancellationToken);
+                var person = await personReadRepository.GetByIdAsync(employee!.PersonId, cancellationToken);
+                group.Employee = person != null
+                    ? mapper.Map<PersonModel>(person)
+                    : null;
+            }
             return group;
         }
     }
