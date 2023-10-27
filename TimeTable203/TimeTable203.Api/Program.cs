@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using TimeTable203.Api.Infrastructures;
-using TimeTable203.Context.Contracts;
 using TimeTable203.Context.DB;
 
 var builder = WebApplication.CreateBuilder(args);

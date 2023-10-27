@@ -1,6 +1,4 @@
-﻿using TimeTable203.Context.Contracts.Models;
-
-namespace TimeTable203.Api.Models
+﻿namespace TimeTable203.Api.Models
 {
     /// <summary>
     /// Модель ответа сущности группы
