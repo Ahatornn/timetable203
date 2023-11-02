@@ -1,4 +1,5 @@
-﻿namespace TimeTable203.Common.Entity.InterfaceDB
+﻿using TimeTable203.Common.Entity.InterfaceProvider;
+namespace TimeTable203.Common.Entity.InterfaceDB
 {
     /// <summary>
     /// Определяет контекст репозитория записи сущностей
@@ -11,5 +12,9 @@
 
         /// <inheritdoc cref="IUnitOfWork"/>
         IUnitOfWork UnitOfWork { get; }
+
+
+        /// <inheritdoc cref="IDateTimeProvider"/>
+        IDateTimeProvider DateTimeProvider { get; }
     }
 }

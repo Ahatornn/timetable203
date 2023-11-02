@@ -1,5 +1,4 @@
 ﻿using TimeTable203.Common.Entity.EntityInterface;
-
 namespace TimeTable203.Common.Entity
 {
     /// <summary>
@@ -29,5 +28,12 @@ namespace TimeTable203.Common.Entity
                     return query.Where(x => ids.Contains(x.Id));
             }
         }
+
+        /// <summary>
+        /// Не удаленные записи
+        /// </summary>
+        public static IQueryable<TEntity> NotDeletedAt<TEntity>(this IQueryable<TEntity> query) where TEntity : class, IEntityAuditDeleted
+            => query.Where(x => x.DeletedAt == null);
     }
 }
+

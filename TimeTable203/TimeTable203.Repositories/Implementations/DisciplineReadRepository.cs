@@ -1,4 +1,5 @@
-﻿using TimeTable203.Context.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using TimeTable203.Common.Entity;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Anchors;
 using TimeTable203.Repositories.Contracts.Interface;
@@ -7,24 +8,29 @@ namespace TimeTable203.Repositories.Implementations
 {
     public class DisciplineReadRepository : IDisciplineReadRepository, IReadRepositoryAnchor
     {
-        private readonly ITimeTableContext context;
+        private readonly IDbRead reader;
 
-        public DisciplineReadRepository(ITimeTableContext context)
+        public DisciplineReadRepository(IDbRead reader)
         {
-            this.context = context;
+            this.reader = reader;
         }
 
         Task<List<Discipline>> IDisciplineReadRepository.GetAllAsync(CancellationToken cancellationToken)
-            => Task.FromResult(context.Disciplines.Where(x => x.DeletedAt == null)
+            => reader.Read<Discipline>()
+                .NotDeletedAt()
                 .OrderBy(x => x.Name)
-                .ToList());
+                .ToListAsync(cancellationToken);
 
         Task<Discipline?> IDisciplineReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
-            => Task.FromResult(context.Disciplines.FirstOrDefault(x => x.Id == id));
+            => reader.Read<Discipline>()
+                .ById(id)
+                .FirstOrDefaultAsync(cancellationToken);
 
         Task<Dictionary<Guid, Discipline>> IDisciplineReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
-            => Task.FromResult(context.Disciplines.Where(x => x.DeletedAt == null && ids.Contains(x.Id))
-                .OrderBy(x => x.Name)
-                .ToDictionary(key => key.Id));
+            => reader.Read<Discipline>()
+            .NotDeletedAt()
+            .ByIds((IReadOnlyCollection<Guid>)ids)
+            .OrderBy(x => x.Name)
+            .ToDictionaryAsync(key => key.Id, cancellation);
     }
 }

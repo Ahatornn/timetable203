@@ -1,25 +1,29 @@
-﻿using TimeTable203.Context.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using TimeTable203.Common.Entity;
 using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Repositories.Contracts.Interface;
 using TimeTable203.Repositories.Anchors;
+using TimeTable203.Repositories.Contracts.Interface;
 
 namespace TimeTable203.Repositories.Implementations
 {
     public class TimeTableItemReadRepository : ITimeTableItemReadRepository, IReadRepositoryAnchor
     {
-        private readonly ITimeTableContext context;
+        private readonly IDbRead reader;
 
-        public TimeTableItemReadRepository(ITimeTableContext context)
+        public TimeTableItemReadRepository(IDbRead reader)
         {
-            this.context = context;
+            this.reader = reader;
         }
 
         Task<List<TimeTableItem>> ITimeTableItemReadRepository.GetAllAsync(CancellationToken cancellationToken)
-            => Task.FromResult(context.TimeTableItems.Where(x => x.DeletedAt == null)
+            => reader.Read<TimeTableItem>()
+                .NotDeletedAt()
                 .OrderBy(x => x.StartDate)
-                .ToList());
+                .ToListAsync(cancellationToken);
 
         Task<TimeTableItem?> ITimeTableItemReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
-            => Task.FromResult(context.TimeTableItems.FirstOrDefault(x => x.Id == id));
+            => reader.Read<TimeTableItem>()
+                .ById(id)
+                .FirstOrDefaultAsync(cancellationToken);
     }
 }

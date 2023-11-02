@@ -3,7 +3,7 @@
     /// <summary>
     /// Интерфейс получения даты
     /// </summary>
-    internal interface IDateTimeProvider
+    public interface IDateTimeProvider
     {
         /// <summary>
         /// Текущий момент (utc)
