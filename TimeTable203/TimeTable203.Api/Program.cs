@@ -16,6 +16,8 @@ builder.Services.AddLoggerRegistr();
 
 builder.Services.AddDependences();
 
+//builder.Services.AddLoggerRegistr();
+
 var conString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContextFactory<TimeTableContext>(
      options =>
