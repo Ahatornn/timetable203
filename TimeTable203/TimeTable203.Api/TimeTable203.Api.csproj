@@ -13,8 +13,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
-    <PackageReference Include="Seq.Extensions.Logging" Version="6.1.0" />
-    <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="AutoMapper" Version="12.0.1" />
   </ItemGroup>
@@ -22,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TimeTable203.Common\TimeTable203.Common.csproj" />
     <ProjectReference Include="..\TimeTable203.Context\TimeTable203.Context.csproj" />
+    <ProjectReference Include="..\TimeTable203.Logging\TimeTable203.Logging.csproj" />
     <ProjectReference Include="..\TimeTable203.Repositories\TimeTable203.Repositories.csproj" />
     <ProjectReference Include="..\TimeTable203.Services\TimeTable203.Services.csproj" />
   </ItemGroup>

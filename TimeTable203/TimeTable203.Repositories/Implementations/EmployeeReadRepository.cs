@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
 using TimeTable203.Common.Entity;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Anchors;
@@ -14,6 +15,7 @@ namespace TimeTable203.Repositories.Implementations
         public EmployeeReadRepository(IDbRead reader)
         {
             this.reader = reader;
+            Log.Information("Инициализирован абстракция IDbReader в классе EmployeeReadRepository");
         }
 
         Task<List<Employee>> IEmployeeReadRepository.GetAllAsync(CancellationToken cancellationToken)

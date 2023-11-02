@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
 using TimeTable203.Common.Entity;
 using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Context.Anchors;
@@ -32,6 +33,7 @@ namespace TimeTable203.Context.DB
         public TimeTableContext(DbContextOptions<TimeTableContext> options)
             : base(options)
         {
+            Log.Information("Инициализирована бд");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,6 +57,7 @@ namespace TimeTable203.Context.DB
         async Task<int> IUnitOfWork.SaveChangesAsync(CancellationToken cancellationToken)
         {
             var count = await base.SaveChangesAsync(cancellationToken);
+            Log.Information("Идет сохранение данных в бд");
             foreach (var entry in base.ChangeTracker.Entries().ToArray())
             {
                 entry.State = EntityState.Detached;

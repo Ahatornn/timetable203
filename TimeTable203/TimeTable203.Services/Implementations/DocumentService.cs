@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Serilog;
 using TimeTable203.Repositories.Contracts.Interface;
 using TimeTable203.Services.Anchors;
 using TimeTable203.Services.Contracts.Interface;
@@ -30,6 +31,7 @@ namespace TimeTable203.Services.Implementations
             {
                 if (!persons.TryGetValue(document.PersonId, out var person))
                 {
+                    Log.Warning("Запрос вернул null(Person) IDocumentService.GetAllAsync");
                     continue;
                 }
                 var doc = mapper.Map<DocumentModel>(document);
@@ -44,6 +46,7 @@ namespace TimeTable203.Services.Implementations
             var item = await documentReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)
             {
+                Log.Warning("Запрос вернул null IDocumentService.GetByIdAsync");
                 return null;
             }
 

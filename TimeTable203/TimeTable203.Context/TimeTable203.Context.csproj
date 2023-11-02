@@ -21,6 +21,7 @@
     <ProjectReference Include="..\TimeTable203.Common\TimeTable203.Common.csproj" />
     <ProjectReference Include="..\TimeTable203.Context.Configuration\TimeTable203.Context.Configuration.csproj" />
     <ProjectReference Include="..\TimeTable203.Context.Contracts\TimeTable203.Context.Contracts.csproj" />
+    <ProjectReference Include="..\TimeTable203.Logging\TimeTable203.Logging.csproj" />
     <ProjectReference Include="..\TimeTable203.Shared\TimeTable203.Shared.csproj" />
   </ItemGroup>
 

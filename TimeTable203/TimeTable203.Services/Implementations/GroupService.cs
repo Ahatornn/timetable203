@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Serilog;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts.Interface;
 using TimeTable203.Services.Anchors;
@@ -44,10 +45,12 @@ namespace TimeTable203.Services.Implementations
                 var _group = mapper.Map<GroupModel>(group);
                 if (!employees.TryGetValue(group.EmployeeId!.Value, out var employee))
                 {
+                    Log.Warning("Запрос вернул null(Employee) IEmployeeService.GetAllAsync");
                     continue;
                 }
                 if (!persons.TryGetValue(employee.PersonId, out var person))
                 {
+                    Log.Warning("Запрос вернул null(Person) IEmployeeService.GetAllAsync");
                     continue;
                 }
                 _group.Employee = mapper.Map<PersonModel>(person);

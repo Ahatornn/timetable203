@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTable203.Context.Config
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTable203.Common.Entity", "TimeTable203.Common.Entity\TimeTable203.Common.Entity.csproj", "{D1AD5713-E927-4C88-8E41-D2A09DD5F738}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTable203.Logging", "TimeTable203.Logging\TimeTable203.Logging.csproj", "{222EE828-09E7-4FC6-84F0-097BDB3D9AC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{D1AD5713-E927-4C88-8E41-D2A09DD5F738}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1AD5713-E927-4C88-8E41-D2A09DD5F738}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1AD5713-E927-4C88-8E41-D2A09DD5F738}.Release|Any CPU.Build.0 = Release|Any CPU
+		{222EE828-09E7-4FC6-84F0-097BDB3D9AC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{222EE828-09E7-4FC6-84F0-097BDB3D9AC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{222EE828-09E7-4FC6-84F0-097BDB3D9AC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{222EE828-09E7-4FC6-84F0-097BDB3D9AC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

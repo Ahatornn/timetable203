@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
+using Serilog;
 using TimeTable203.Context.Contracts.Enums;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Services.Contracts.Models;
@@ -35,6 +36,8 @@ namespace TimeTable203.Services.Automappers
                 .ForMember(x => x.Group, next => next.Ignore())
                 .ForMember(x => x.Discipline, next => next.Ignore())
                 .ForMember(x => x.Teacher, next => next.Ignore());
+
+            Log.Information("Инициализирован Mapper в классе ServiceProfile");
         }
     }
 }

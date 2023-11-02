@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Serilog;
 using TimeTable203.Context.Contracts.Enums;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts.Interface;
@@ -45,14 +46,17 @@ namespace TimeTable203.Services.Implementations
             {
                 if (!disciplines.TryGetValue(timeTableItem.DisciplineId, out var discipline))
                 {
+                    Log.Warning("Запрос вернул null(Discipline) ITimeTableItemService.GetAllAsync");
                     continue;
                 }
                 if (!groups.TryGetValue(timeTableItem.GroupId, out var group))
                 {
+                    Log.Warning("Запрос вернул null(Discipline) ITimeTableItemService.GetAllAsync");
                     continue;
                 }
                 if (timeTableItem.TeacherId == null)
                 {
+                    Log.Warning("Запрос вернул null(TeacherId) ITimeTableItemService.GetAllAsync");
                     continue;
                 }
                 var timeTable = mapper.Map<TimeTableItemModel>(timeTableItem);
