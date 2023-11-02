@@ -1,0 +1,33 @@
+﻿using TimeTable203.Common.Entity.EntityInterface;
+
+namespace TimeTable203.Common.Entity
+{
+    /// <summary>
+    /// Общие спецификации чтения
+    /// </summary>
+    public static class CommonSpecs
+    {
+        /// <summary>
+        /// По идентификатору 
+        /// </summary>
+        public static IQueryable<TEntity> ById<TEntity>(this IQueryable<TEntity> query, Guid id) where TEntity : class, IEntityWithId
+            => query.Where(x => x.Id == id);
+
+        /// <summary>
+        /// По идентификаторам
+        /// </summary>
+        public static IQueryable<TEntity> ByIds<TEntity>(this IQueryable<TEntity> query, IReadOnlyCollection<Guid> ids) where TEntity : class, IEntityWithId
+        {
+            var cnt = ids.Count();
+            switch (cnt)
+            {
+                case 0:
+                    return query.Where(x => false);
+                case 1:
+                    return query.ById(ids.First());
+                default:
+                    return query.Where(x => ids.Contains(x.Id));
+            }
+        }
+    }
+}
