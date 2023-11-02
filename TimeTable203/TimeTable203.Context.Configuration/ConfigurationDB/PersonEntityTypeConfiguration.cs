@@ -18,6 +18,24 @@ namespace TimeTable203.Context.Configuration.ConfigurationDB
                 x.Phone
             }).IsRequired();
 
+            builder
+                .HasMany(x => x.Document)
+                .WithOne(x => x.Person)
+                .HasForeignKey(x => x.PersonId)
+                .IsRequired();
+
+            builder
+               .HasMany(x => x.Employee)
+               .WithOne(x => x.Person)
+               .HasForeignKey(x => x.PersonId)
+               .IsRequired();
+
+            builder
+             .HasMany(x => x.TimeTableItem)
+             .WithOne(x => x.Person)
+             .HasForeignKey(x => x.TeacherId);
+
+
             builder.HasIndex(x => x.Email)
                 .IsUnique()
                 .HasDatabaseName($"IX_{nameof(Person)}_" +

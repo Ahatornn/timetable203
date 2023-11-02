@@ -14,6 +14,12 @@ namespace TimeTable203.Context.Configuration.ConfigurationDB
                 .HasMaxLength(200)
                 .IsRequired();
 
+            builder
+                .HasMany(x => x.TimeTableItem)
+                .WithOne(x => x.Discipline)
+                .HasForeignKey(x => x.DisciplineId)
+                .IsRequired();
+
             builder.HasIndex(x => x.Name)
                 .IsUnique()
                 .HasDatabaseName($"IX_{nameof(Discipline)}_" +
