@@ -10,6 +10,11 @@ namespace TimeTable203.Context.Configuration.ConfigurationDB
         {
             builder.ToTable("TEmployee");
 
+            builder
+                .HasMany(x => x.Group)
+                .WithOne(x => x.Employee)
+                .HasForeignKey(x => x.EmployeeId);
+
             builder.HasIndex(x => x.EmployeeType)
                 .HasDatabaseName($"IX_{nameof(Employee)}_" +
                                  $"{nameof(Employee.EmployeeType)}_" +

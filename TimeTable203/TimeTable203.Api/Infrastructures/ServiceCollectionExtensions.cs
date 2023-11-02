@@ -1,4 +1,6 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using System.Net;
+using Microsoft.OpenApi.Models;
+using Serilog;
 using TimeTable203.Context;
 using TimeTable203.Repositories;
 using TimeTable203.Services;
@@ -47,6 +49,26 @@ namespace TimeTable203.Api.Infrastructures
                 x.SwaggerEndpoint("Group/swagger.json", "Группы");
                 x.SwaggerEndpoint("Person/swagger.json", "Ученики");
                 x.SwaggerEndpoint("TimeTableItem/swagger.json", "Элемент расписания");
+            });
+        }
+
+        public static void AddLoggerRegistr(this IServiceCollection services)
+        {
+            var version = System.Reflection.Assembly.GetCallingAssembly().GetName().Version.ToString();
+
+            var host = Dns.GetHostName();
+            IPHostEntry ipEntry = Dns.GetHostByName(host);
+            IPAddress[] addr = ipEntry.AddressList;
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("Log")
+                .WriteTo.Seq("https://localhost:7278", apiKey: "Opgi2DAOoRf7Ygikxzob")
+                .Enrich.WithProperty("Version", version)
+                .Enrich.WithProperty("IP", addr[6])
+                .CreateLogger();
+
+            services.AddLogging(log =>
+            {
+                log.AddSeq("https://localhost:7278", "Opgi2DAOoRf7Ygikxzob");
             });
         }
     }

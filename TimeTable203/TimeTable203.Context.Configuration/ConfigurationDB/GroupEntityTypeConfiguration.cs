@@ -14,6 +14,17 @@ namespace TimeTable203.Context.Configuration.ConfigurationDB
                .HasMaxLength(200)
                .IsRequired();
 
+            builder
+              .HasMany(x => x.Students)
+              .WithOne(x => x.Group)
+              .HasForeignKey(x => x.Group_id)
+              .IsRequired();
+
+            builder
+             .HasMany(x => x.TimeTableItem)
+             .WithOne(x => x.Group)
+             .HasForeignKey(x => x.GroupId)
+             .IsRequired();
 
             builder.HasIndex(x => x.Name)
                 .IsUnique()
