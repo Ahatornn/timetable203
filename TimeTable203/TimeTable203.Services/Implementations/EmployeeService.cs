@@ -28,11 +28,12 @@ namespace TimeTable203.Services.Implementations
             var result = new List<EmployeeModel>();
             foreach (var employee in employees)
             {
-                persons.TryGetValue(employee.PersonId, out var person);
+                if (!persons.TryGetValue(employee.PersonId, out var person))
+                {
+                    continue;
+                }
                 var empl = mapper.Map<EmployeeModel>(employee);
-                empl.Person = person != null
-                    ? mapper.Map<PersonModel>(person)
-                    : null;
+                empl.Person = mapper.Map<PersonModel>(person);
                 result.Add(empl);
             }
 

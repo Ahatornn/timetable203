@@ -28,11 +28,12 @@ namespace TimeTable203.Services.Implementations
             var result = new List<DocumentModel>();
             foreach (var document in documents)
             {
-                persons.TryGetValue(document.PersonId, out var person);
+                if (!persons.TryGetValue(document.PersonId, out var person))
+                {
+                    continue;
+                }
                 var doc = mapper.Map<DocumentModel>(document);
-                doc.Person = person != null
-                    ? mapper.Map<PersonModel>(person)
-                    : null;
+                doc.Person = mapper.Map<PersonModel>(person);
                 result.Add(doc);
             }
             return result;
@@ -52,6 +53,7 @@ namespace TimeTable203.Services.Implementations
             document.Person = person != null
                 ? mapper.Map<PersonModel>(person)
                 : null;
+
             return document;
         }
     }

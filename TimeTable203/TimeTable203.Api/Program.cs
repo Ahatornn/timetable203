@@ -15,7 +15,13 @@ builder.Services.GetSwaggerDocument();
 builder.Services.AddDependences();
 
 var conString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContextFactory<TimeTableContext>(options => options.UseSqlServer(conString), ServiceLifetime.Transient);
+builder.Services.AddDbContextFactory<TimeTableContext>(
+     options =>
+     {
+         options.UseSqlServer(conString);
+         options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+     },
+    ServiceLifetime.Scoped);
 
 var app = builder.Build();
 

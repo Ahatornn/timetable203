@@ -9,7 +9,7 @@ namespace TimeTable203.Context
     {
         public override void CreateModule(IServiceCollection service)
         {
-            service.AddSingleton<ITimeTableContext, TimeTableContext>();
+            service.AddScoped<ITimeTableContext, TimeTableContext>();
         }
     }
 }

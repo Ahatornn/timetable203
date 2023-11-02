@@ -28,8 +28,8 @@ namespace TimeTable203.Services.Implementations
         async Task<IEnumerable<GroupModel>> IGroupService.GetAllAsync(CancellationToken cancellationToken)
         {
             var groups = await groupReadRepository.GetAllAsync(cancellationToken);
-            var groupId = groups.Select(x => x.EmployeeId).Distinct().Cast<Guid>();
-            var employees = await employeeReadRepository.GetByIdsAsync(groupId, cancellationToken);
+            var groupId = groups.Select(x => x.EmployeeId).Distinct();
+            var employees = await employeeReadRepository.GetByIdsAsync((IEnumerable<Guid>)groupId, cancellationToken);
 
             var listEmployees = new List<Employee>();
             foreach (var employee in employees.Values)
@@ -42,14 +42,15 @@ namespace TimeTable203.Services.Implementations
             foreach (var group in groups)
             {
                 var _group = mapper.Map<GroupModel>(group);
-                if (group.EmployeeId != null)
+                if (!employees.TryGetValue(group.EmployeeId!.Value, out var employee))
                 {
-                    employees.TryGetValue((Guid)group.EmployeeId, out var employee);
-                    persons.TryGetValue(employee!.PersonId, out var person);
-                    _group.Employee = person != null
-                    ? mapper.Map<PersonModel>(person)
-                    : null;
+                    continue;
                 }
+                if (!persons.TryGetValue(employee.PersonId, out var person))
+                {
+                    continue;
+                }
+                _group.Employee = mapper.Map<PersonModel>(person);
                 listGroupModel.Add(_group);
             }
             return listGroupModel;
@@ -67,8 +68,9 @@ namespace TimeTable203.Services.Implementations
 
             if (item.EmployeeId != null)
             {
-                var employee = await employeeReadRepository.GetByIdAsync((Guid)item.EmployeeId, cancellationToken);
-                var person = await personReadRepository.GetByIdAsync(employee!.PersonId, cancellationToken);
+                var employee = await employeeReadRepository.GetByIdAsync(item.EmployeeId!.Value, cancellationToken);
+                var person = await personReadRepository.GetByIdAsync(employee.PersonId, cancellationToken);
+
                 group.Employee = person != null
                     ? mapper.Map<PersonModel>(person)
                     : null;
