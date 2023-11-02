@@ -31,7 +31,7 @@ namespace TimeTable203.Repositories.Implementations
         Task<Dictionary<Guid, Discipline>> IDisciplineReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
             => reader.Read<Discipline>()
             .NotDeletedAt()
-            .ByIds((IReadOnlyCollection<Guid>)ids)
+            .ByIds(ids)
             .OrderBy(x => x.Name)
             .ToDictionaryAsync(key => key.Id, cancellation);
     }

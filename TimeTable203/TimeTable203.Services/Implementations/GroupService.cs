@@ -29,8 +29,8 @@ namespace TimeTable203.Services.Implementations
         async Task<IEnumerable<GroupModel>> IGroupService.GetAllAsync(CancellationToken cancellationToken)
         {
             var groups = await groupReadRepository.GetAllAsync(cancellationToken);
-            var groupId = groups.Select(x => x.EmployeeId).Distinct();
-            var employees = await employeeReadRepository.GetByIdsAsync((IEnumerable<Guid>)groupId, cancellationToken);
+            var groupId = groups.Select(x => x.EmployeeId).Distinct().Cast<Guid>();
+            var employees = await employeeReadRepository.GetByIdsAsync(groupId, cancellationToken);
 
             var listEmployees = new List<Employee>();
             foreach (var employee in employees.Values)

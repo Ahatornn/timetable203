@@ -15,7 +15,7 @@ namespace TimeTable203.Common.Entity
         /// <summary>
         /// По идентификаторам
         /// </summary>
-        public static IQueryable<TEntity> ByIds<TEntity>(this IQueryable<TEntity> query, IReadOnlyCollection<Guid> ids) where TEntity : class, IEntityWithId
+        public static IQueryable<TEntity> ByIds<TEntity>(this IQueryable<TEntity> query, IEnumerable<Guid> ids) where TEntity : class, IEntityWithId
         {
             var cnt = ids.Count();
             switch (cnt)
