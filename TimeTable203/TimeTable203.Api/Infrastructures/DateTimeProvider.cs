@@ -1,7 +1,6 @@
-﻿using TimeTable203.Common.Entity.InterfaceProvider;
-using TimeTable203.Context.Anchors;
+﻿using TimeTable203.Common;
 
-namespace TimeTable203.Context.DB.Implementations
+namespace TimeTable203.Api.Infrastructures
 {
     public class DateTimeProvider : IDateTimeProvider
     {

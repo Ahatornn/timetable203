@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Extensions;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
 using TimeTable203.Services.Contracts.Interface;
 
@@ -14,30 +14,35 @@ namespace TimeTable203.Api.Controllers
     public class DocumentController : ControllerBase
     {
         private readonly IDocumentService documentService;
+        private readonly IMapper mapper;
 
-        public DocumentController(IDocumentService documentService)
+        /// <summary>
+        /// Инициализирует новый экземпляр <see cref="DocumentController"/>
+        /// </summary>
+        public DocumentController(IDocumentService documentService,
+            IMapper mapper)
         {
             this.documentService = documentService;
+            this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Получить список всех документов
+        /// </summary>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<DocumentResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await documentService.GetAllAsync(cancellationToken);
-            return Ok(result.Select(x => new DocumentResponse
-            {
-                Id = x.Id,
-                Number = x.Number,
-                Series = x.Series,
-                IssuedAt = x.IssuedAt,
-                IssuedBy = x.IssuedBy,
-                DocumentType = x.DocumentType.GetDisplayName(),
-                Name = $"{x.Person?.LastName} {x.Person?.FirstName} {x.Person?.Patronymic}",
-                MobilePhone = x.Person?.Phone ?? string.Empty
-            }));
+            return Ok(mapper.Map<IEnumerable<DocumentResponse>>(result));
         }
 
+        /// <summary>
+        /// Получает документ по идентификатору
+        /// </summary>
         [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var item = await documentService.GetByIdAsync(id, cancellationToken);
@@ -46,17 +51,17 @@ namespace TimeTable203.Api.Controllers
                 return NotFound($"Не удалось найти документ с идентификатором {id}");
             }
 
-            return Ok(new DocumentResponse
-            {
-                Id = item.Id,
-                Number = item.Number,
-                Series = item.Series,
-                IssuedAt = item.IssuedAt,
-                IssuedBy = item.IssuedBy,
-                DocumentType = item.DocumentType.GetDisplayName(),
-                Name = $"{item.Person?.LastName} {item.Person?.FirstName} {item.Person?.Patronymic}",
-                MobilePhone = item.Person?.Phone ?? string.Empty
-            });
+            return Ok(mapper.Map<DocumentResponse>(item));
+        }
+
+        /// <summary>
+        /// Получить список всех документов по идентификатору пользователя
+        /// </summary>
+        [HttpGet("person/{id:guid}")]
+        [ProducesResponseType(typeof(IEnumerable<DocumentResponse>), StatusCodes.Status200OK)]
+        public Task<IActionResult> GetForPerson(Guid id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

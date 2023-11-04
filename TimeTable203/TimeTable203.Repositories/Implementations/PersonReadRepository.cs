@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Serilog;
-using TimeTable203.Common.Entity;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Common.Entity.Repositories;
 using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Repositories.Anchors;
-using TimeTable203.Repositories.Contracts.Interface;
+using TimeTable203.Repositories.Contracts;
 
 namespace TimeTable203.Repositories.Implementations
 {
-    public class PersonReadRepository : IPersonReadRepository, IReadRepositoryAnchor
+    public class PersonReadRepository : IPersonReadRepository, IRepositoryAnchor
     {
 
         private readonly IDbRead reader;
@@ -18,11 +18,11 @@ namespace TimeTable203.Repositories.Implementations
             Log.Information("Инициализирован абстракция IDbReader в классе PersonReadRepository");
         }
 
-        Task<List<Person>> IPersonReadRepository.GetAllAsync(CancellationToken cancellationToken)
+        Task<IReadOnlyCollection<Person>> IPersonReadRepository.GetAllAsync(CancellationToken cancellationToken)
             => reader.Read<Person>()
                 .NotDeletedAt()
                 .OrderBy(x => x.LastName)
-                .ToListAsync(cancellationToken);
+                .ToReadOnlyCollectionAsync(cancellationToken);
 
         Task<Person?> IPersonReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Person>()
@@ -34,6 +34,17 @@ namespace TimeTable203.Repositories.Implementations
                 .NotDeletedAt()
                 .ByIds(ids)
                 .OrderBy(x => x.LastName)
+                .ThenBy(x => x.FirstName)
+                .ThenBy(x => x.Patronymic)
                 .ToDictionaryAsync(key => key.Id, cancellation);
+
+        Task<IReadOnlyCollection<Person>> IPersonReadRepository.GetAllByGroupIdAsync(Guid groupId, CancellationToken cancellationToken)
+            => reader.Read<Person>()
+                .NotDeletedAt()
+                .Where(x => x.GroupId == groupId)
+                .OrderBy(x => x.LastName)
+                .ThenBy(x => x.FirstName)
+                .ThenBy(x => x.Patronymic)
+                .ToReadOnlyCollectionAsync(cancellationToken);
     }
 }

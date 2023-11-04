@@ -1,4 +1,4 @@
-﻿namespace TimeTable203.Common.Entity.InterfaceProvider
+﻿namespace TimeTable203.Common
 {
     /// <summary>
     /// Интерфейс получения даты

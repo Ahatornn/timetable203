@@ -1,4 +1,4 @@
-﻿namespace TimeTable203.Common.Entity
+﻿namespace TimeTable203.Common.Entity.InterfaceDB
 {
     /// <summary>
     /// Интерфейс создания и модификации записей в хранилище
@@ -8,16 +8,16 @@
         /// <summary>
         /// Добавить новую запись
         /// </summary>
-        void Add<IEntities>(IEntities entiy) where IEntities : class, IEntity;
+        void Add<TEntity>(TEntity entity) where TEntity : class, IEntity;
 
         /// <summary>
         /// Изменить запись
         /// </summary>
-        void Update<IEntities>(IEntities entiy) where IEntities : class, IEntity;
+        void Update<TEntity>(TEntity entity) where TEntity : class, IEntity;
 
         /// <summary>
         /// Удалить запись
         /// </summary>
-        void Delete<IEntities>(IEntities entiy) where IEntities : class, IEntity;
+        void Delete<TEntity>(TEntity entity) where TEntity : class, IEntity;
     }
 }

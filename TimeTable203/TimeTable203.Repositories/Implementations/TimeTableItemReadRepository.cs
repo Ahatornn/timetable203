@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Serilog;
-using TimeTable203.Common.Entity;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Common.Entity.Repositories;
 using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Repositories.Anchors;
-using TimeTable203.Repositories.Contracts.Interface;
+using TimeTable203.Repositories.Contracts;
 
 namespace TimeTable203.Repositories.Implementations
 {
-    public class TimeTableItemReadRepository : ITimeTableItemReadRepository, IReadRepositoryAnchor
+    public class TimeTableItemReadRepository : ITimeTableItemReadRepository, IRepositoryAnchor
     {
         private readonly IDbRead reader;
 

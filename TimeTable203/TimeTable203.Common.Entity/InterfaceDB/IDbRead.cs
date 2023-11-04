@@ -1,4 +1,4 @@
-﻿namespace TimeTable203.Common.Entity
+﻿namespace TimeTable203.Common.Entity.InterfaceDB
 {
     /// <summary>
     /// Интерфейс получения записей из бд

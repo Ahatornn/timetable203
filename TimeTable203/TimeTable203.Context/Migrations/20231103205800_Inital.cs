@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TimeTable203.Context.Migrations
 {
-    public partial class InitBD : Migration
+    public partial class Inital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,12 +14,12 @@ namespace TimeTable203.Context.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DeletedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
@@ -32,16 +32,16 @@ namespace TimeTable203.Context.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Series = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
+                    Series = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
                     IssuedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IssuedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DocumentType = table.Column<int>(type: "int", nullable: false),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DeletedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
@@ -57,9 +57,9 @@ namespace TimeTable203.Context.Migrations
                     EmployeeType = table.Column<int>(type: "int", nullable: false),
                     PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DeletedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
@@ -72,13 +72,13 @@ namespace TimeTable203.Context.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DeletedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
@@ -99,14 +99,13 @@ namespace TimeTable203.Context.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Group_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DeletedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
@@ -131,11 +130,10 @@ namespace TimeTable203.Context.Migrations
                     GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RoomNumber = table.Column<short>(type: "smallint", nullable: false),
                     TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DeletedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
@@ -154,11 +152,25 @@ namespace TimeTable203.Context.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TimeTableItems_Persons_PersonId",
-                        column: x => x.PersonId,
+                        name: "FK_TimeTableItems_Persons_TeacherId",
+                        column: x => x.TeacherId,
                         principalTable: "Persons",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Discipline_Name",
+                table: "Disciplines",
+                column: "Name",
+                unique: true,
+                filter: "DeletedAt is null");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Document_Number_Series",
+                table: "Documents",
+                columns: new[] { "Number", "Series" },
+                unique: true,
+                filter: "DeletedAt is null");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Documents_PersonId",
@@ -171,14 +183,41 @@ namespace TimeTable203.Context.Migrations
                 column: "PersonId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Group_Name",
+                table: "Groups",
+                column: "Name",
+                unique: true,
+                filter: "DeletedAt is null");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Groups_EmployeeId",
                 table: "Groups",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Person_Email",
+                table: "Persons",
+                column: "Email",
+                unique: true,
+                filter: "DeletedAt is null");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Person_Phone",
+                table: "Persons",
+                column: "Phone",
+                unique: true,
+                filter: "DeletedAt is null");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Persons_GroupId",
                 table: "Persons",
                 column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TimeTableItem_StartDate_EndDate",
+                table: "TimeTableItems",
+                columns: new[] { "StartDate", "EndDate" },
+                filter: "DeletedAt is null");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeTableItems_DisciplineId",
@@ -191,9 +230,9 @@ namespace TimeTable203.Context.Migrations
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeTableItems_PersonId",
+                name: "IX_TimeTableItems_TeacherId",
                 table: "TimeTableItems",
-                column: "PersonId");
+                column: "TeacherId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Documents_Persons_PersonId",

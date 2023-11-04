@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Serilog;
-using TimeTable203.Common.Entity;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Common.Entity.Repositories;
 using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Repositories.Anchors;
-using TimeTable203.Repositories.Contracts.Interface;
+using TimeTable203.Repositories.Contracts;
 
 namespace TimeTable203.Repositories.Implementations
 {
-    public class EmployeeReadRepository : IEmployeeReadRepository, IReadRepositoryAnchor
+    public class EmployeeReadRepository : IEmployeeReadRepository, IRepositoryAnchor
     {
 
         private readonly IDbRead reader;
@@ -18,11 +18,14 @@ namespace TimeTable203.Repositories.Implementations
             Log.Information("Инициализирован абстракция IDbReader в классе EmployeeReadRepository");
         }
 
-        Task<List<Employee>> IEmployeeReadRepository.GetAllAsync(CancellationToken cancellationToken)
+        Task<IReadOnlyCollection<Employee>> IEmployeeReadRepository.GetAllAsync(CancellationToken cancellationToken)
             => reader.Read<Employee>()
                 .NotDeletedAt()
                 .OrderBy(x => x.EmployeeType)
-                .ToListAsync(cancellationToken);
+                .ThenBy(x => x.Person!.LastName)
+                .ThenBy(x => x.Person!.FirstName)
+                .ThenBy(x => x.Person!.Patronymic)
+                .ToReadOnlyCollectionAsync(cancellationToken);
 
         Task<Employee?> IEmployeeReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Employee>()
@@ -33,7 +36,17 @@ namespace TimeTable203.Repositories.Implementations
             => reader.Read<Employee>()
                 .NotDeletedAt()
                 .ByIds(ids)
-                .OrderBy(x => x.Id)
                 .ToDictionaryAsync(key => key.Id, cancellation);
+
+        public Task<Dictionary<Guid, Person?>> GetPersonByEmployeeIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
+            => reader.Read<Employee>()
+                .NotDeletedAt()
+                .ByIds(ids)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Person,
+                })
+                .ToDictionaryAsync(key => key.Id, val => val.Person, cancellation);
     }
 }

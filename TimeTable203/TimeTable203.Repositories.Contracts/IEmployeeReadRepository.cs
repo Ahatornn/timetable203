@@ -1,6 +1,6 @@
 ﻿using TimeTable203.Context.Contracts.Models;
 
-namespace TimeTable203.Repositories.Contracts.Interface
+namespace TimeTable203.Repositories.Contracts
 {
     /// <summary>
     /// Репозиторий чтения <see cref="Employee"/>
@@ -10,7 +10,7 @@ namespace TimeTable203.Repositories.Contracts.Interface
         /// <summary>
         /// Получить список всех <see cref="Employee"/>
         /// </summary>
-        Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IReadOnlyCollection<Employee>> GetAllAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// Получить <see cref="Employee"/> по идентификатору
@@ -22,5 +22,9 @@ namespace TimeTable203.Repositories.Contracts.Interface
         /// </summary>
         Task<Dictionary<Guid, Employee>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation);
 
+        /// <summary>
+        /// Получить список <see cref="Person"/> по идентификаторам сотрудников
+        /// </summary>
+        Task<Dictionary<Guid, Person?>> GetPersonByEmployeeIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation);
     }
 }

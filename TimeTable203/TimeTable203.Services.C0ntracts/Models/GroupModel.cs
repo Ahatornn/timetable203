@@ -5,7 +5,6 @@
     /// </summary>
     public class GroupModel
     {
-
         /// <summary>
         /// Идентификатор
         /// </summary>
@@ -24,11 +23,11 @@
         /// <summary>
         /// Студенты группы
         /// </summary>
-        public ICollection<Guid> Students { get; set; }
+        public ICollection<PersonModel>? Students { get; set; }
 
         /// <summary>
         /// <inheritdoc cref="EmployeeModel"/>
         /// </summary>
-        public PersonModel? Employee { get; set; }
+        public PersonModel? ClassroomTeacher { get; set; }
     }
 }

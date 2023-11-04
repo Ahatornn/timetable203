@@ -1,8 +1,7 @@
-﻿using TimeTable203.Common.Entity;
+﻿using TimeTable203.Common;
 using TimeTable203.Common.Entity.InterfaceDB;
-using TimeTable203.Common.Entity.InterfaceProvider;
 
-namespace TimeTable203.Context.DB.Implementations
+namespace TimeTable203.Api.Infrastructures
 {
     public class DbWriterContext : IDbWriterContext
     {

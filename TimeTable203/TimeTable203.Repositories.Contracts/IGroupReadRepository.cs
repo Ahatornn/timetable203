@@ -1,6 +1,6 @@
 ﻿using TimeTable203.Context.Contracts.Models;
 
-namespace TimeTable203.Repositories.Contracts.Interface
+namespace TimeTable203.Repositories.Contracts
 {
 
     /// <summary>
@@ -11,7 +11,7 @@ namespace TimeTable203.Repositories.Contracts.Interface
         /// <summary>
         /// Получить список всех <see cref="Group"/>
         /// </summary>
-        Task<List<Group>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IReadOnlyCollection<Group>> GetAllAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// Получить <see cref="Group"/> по идентификатору

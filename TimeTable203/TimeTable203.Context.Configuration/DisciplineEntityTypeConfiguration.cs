@@ -2,14 +2,15 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TimeTable203.Context.Contracts.Models;
 
-namespace TimeTable203.Context.Configuration.ConfigurationDB
+namespace TimeTable203.Context.Configuration
 {
     public class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration<Discipline>
     {
         public void Configure(EntityTypeBuilder<Discipline> builder)
         {
-            builder.ToTable("TDiscipline");
-
+            builder.ToTable("Disciplines");
+            builder.HasIdAsKey();
+            builder.PropertyAuditConfiguration();
             builder.Property(x => x.Name)
                 .HasMaxLength(200)
                 .IsRequired();
@@ -22,10 +23,8 @@ namespace TimeTable203.Context.Configuration.ConfigurationDB
 
             builder.HasIndex(x => x.Name)
                 .IsUnique()
-                .HasDatabaseName($"IX_{nameof(Discipline)}_" +
-                                 $"{nameof(Discipline.Name)}_" +
-                                 $"{nameof(Discipline.CreatedAt)}")
-                .HasFilter($"{nameof(Discipline.DeletedAt)} is null");
+                .HasFilter($"{nameof(Discipline.DeletedAt)} is null")
+                .HasDatabaseName($"IX_{nameof(Discipline)}_{nameof(Discipline.Name)}");
         }
     }
 }

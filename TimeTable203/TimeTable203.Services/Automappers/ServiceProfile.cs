@@ -30,7 +30,8 @@ namespace TimeTable203.Services.Automappers
                 .ForMember(x => x.Person, next => next.Ignore());
 
             CreateMap<Group, GroupModel>(MemberList.Destination)
-                 .ForMember(x => x.Employee, next => next.Ignore());
+                .ForMember(x => x.Students, next => next.Ignore())
+                .ForMember(x => x.ClassroomTeacher, next => next.Ignore());
 
             CreateMap<TimeTableItem, TimeTableItemModel>(MemberList.Destination)
                 .ForMember(x => x.Group, next => next.Ignore())

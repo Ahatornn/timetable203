@@ -1,5 +1,8 @@
-﻿using TimeTable203.Common.Entity.EntityInterface;
-namespace TimeTable203.Common.Entity
+﻿using System.Collections.ObjectModel;
+using TimeTable203.Common.Entity.EntityInterface;
+using Microsoft.EntityFrameworkCore;
+
+namespace TimeTable203.Common.Entity.Repositories
 {
     /// <summary>
     /// Общие спецификации чтения
@@ -34,6 +37,15 @@ namespace TimeTable203.Common.Entity
         /// </summary>
         public static IQueryable<TEntity> NotDeletedAt<TEntity>(this IQueryable<TEntity> query) where TEntity : class, IEntityAuditDeleted
             => query.Where(x => x.DeletedAt == null);
+
+        /// <summary>
+        /// Возвращает <see cref="IReadOnlyCollection{TEntity}"/>
+        /// </summary>
+        public static Task<IReadOnlyCollection<TEntity>> ToReadOnlyCollectionAsync<TEntity>(this IQueryable<TEntity> query,
+            CancellationToken cancellationToken)
+            => query.ToListAsync(cancellationToken)
+                .ContinueWith(x => new ReadOnlyCollection<TEntity>(x.Result) as IReadOnlyCollection<TEntity>,
+                    cancellationToken);
     }
 }
 

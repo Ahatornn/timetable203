@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace TimeTable203.Context.DB
+namespace TimeTable203.Context
 {
     /// <summary>
     /// Файбрика для создания контекста в DesignTime (Миграции)
@@ -18,7 +18,6 @@ namespace TimeTable203.Context.DB
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             var options = new DbContextOptionsBuilder<TimeTableContext>()
-
                 .UseSqlServer(connectionString)
                 .Options;
 

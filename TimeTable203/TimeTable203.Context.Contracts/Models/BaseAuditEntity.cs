@@ -25,7 +25,7 @@ namespace TimeTable203.Context.Contracts.Models
         /// <summary>
         /// Кем создан
         /// </summary>
-        public string? CreatedBy { get; set; } = string.Empty;
+        public string CreatedBy { get; set; } = string.Empty;
 
         /// <summary>
         /// Когда изменён
@@ -35,7 +35,7 @@ namespace TimeTable203.Context.Contracts.Models
         /// <summary>
         /// Кем изменён
         /// </summary>
-        public string? UpdatedBy { get; set; } = string.Empty;
+        public string UpdatedBy { get; set; } = string.Empty;
 
         /// <summary>
         /// Дата удаления

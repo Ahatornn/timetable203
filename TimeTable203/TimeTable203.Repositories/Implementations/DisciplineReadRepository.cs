@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Serilog;
-using TimeTable203.Common.Entity;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Common.Entity.Repositories;
 using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Repositories.Anchors;
-using TimeTable203.Repositories.Contracts.Interface;
+using TimeTable203.Repositories.Contracts;
 
 namespace TimeTable203.Repositories.Implementations
 {
-    public class DisciplineReadRepository : IDisciplineReadRepository, IReadRepositoryAnchor
+    public class DisciplineReadRepository : IDisciplineReadRepository, IRepositoryAnchor
     {
         private readonly IDbRead reader;
 
@@ -17,11 +17,11 @@ namespace TimeTable203.Repositories.Implementations
             Log.Information("Инициализирован абстракция IDbReader в классе DisciplineReadRepository");
         }
 
-        Task<List<Discipline>> IDisciplineReadRepository.GetAllAsync(CancellationToken cancellationToken)
+        Task<IReadOnlyCollection<Discipline>> IDisciplineReadRepository.GetAllAsync(CancellationToken cancellationToken)
             => reader.Read<Discipline>()
                 .NotDeletedAt()
                 .OrderBy(x => x.Name)
-                .ToListAsync(cancellationToken);
+                .ToReadOnlyCollectionAsync(cancellationToken);
 
         Task<Discipline?> IDisciplineReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Discipline>()

@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TimeTable203.Context.DB;
+using TimeTable203.Context;
 
 #nullable disable
 
 namespace TimeTable203.Context.Migrations
 {
     [DbContext(typeof(TimeTableContext))]
-    [Migration("20231102184527_InitBD")]
-    partial class InitBD
+    [Migration("20231103205800_Inital")]
+    partial class Inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,7 +34,9 @@ namespace TimeTable203.Context.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
@@ -44,17 +46,25 @@ namespace TimeTable203.Context.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Disciplines");
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Discipline_Name")
+                        .HasFilter("DeletedAt is null");
+
+                    b.ToTable("Disciplines", (string)null);
                 });
 
             modelBuilder.Entity("TimeTable203.Context.Contracts.Models.Document", b =>
@@ -67,7 +77,9 @@ namespace TimeTable203.Context.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
@@ -83,26 +95,35 @@ namespace TimeTable203.Context.Migrations
 
                     b.Property<string>("Number")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Series")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("Documents");
+                    b.HasIndex("Number", "Series")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Document_Number_Series")
+                        .HasFilter("DeletedAt is null");
+
+                    b.ToTable("Documents", (string)null);
                 });
 
             modelBuilder.Entity("TimeTable203.Context.Contracts.Models.Employee", b =>
@@ -115,7 +136,9 @@ namespace TimeTable203.Context.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
@@ -130,13 +153,15 @@ namespace TimeTable203.Context.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("TimeTable203.Context.Contracts.Models.Group", b =>
@@ -149,7 +174,9 @@ namespace TimeTable203.Context.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
@@ -162,19 +189,27 @@ namespace TimeTable203.Context.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Groups");
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Group_Name")
+                        .HasFilter("DeletedAt is null");
+
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("TimeTable203.Context.Contracts.Models.Person", b =>
@@ -187,23 +222,22 @@ namespace TimeTable203.Context.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("GroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Group_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LastName")
@@ -215,19 +249,31 @@ namespace TimeTable203.Context.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Person_Email")
+                        .HasFilter("DeletedAt is null");
+
                     b.HasIndex("GroupId");
 
-                    b.ToTable("Persons");
+                    b.HasIndex("Phone")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Person_Phone")
+                        .HasFilter("DeletedAt is null");
+
+                    b.ToTable("Persons", (string)null);
                 });
 
             modelBuilder.Entity("TimeTable203.Context.Contracts.Models.TimeTableItem", b =>
@@ -240,7 +286,9 @@ namespace TimeTable203.Context.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetimeoffset");
@@ -252,9 +300,6 @@ namespace TimeTable203.Context.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid>("GroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<short>("RoomNumber")
@@ -270,7 +315,9 @@ namespace TimeTable203.Context.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
@@ -278,9 +325,13 @@ namespace TimeTable203.Context.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("TeacherId");
 
-                    b.ToTable("TimeTableItems");
+                    b.HasIndex("StartDate", "EndDate")
+                        .HasDatabaseName("IX_TimeTableItem_StartDate_EndDate")
+                        .HasFilter("DeletedAt is null");
+
+                    b.ToTable("TimeTableItems", (string)null);
                 });
 
             modelBuilder.Entity("TimeTable203.Context.Contracts.Models.Document", b =>
@@ -341,7 +392,7 @@ namespace TimeTable203.Context.Migrations
 
                     b.HasOne("TimeTable203.Context.Contracts.Models.Person", "Person")
                         .WithMany("TimeTableItem")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("TeacherId");
 
                     b.Navigation("Discipline");
 

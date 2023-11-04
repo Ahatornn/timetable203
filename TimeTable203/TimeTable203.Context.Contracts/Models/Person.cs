@@ -8,51 +8,51 @@
         /// <summary>
         /// Фамилия
         /// </summary>
-        public string LastName { get; set; }
+        public string LastName { get; set; } = string.Empty;
 
         /// <summary>
         /// Имя
         /// </summary>
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = string.Empty;
 
         /// <summary>
         /// Отчество
         /// </summary>
-        public string? Patronymic { get; set; } = string.Empty;
+        public string? Patronymic { get; set; }
 
         /// <summary>
         /// Адрес электронной почты
         /// </summary>
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         /// <summary>
         /// Телефон
         /// </summary>
-        public string Phone { get; set; }
+        public string Phone { get; set; } = string.Empty;
 
         /// <summary>
         /// сваязь один ко многим
         /// </summary>
-        public Guid Group_id { get; set; }
+        public Guid GroupId { get; set; }
 
         /// <summary>
         /// сваязь один ко многим
         /// </summary>
-        public Group Group { get; set; }
+        public Group? Group { get; set; }
 
         /// <summary>
-        /// нужна для связи один ко многим по вторичному ключю <see cref="TimeTableItem"/>
+        /// нужна для связи один ко многим по вторичному ключу <see cref="TimeTableItem"/>
         /// </summary>
-        public ICollection<TimeTableItem> TimeTableItem { get; set; }
+        public ICollection<TimeTableItem>? TimeTableItem { get; set; }
 
         /// <summary>
-        /// нужна для связи один ко многим по вторичному ключю <see cref="Employee"/>
+        /// нужна для связи один ко многим по вторичному ключу <see cref="Employee"/>
         /// </summary>
-        public ICollection<Employee> Employee { get; set; }
+        public ICollection<Employee>? Employee { get; set; }
 
         /// <summary>
-        /// нужна для связи один ко многим по вторичному ключю <see cref="Document"/>
+        /// нужна для связи один ко многим по вторичному ключу <see cref="Document"/>
         /// </summary>
-        public ICollection<Document> Document { get; set; }
+        public ICollection<Document>? Document { get; set; }
     }
 }

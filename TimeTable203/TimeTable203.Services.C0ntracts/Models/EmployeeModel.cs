@@ -6,14 +6,13 @@ namespace TimeTable203.Services.Contracts.Models
     /// Модель работников
     /// </summary>
     public class EmployeeModel
-
     {
         /// <summary>
         /// Идентификатор
         /// </summary>
         public Guid Id { get; set; }
 
-        /// <inheritdoc cref="EmployeeTypes"/>
+        /// <inheritdoc cref="EmployeeTypesModel"/>
         public EmployeeTypesModel EmployeeType { get; set; }
 
         /// <summary>

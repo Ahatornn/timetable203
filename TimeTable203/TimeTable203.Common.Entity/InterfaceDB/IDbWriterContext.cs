@@ -1,5 +1,4 @@
-﻿using TimeTable203.Common.Entity.InterfaceProvider;
-namespace TimeTable203.Common.Entity.InterfaceDB
+﻿namespace TimeTable203.Common.Entity.InterfaceDB
 {
     /// <summary>
     /// Определяет контекст репозитория записи сущностей

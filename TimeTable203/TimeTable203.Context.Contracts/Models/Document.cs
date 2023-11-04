@@ -10,22 +10,22 @@ namespace TimeTable203.Context.Contracts.Models
         /// <summary>
         /// Номер документа
         /// </summary>
-        public string Number { get; set; }
+        public string Number { get; set; } = string.Empty;
 
         /// <summary>
         /// Серия документа
         /// </summary>
-        public string Series { get; set; }
+        public string Series { get; set; } = string.Empty;
 
         /// <summary>
         /// Дата выдачи
         /// </summary>
-        public DateTime IssuedAt { get; set; } = DateTime.Now;
+        public DateTime IssuedAt { get; set; } = DateTime.MinValue;
 
         /// <summary>
         /// Кем выдан
         /// </summary>
-        public string? IssuedBy { get; set; } = string.Empty;
+        public string? IssuedBy { get; set; }
 
         /// <summary>
         /// Тип документов
@@ -40,6 +40,6 @@ namespace TimeTable203.Context.Contracts.Models
         /// <summary>
         /// Делаем связь один ко многим
         /// </summary>
-        public Person Person { get; set; }
+        public Person? Person { get; set; }
     }
 }
