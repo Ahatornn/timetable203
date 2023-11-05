@@ -33,17 +33,12 @@
         /// <summary>
         /// сваязь один ко многим
         /// </summary>
-        public Guid GroupId { get; set; }
+        public Guid? GroupId { get; set; }
 
         /// <summary>
         /// сваязь один ко многим
         /// </summary>
         public Group? Group { get; set; }
-
-        /// <summary>
-        /// нужна для связи один ко многим по вторичному ключу <see cref="TimeTableItem"/>
-        /// </summary>
-        public ICollection<TimeTableItem>? TimeTableItem { get; set; }
 
         /// <summary>
         /// нужна для связи один ко многим по вторичному ключу <see cref="Employee"/>

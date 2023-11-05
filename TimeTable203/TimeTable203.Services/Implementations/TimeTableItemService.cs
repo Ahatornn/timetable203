@@ -11,20 +11,19 @@ namespace TimeTable203.Services.Implementations
         private readonly ITimeTableItemReadRepository timeTableItemReadRepository;
         private readonly IDisciplineReadRepository disciplineReadRepository;
         private readonly IGroupReadRepository groupReadRepository;
-
-        private readonly IPersonReadRepository personReadRepository;
+        private readonly IEmployeeReadRepository employeeReadRepository;
         private readonly IMapper mapper;
 
         public TimeTableItemService(ITimeTableItemReadRepository timeTableItemReadRepository,
             IDisciplineReadRepository disciplineReadRepository,
             IGroupReadRepository groupReadRepository,
-            IPersonReadRepository personReadRepository,
+            IEmployeeReadRepository employeeReadRepository,
             IMapper mapper)
         {
             this.timeTableItemReadRepository = timeTableItemReadRepository;
             this.disciplineReadRepository = disciplineReadRepository;
             this.groupReadRepository = groupReadRepository;
-            this.personReadRepository = personReadRepository;
+            this.employeeReadRepository = employeeReadRepository;
             this.mapper = mapper;
         }
 
@@ -40,7 +39,7 @@ namespace TimeTable203.Services.Implementations
 
             var disciplineDictionary = await disciplineReadRepository.GetByIdsAsync(disciplineIds, cancellationToken);
             var groupDictionary = await groupReadRepository.GetByIdsAsync(groupIds, cancellationToken);
-            var teacherDictionary = await personReadRepository.GetByIdsAsync(teacherIds, cancellationToken);
+            var teacherDictionary = await employeeReadRepository.GetPersonByEmployeeIdsAsync(teacherIds, cancellationToken);
 
             var listTimeTableItemModel = new List<TimeTableItemModel>();
             foreach (var timeTableItem in timeTableItems)
@@ -90,9 +89,9 @@ namespace TimeTable203.Services.Implementations
                : null;
             if (item.TeacherId != null)
             {
-                var person = await personReadRepository.GetByIdAsync((Guid)item.TeacherId, cancellationToken);
-                timeTable.Teacher = person != null
-                  ? mapper.Map<PersonModel>(person)
+                var personDictionary = await employeeReadRepository.GetPersonByEmployeeIdsAsync(new[] { item.TeacherId.Value }, cancellationToken);
+                timeTable.Teacher = personDictionary.TryGetValue(item.TeacherId.Value, out var teacher)
+                  ? mapper.Map<PersonModel>(teacher)
                   : null;
             }
             return timeTable;

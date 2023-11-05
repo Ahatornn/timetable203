@@ -235,7 +235,7 @@ namespace TimeTable203.Context.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("GroupId")
+                    b.Property<Guid?>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LastName")
@@ -367,9 +367,7 @@ namespace TimeTable203.Context.Migrations
                 {
                     b.HasOne("TimeTable203.Context.Contracts.Models.Group", "Group")
                         .WithMany("Students")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GroupId");
 
                     b.Navigation("Group");
                 });
@@ -388,7 +386,7 @@ namespace TimeTable203.Context.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TimeTable203.Context.Contracts.Models.Person", "Person")
+                    b.HasOne("TimeTable203.Context.Contracts.Models.Employee", "Teacher")
                         .WithMany("TimeTableItem")
                         .HasForeignKey("TeacherId");
 
@@ -396,7 +394,7 @@ namespace TimeTable203.Context.Migrations
 
                     b.Navigation("Group");
 
-                    b.Navigation("Person");
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("TimeTable203.Context.Contracts.Models.Discipline", b =>
@@ -407,6 +405,8 @@ namespace TimeTable203.Context.Migrations
             modelBuilder.Entity("TimeTable203.Context.Contracts.Models.Employee", b =>
                 {
                     b.Navigation("Group");
+
+                    b.Navigation("TimeTableItem");
                 });
 
             modelBuilder.Entity("TimeTable203.Context.Contracts.Models.Group", b =>
@@ -421,8 +421,6 @@ namespace TimeTable203.Context.Migrations
                     b.Navigation("Document");
 
                     b.Navigation("Employee");
-
-                    b.Navigation("TimeTableItem");
                 });
 #pragma warning restore 612, 618
         }

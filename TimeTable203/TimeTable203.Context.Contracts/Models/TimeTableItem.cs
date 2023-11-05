@@ -48,7 +48,7 @@
         /// <summary>
         /// Преподаватель
         /// </summary>
-        public Person? Person { get; set; }
+        public Employee? Teacher { get; set; }
 
     }
 }

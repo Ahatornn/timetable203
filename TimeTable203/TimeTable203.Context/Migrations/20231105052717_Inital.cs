@@ -101,7 +101,7 @@ namespace TimeTable203.Context.Migrations
                     Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -115,8 +115,7 @@ namespace TimeTable203.Context.Migrations
                         name: "FK_Persons_Groups_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Groups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -146,16 +145,16 @@ namespace TimeTable203.Context.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_TimeTableItems_Employees_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_TimeTableItems_Groups_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TimeTableItems_Persons_TeacherId",
-                        column: x => x.TeacherId,
-                        principalTable: "Persons",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

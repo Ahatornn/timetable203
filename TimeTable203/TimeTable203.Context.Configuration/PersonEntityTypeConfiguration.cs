@@ -19,20 +19,12 @@ namespace TimeTable203.Context.Configuration
             builder
                 .HasMany(x => x.Document)
                 .WithOne(x => x.Person)
-                .HasForeignKey(x => x.PersonId)
-                .IsRequired();
+                .HasForeignKey(x => x.PersonId);
 
             builder
                .HasMany(x => x.Employee)
                .WithOne(x => x.Person)
-               .HasForeignKey(x => x.PersonId)
-               .IsRequired();
-
-            builder
-             .HasMany(x => x.TimeTableItem)
-             .WithOne(x => x.Person)
-             .HasForeignKey(x => x.TeacherId);
-
+               .HasForeignKey(x => x.PersonId);
 
             builder.HasIndex(x => x.Email)
                 .IsUnique()

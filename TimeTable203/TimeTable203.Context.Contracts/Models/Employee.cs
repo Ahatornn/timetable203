@@ -24,5 +24,10 @@ namespace TimeTable203.Context.Contracts.Models
         /// Делаем связь один ко многим
         /// </summary>
         public Person? Person { get; set; }
+
+        /// <summary>
+        /// нужна для связи один ко многим по вторичному ключу <see cref="TimeTableItem"/>
+        /// </summary>
+        public ICollection<TimeTableItem>? TimeTableItem { get; set; }
     }
 }

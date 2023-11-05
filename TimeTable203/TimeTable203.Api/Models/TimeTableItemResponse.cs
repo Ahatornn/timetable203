@@ -24,12 +24,12 @@
         /// <summary>
         /// Наименование дисциплины
         /// </summary>
-        public string NameDiscipline { get; set; } = string.Empty;
+        public string? NameDiscipline { get; set; }
 
         /// <summary>
         /// Наименование группы
         /// </summary>
-        public string NameGroup { get; set; } = string.Empty;
+        public string? NameGroup { get; set; }
 
         /// <summary>
         /// Номер аудитории
@@ -39,11 +39,11 @@
         /// <summary>
         /// Преподаватель ФИО
         /// </summary>
-        public string NamePerson { get; set; } = string.Empty;
+        public string? TeacherName { get; set; }
 
         /// <summary>
         /// Телефон
         /// </summary>
-        public string Phone { get; set; } = string.Empty;
+        public string? Phone { get; set; }
     }
 }

@@ -18,14 +18,12 @@ namespace TimeTable203.Context.Configuration
             builder
               .HasMany(x => x.Students)
               .WithOne(x => x.Group)
-              .HasForeignKey(x => x.GroupId)
-              .IsRequired();
+              .HasForeignKey(x => x.GroupId);
 
             builder
              .HasMany(x => x.TimeTableItem)
              .WithOne(x => x.Group)
-             .HasForeignKey(x => x.GroupId)
-             .IsRequired();
+             .HasForeignKey(x => x.GroupId);
 
             builder.HasIndex(x => x.Name)
                 .IsUnique()

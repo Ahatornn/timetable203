@@ -18,8 +18,7 @@ namespace TimeTable203.Context.Configuration
             builder
                 .HasMany(x => x.TimeTableItem)
                 .WithOne(x => x.Discipline)
-                .HasForeignKey(x => x.DisciplineId)
-                .IsRequired();
+                .HasForeignKey(x => x.DisciplineId);
 
             builder.HasIndex(x => x.Name)
                 .IsUnique()

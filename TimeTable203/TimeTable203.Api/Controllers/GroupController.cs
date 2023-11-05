@@ -34,7 +34,7 @@ namespace TimeTable203.Api.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await groupService.GetAllAsync(cancellationToken);
-            return Ok(mapper.Map<GroupResponse>(result));
+            return Ok(mapper.Map<IEnumerable<GroupResponse>>(result));
         }
 
         /// <summary>
