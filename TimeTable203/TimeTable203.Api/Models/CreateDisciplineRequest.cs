@@ -1,15 +1,10 @@
-﻿namespace TimeTable203.Services.Contracts.Models
+﻿namespace TimeTable203.Api.Models
 {
     /// <summary>
-    /// Модель дисциплины
+    /// Модель запроса создания дисциплины
     /// </summary>
-    public class DisciplineModel
+    public class CreateDisciplineRequest
     {
-        /// <summary>
-        /// Идентификатор
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         /// Наименование
         /// </summary>

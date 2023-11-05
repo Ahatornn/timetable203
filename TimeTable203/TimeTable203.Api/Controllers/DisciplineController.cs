@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
 using TimeTable203.Services.Contracts.Interface;
+using TimeTable203.Services.Contracts.Models;
 
 namespace TimeTable203.Api.Controllers
 {
@@ -42,16 +43,44 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var result = await disciplineService.GetByIdAsync(id, cancellationToken);
-            if (result == null)
-            {
-                return NotFound($"Не удалось найти дисциплину с идентификатором {id}");
-            }
-
             return Ok(mapper.Map<DisciplineResponse>(result));
+        }
+
+        /// <summary>
+        /// Создаёт новую дисциплину
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Create(CreateDisciplineRequest request, CancellationToken cancellationToken)
+        {
+            var result = await disciplineService.AddAsync(request.Name, request.Description, cancellationToken);
+            return Ok(mapper.Map<DisciplineResponse>(result));
+        }
+
+        /// <summary>
+        /// Редактирует имеющуюся дисциплину
+        /// </summary>
+        [HttpPut]
+        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Edit(DisciplineRequest request, CancellationToken cancellationToken)
+        {
+            var model = mapper.Map<DisciplineModel>(request);
+            var result = await disciplineService.EditAsync(model, cancellationToken);
+            return Ok(mapper.Map<DisciplineResponse>(result));
+        }
+
+        /// <summary>
+        /// Удаляет имеющуюся дисциплину
+        /// </summary>
+        [HttpDelete("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            await disciplineService.DeleteAsync(id, cancellationToken);
+            return Ok();
         }
     }
 }

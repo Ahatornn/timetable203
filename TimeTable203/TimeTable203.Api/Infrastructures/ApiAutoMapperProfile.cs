@@ -25,6 +25,7 @@ namespace TimeTable203.Api.Infrastructures
                 .ReverseMap();
 
             CreateMap<DisciplineModel, DisciplineResponse>(MemberList.Destination);
+            CreateMap<DisciplineRequest, DisciplineModel> (MemberList.Destination);
 
             CreateMap<DocumentModel, DocumentResponse>(MemberList.Destination)
                 .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Person != null
