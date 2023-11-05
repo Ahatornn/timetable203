@@ -1,30 +1,52 @@
-﻿using TimeTable203.Context.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Common.Entity.Repositories;
 using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Repositories.Anchors;
-using TimeTable203.Repositories.Contracts.Interface;
+using TimeTable203.Repositories.Contracts;
 
 namespace TimeTable203.Repositories.Implementations
 {
-    public class EmployeeReadRepository : IEmployeeReadRepository, IReadRepositoryAnchor
+    public class EmployeeReadRepository : IEmployeeReadRepository, IRepositoryAnchor
     {
-        private readonly ITimeTableContext context;
 
-        public EmployeeReadRepository(ITimeTableContext context)
+        private readonly IDbRead reader;
+
+        public EmployeeReadRepository(IDbRead reader)
         {
-            this.context = context;
+            this.reader = reader;
+            Log.Information("Инициализирован абстракция IDbReader в классе EmployeeReadRepository");
         }
 
-        Task<List<Employee>> IEmployeeReadRepository.GetAllAsync(CancellationToken cancellationToken)
-            => Task.FromResult(context.Employees.Where(x => x.DeletedAt == null)
+        Task<IReadOnlyCollection<Employee>> IEmployeeReadRepository.GetAllAsync(CancellationToken cancellationToken)
+            => reader.Read<Employee>()
+                .NotDeletedAt()
                 .OrderBy(x => x.EmployeeType)
-                .ToList());
+                .ThenBy(x => x.Person!.LastName)
+                .ThenBy(x => x.Person!.FirstName)
+                .ThenBy(x => x.Person!.Patronymic)
+                .ToReadOnlyCollectionAsync(cancellationToken);
 
         Task<Employee?> IEmployeeReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
-            => Task.FromResult(context.Employees.FirstOrDefault(x => x.Id == id));
+            => reader.Read<Employee>()
+                .ById(id)
+                .FirstOrDefaultAsync(cancellationToken);
 
         Task<Dictionary<Guid, Employee>> IEmployeeReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
-            => Task.FromResult(context.Employees.Where(x => x.DeletedAt == null && ids.Contains(x.Id))
-                .OrderBy(x => x.Id)
-                .ToDictionary(key => key.Id));
+            => reader.Read<Employee>()
+                .NotDeletedAt()
+                .ByIds(ids)
+                .ToDictionaryAsync(key => key.Id, cancellation);
+
+        public Task<Dictionary<Guid, Person?>> GetPersonByEmployeeIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
+            => reader.Read<Employee>()
+                .NotDeletedAt()
+                .ByIds(ids)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Person,
+                })
+                .ToDictionaryAsync(key => key.Id, val => val.Person, cancellation);
     }
 }

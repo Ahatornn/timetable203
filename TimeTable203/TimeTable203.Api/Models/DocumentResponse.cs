@@ -1,5 +1,4 @@
-﻿using TimeTable203.Api.Models.Enums;
-namespace TimeTable203.Api.Models
+﻿namespace TimeTable203.Api.Models
 {
     /// <summary>
     /// Модель ответа сущности документов

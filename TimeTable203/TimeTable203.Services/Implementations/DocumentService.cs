@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using TimeTable203.Repositories.Contracts.Interface;
-using TimeTable203.Services.Anchors;
+using Serilog;
+using TimeTable203.Repositories.Contracts;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 
@@ -28,11 +28,13 @@ namespace TimeTable203.Services.Implementations
             var result = new List<DocumentModel>();
             foreach (var document in documents)
             {
-                persons.TryGetValue(document.PersonId, out var person);
+                if (!persons.TryGetValue(document.PersonId, out var person))
+                {
+                    Log.Warning("Запрос вернул null(Person) IDocumentService.GetAllAsync");
+                    continue;
+                }
                 var doc = mapper.Map<DocumentModel>(document);
-                doc.Person = person != null
-                    ? mapper.Map<PersonModel>(person)
-                    : null;
+                doc.Person = mapper.Map<PersonModel>(person);
                 result.Add(doc);
             }
             return result;
@@ -43,6 +45,7 @@ namespace TimeTable203.Services.Implementations
             var item = await documentReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)
             {
+                Log.Warning("Запрос вернул null IDocumentService.GetByIdAsync");
                 return null;
             }
 
@@ -52,6 +55,7 @@ namespace TimeTable203.Services.Implementations
             document.Person = person != null
                 ? mapper.Map<PersonModel>(person)
                 : null;
+
             return document;
         }
     }

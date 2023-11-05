@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
 using TimeTable203.Services.Contracts.Interface;
 
@@ -13,30 +14,35 @@ namespace TimeTable203.Api.Controllers
     public class TimeTableItemController : Controller
     {
         private readonly ITimeTableItemService timeTableItemService;
+        private readonly IMapper mapper;
 
-        public TimeTableItemController(ITimeTableItemService timeTableItemService)
+        /// <summary>
+        /// Инициализирует новый экземпляр <see cref="TimeTableItemController"/>
+        /// </summary>
+        public TimeTableItemController(ITimeTableItemService timeTableItemService,
+            IMapper mapper)
         {
             this.timeTableItemService = timeTableItemService;
+            this.mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+        /// <summary>
+        /// Получить список всех занятий на указанный день
+        /// </summary>
+        [HttpGet("{targetDate:datetime}")]
+        [ProducesResponseType(typeof(IEnumerable<TimeTableItemResponse>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetByDate(DateTime targetDate, CancellationToken cancellationToken)
         {
-            var result = await timeTableItemService.GetAllAsync(cancellationToken);
-            return Ok(result.Select(x => new TimeTableItemResponse
-            {
-                Id = x.Id,
-                StartDate = x.StartDate,
-                EndDate = x.EndDate,
-                NameDiscipline = x.Discipline?.Name ?? string.Empty,
-                NameGroup = x.Group?.Name ?? string.Empty,
-                RoomNumber = x.RoomNumber,
-                NamePerson = $"{x.Teacher?.LastName} {x.Teacher?.FirstName} {x.Teacher?.Patronymic}",
-                Phone = x.Teacher?.Phone ?? string.Empty
-            }));
+            var items = await timeTableItemService.GetAllAsync(targetDate, cancellationToken);
+            return Ok(mapper.Map<IEnumerable<TimeTableItemResponse>>(items));
         }
 
+        /// <summary>
+        /// Получает участника по идентификатору
+        /// </summary>
         [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var item = await timeTableItemService.GetByIdAsync(id, cancellationToken);
@@ -45,18 +51,7 @@ namespace TimeTable203.Api.Controllers
                 return NotFound($"Не удалось найти элемент расписания с идентификатором {id}");
             }
 
-            return Ok(new TimeTableItemResponse
-            {
-
-                Id = item.Id,
-                StartDate = item.StartDate,
-                EndDate = item.EndDate,
-                NameDiscipline = item.Discipline?.Name ?? string.Empty,
-                NameGroup = item.Group?.Name ?? string.Empty,
-                RoomNumber = item.RoomNumber,
-                NamePerson = $"{item.Teacher?.LastName} {item.Teacher?.FirstName} {item.Teacher?.Patronymic}",
-                Phone = item.Teacher?.Phone ?? string.Empty
-            });
+            return Ok(mapper.Map<TimeTableItemResponse>(item));
         }
     }
 }

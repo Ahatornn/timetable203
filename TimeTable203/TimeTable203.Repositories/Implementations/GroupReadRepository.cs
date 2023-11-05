@@ -1,30 +1,38 @@
-﻿using TimeTable203.Context.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Common.Entity.Repositories;
 using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Repositories.Contracts.Interface;
-using TimeTable203.Repositories.Anchors;
+using TimeTable203.Repositories.Contracts;
 
 namespace TimeTable203.Repositories.Implementations
 {
-    public class GroupReadRepository : IGroupReadRepository, IReadRepositoryAnchor
+    public class GroupReadRepository : IGroupReadRepository, IRepositoryAnchor
     {
-        private readonly ITimeTableContext context;
+        private readonly IDbRead reader;
 
-        public GroupReadRepository(ITimeTableContext context)
+        public GroupReadRepository(IDbRead reader)
         {
-            this.context = context;
+            this.reader = reader;
+            Log.Information("Инициализирован абстракция IDbReader в классе GroupReadRepository");
         }
 
-        Task<List<Group>> IGroupReadRepository.GetAllAsync(CancellationToken cancellationToken)
-            => Task.FromResult(context.Groups.Where(x => x.DeletedAt == null)
+        Task<IReadOnlyCollection<Group>> IGroupReadRepository.GetAllAsync(CancellationToken cancellationToken)
+            => reader.Read<Group>()
+                .NotDeletedAt()
                 .OrderBy(x => x.Name)
-                .ToList());
+                .ToReadOnlyCollectionAsync(cancellationToken);
 
         Task<Group?> IGroupReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
-            => Task.FromResult(context.Groups.FirstOrDefault(x => x.Id == id));
+            => reader.Read<Group>()
+                .ById(id)
+                .FirstOrDefaultAsync(cancellationToken);
 
         Task<Dictionary<Guid, Group>> IGroupReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
-            => Task.FromResult(context.Groups.Where(x => x.DeletedAt == null && ids.Contains(x.Id))
+            => reader.Read<Group>()
+                .NotDeletedAt()
+                .ByIds(ids)
                 .OrderBy(x => x.Name)
-                .ToDictionary(key => key.Id));
+                .ToDictionaryAsync(key => key.Id, cancellation);
     }
 }

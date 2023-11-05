@@ -1,25 +1,35 @@
-﻿using TimeTable203.Context.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Common.Entity.Repositories;
 using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Repositories.Contracts.Interface;
-using TimeTable203.Repositories.Anchors;
+using TimeTable203.Repositories.Contracts;
 
 namespace TimeTable203.Repositories.Implementations
 {
-    public class TimeTableItemReadRepository : ITimeTableItemReadRepository, IReadRepositoryAnchor
+    public class TimeTableItemReadRepository : ITimeTableItemReadRepository, IRepositoryAnchor
     {
-        private readonly ITimeTableContext context;
+        private readonly IDbRead reader;
 
-        public TimeTableItemReadRepository(ITimeTableContext context)
+        public TimeTableItemReadRepository(IDbRead reader)
         {
-            this.context = context;
+            this.reader = reader;
+            Log.Information("Инициализирован абстракция IDbReader в классе TimeTableItemReadRepository");
         }
 
-        Task<List<TimeTableItem>> ITimeTableItemReadRepository.GetAllAsync(CancellationToken cancellationToken)
-            => Task.FromResult(context.TimeTableItems.Where(x => x.DeletedAt == null)
+        Task<IReadOnlyCollection<TimeTableItem>> ITimeTableItemReadRepository.GetAllByDateAsync(DateTimeOffset startDate,
+            DateTimeOffset endDate,
+            CancellationToken cancellationToken)
+            => reader.Read<TimeTableItem>()
+                .NotDeletedAt()
+                .Where(x => x.StartDate >= startDate &&
+                            x.EndDate <= endDate)
                 .OrderBy(x => x.StartDate)
-                .ToList());
+                .ToReadOnlyCollectionAsync(cancellationToken);
 
         Task<TimeTableItem?> ITimeTableItemReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
-            => Task.FromResult(context.TimeTableItems.FirstOrDefault(x => x.Id == id));
+            => reader.Read<TimeTableItem>()
+                .ById(id)
+                .FirstOrDefaultAsync(cancellationToken);
     }
 }

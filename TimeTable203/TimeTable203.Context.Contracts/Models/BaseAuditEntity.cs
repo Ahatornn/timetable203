@@ -1,15 +1,21 @@
-﻿namespace TimeTable203.Context.Contracts.Models
+﻿using TimeTable203.Common.Entity;
+using TimeTable203.Common.Entity.EntityInterface;
+
+namespace TimeTable203.Context.Contracts.Models
 {
     /// <summary>
     /// Базовый класс с аудитом
     /// </summary>
-    public abstract class BaseAuditEntity
+    public abstract class BaseAuditEntity : IEntity,
+        IEntityWithId,
+        IEntityAuditCreated,
+        IEntityAuditUpdated,
+        IEntityAuditDeleted
     {
         /// <summary>
         /// Идентификатор
         /// </summary>
         public Guid Id { get; set; }
-
 
         /// <summary>
         /// Когда создан

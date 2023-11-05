@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using TimeTable203.Repositories.Contracts.Interface;
-using TimeTable203.Services.Anchors;
+using TimeTable203.Repositories.Contracts;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 

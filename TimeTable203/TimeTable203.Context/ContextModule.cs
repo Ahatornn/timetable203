@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using TimeTable203.Common;
+using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Context.Contracts;
-using TimeTable203.Context.DB;
 
 namespace TimeTable203.Context
 {
@@ -9,7 +10,10 @@ namespace TimeTable203.Context
     {
         public override void CreateModule(IServiceCollection service)
         {
-            service.AddSingleton<ITimeTableContext, TimeTableContext>();
+            service.TryAddScoped<ITimeTableContext>(provider => provider.GetRequiredService<TimeTableContext>());
+            service.TryAddScoped<IDbRead>(provider => provider.GetRequiredService<TimeTableContext>());
+            service.TryAddScoped<IDbWriter>(provider => provider.GetRequiredService<TimeTableContext>());
+            service.TryAddScoped<IUnitOfWork>(provider => provider.GetRequiredService<TimeTableContext>());
         }
     }
 }

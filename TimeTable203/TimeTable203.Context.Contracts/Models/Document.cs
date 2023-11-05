@@ -20,21 +20,26 @@ namespace TimeTable203.Context.Contracts.Models
         /// <summary>
         /// Дата выдачи
         /// </summary>
-        public DateTime IssuedAt { get; set; }
+        public DateTime IssuedAt { get; set; } = DateTime.MinValue;
 
         /// <summary>
         /// Кем выдан
         /// </summary>
-        public string IssuedBy { get; set; } = string.Empty;
+        public string? IssuedBy { get; set; }
 
         /// <summary>
         /// Тип документов
         /// </summary>
-        public DocumentTypes DocumentType { get; set; }
+        public DocumentTypes DocumentType { get; set; } = DocumentTypes.None;
 
         /// <summary>
         /// Идентификатор <see cref="Person"/>
         /// </summary>
         public Guid PersonId { get; set; }
+
+        /// <summary>
+        /// Делаем связь один ко многим
+        /// </summary>
+        public Person? Person { get; set; }
     }
 }

@@ -13,16 +13,26 @@
         /// <summary>
         /// Описание группы
         /// </summary>
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
         /// <summary>
-        /// Студенты группы
+        /// Студенты группы связь один ко многим
         /// </summary>
-        public ICollection<Guid> Students { get; set; } = Array.Empty<Guid>();
+        public ICollection<Person>? Students { get; set; }
+
+        /// <summary>
+        /// нужна для связи один ко многим
+        /// </summary>
+        public ICollection<TimeTableItem>? TimeTableItem { get; set; }
 
         /// <summary>
         /// Классный руководитель
         /// </summary>
         public Guid? EmployeeId { get; set; }
+
+        /// <summary>
+        /// Делаем связь один ко многим
+        /// </summary>
+        public Employee? Employee { get; set; }
     }
 }

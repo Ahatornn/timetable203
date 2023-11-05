@@ -13,6 +13,6 @@
         /// <summary>
         /// Преподаватель
         /// </summary>
-        Teacher
+        Teacher,
     }
 }

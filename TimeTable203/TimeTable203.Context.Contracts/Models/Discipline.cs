@@ -13,6 +13,11 @@
         /// <summary>
         /// Описание
         /// </summary>
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
+
+        /// <summary>
+        /// нужна для связи один ко многим по вторичному ключу <see cref="TimeTableItem"/>
+        /// </summary>
+        public ICollection<TimeTableItem>? TimeTableItem { get; set; }
     }
 }

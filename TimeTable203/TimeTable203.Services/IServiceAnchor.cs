@@ -1,4 +1,4 @@
-﻿namespace TimeTable203.Services.Anchors
+﻿namespace TimeTable203.Services
 {
     /// <summary>
     /// Интерфейсный маркер, для регистрации Service

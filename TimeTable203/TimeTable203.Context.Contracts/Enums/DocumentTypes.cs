@@ -18,6 +18,6 @@
         /// <summary>
         /// Свидетельство о рождении
         /// </summary>
-        BirthCertificate
+        BirthCertificate,
     }
 }

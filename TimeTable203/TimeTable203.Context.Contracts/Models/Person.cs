@@ -18,8 +18,7 @@
         /// <summary>
         /// Отчество
         /// </summary>
-        public string Patronymic { get; set; } = string.Empty;
-
+        public string? Patronymic { get; set; }
 
         /// <summary>
         /// Адрес электронной почты
@@ -30,5 +29,25 @@
         /// Телефон
         /// </summary>
         public string Phone { get; set; } = string.Empty;
+
+        /// <summary>
+        /// сваязь один ко многим
+        /// </summary>
+        public Guid? GroupId { get; set; }
+
+        /// <summary>
+        /// сваязь один ко многим
+        /// </summary>
+        public Group? Group { get; set; }
+
+        /// <summary>
+        /// нужна для связи один ко многим по вторичному ключу <see cref="Employee"/>
+        /// </summary>
+        public ICollection<Employee>? Employee { get; set; }
+
+        /// <summary>
+        /// нужна для связи один ко многим по вторичному ключу <see cref="Document"/>
+        /// </summary>
+        public ICollection<Document>? Document { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using TimeTable203.Repositories.Contracts.Interface;
-using TimeTable203.Services.Anchors;
+using Serilog;
+using TimeTable203.Repositories.Contracts;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 
@@ -28,11 +28,13 @@ namespace TimeTable203.Services.Implementations
             var result = new List<EmployeeModel>();
             foreach (var employee in employees)
             {
-                persons.TryGetValue(employee.PersonId, out var person);
+                if (!persons.TryGetValue(employee.PersonId, out var person))
+                {
+                    Log.Warning("Запрос вернул null(Person) IEmployeeService.GetAllAsync");
+                    continue;
+                }
                 var empl = mapper.Map<EmployeeModel>(employee);
-                empl.Person = person != null
-                    ? mapper.Map<PersonModel>(person)
-                    : null;
+                empl.Person = mapper.Map<PersonModel>(person);
                 result.Add(empl);
             }
 
@@ -44,6 +46,7 @@ namespace TimeTable203.Services.Implementations
             var item = await employeeReadRepository.GetByIdAsync(id, cancellationToken);
             if (item == null)
             {
+                Log.Warning("Запрос вернул null IEmployeeService.GetByIdAsync");
                 return null;
             }
             var person = await personReadRepository.GetByIdAsync(item.PersonId, cancellationToken);

@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
 using TimeTable203.Services.Contracts.Interface;
 
 namespace TimeTable203.Api.Controllers
 {
     /// <summary>
-    /// CRUD контроллер по работу с Группой
+    /// CRUD контроллер по работы с Группой
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -13,28 +14,35 @@ namespace TimeTable203.Api.Controllers
     public class GroupController : Controller
     {
         private readonly IGroupService groupService;
+        private readonly IMapper mapper;
 
-        public GroupController(IGroupService groupService)
+        /// <summary>
+        /// Инициализирует новый экземпляр <see cref="GroupController"/>
+        /// </summary>
+        public GroupController(IGroupService groupService,
+            IMapper mapper)
         {
             this.groupService = groupService;
+            this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Получить список всех групп
+        /// </summary>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<GroupResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await groupService.GetAllAsync(cancellationToken);
-            return Ok(result.Select(x => new GroupResponse
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                Students = x.Students,
-                FIO = $"{x.Employee?.LastName} {x.Employee?.FirstName} {x.Employee?.Patronymic}",
-                MobilePhone = x.Employee?.Phone ?? string.Empty
-            }));
+            return Ok(mapper.Map<IEnumerable<GroupResponse>>(result));
         }
 
+        /// <summary>
+        /// Получает группу по идентификатору
+        /// </summary>
         [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var item = await groupService.GetByIdAsync(id, cancellationToken);
@@ -43,15 +51,7 @@ namespace TimeTable203.Api.Controllers
                 return NotFound($"Не удалось найти группу с идентификатором {id}");
             }
 
-            return Ok(new GroupResponse
-            {
-                Id = item.Id,
-                Name = item.Name,
-                Description = item.Description,
-                Students = item.Students,
-                FIO = $"{item.Employee?.LastName} {item.Employee?.FirstName} {item.Employee?.Patronymic}",
-                MobilePhone = item.Employee?.Phone ?? string.Empty
-            });
+            return Ok(mapper.Map<GroupResponse>(item));
         }
     }
 }
