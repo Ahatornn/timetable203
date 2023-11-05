@@ -7,7 +7,7 @@ namespace TimeTable203.Services.Contracts.Interface
         /// <summary>
         /// Получить список всех <see cref="TimeTableItemModel"/>
         /// </summary>
-        Task<IEnumerable<TimeTableItemModel>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<TimeTableItemModel>> GetAllAsync(DateTimeOffset targetDate, CancellationToken cancellationToken);
 
         /// <summary>
         /// Получить <see cref="TimeTableItemModel"/> по идентификатору

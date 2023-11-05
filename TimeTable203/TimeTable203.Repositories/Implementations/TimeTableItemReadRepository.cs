@@ -17,11 +17,15 @@ namespace TimeTable203.Repositories.Implementations
             Log.Information("Инициализирован абстракция IDbReader в классе TimeTableItemReadRepository");
         }
 
-        Task<List<TimeTableItem>> ITimeTableItemReadRepository.GetAllAsync(CancellationToken cancellationToken)
+        Task<IReadOnlyCollection<TimeTableItem>> ITimeTableItemReadRepository.GetAllByDateAsync(DateTimeOffset startDate,
+            DateTimeOffset endDate,
+            CancellationToken cancellationToken)
             => reader.Read<TimeTableItem>()
                 .NotDeletedAt()
+                .Where(x => x.StartDate >= startDate &&
+                            x.EndDate <= endDate)
                 .OrderBy(x => x.StartDate)
-                .ToListAsync(cancellationToken);
+                .ToReadOnlyCollectionAsync(cancellationToken);
 
         Task<TimeTableItem?> ITimeTableItemReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<TimeTableItem>()

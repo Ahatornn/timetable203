@@ -31,9 +31,10 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpGet("{targetDate:datetime}")]
         [ProducesResponseType(typeof(IEnumerable<TimeTableItemResponse>), StatusCodes.Status200OK)]
-        public Task<IActionResult> GetByDate(DateTime targetDate, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetByDate(DateTime targetDate, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var items = await timeTableItemService.GetAllAsync(targetDate, cancellationToken);
+            return Ok(mapper.Map<IEnumerable<TimeTableItemResponse>>(items));
         }
 
         /// <summary>
@@ -42,9 +43,15 @@ namespace TimeTable203.Api.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var item = await timeTableItemService.GetByIdAsync(id, cancellationToken);
+            if (item == null)
+            {
+                return NotFound($"Не удалось найти элемент расписания с идентификатором {id}");
+            }
+
+            return Ok(mapper.Map<TimeTableItemResponse>(item));
         }
     }
 }

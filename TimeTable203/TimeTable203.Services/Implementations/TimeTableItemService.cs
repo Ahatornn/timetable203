@@ -28,30 +28,35 @@ namespace TimeTable203.Services.Implementations
             this.mapper = mapper;
         }
 
-        async Task<IEnumerable<TimeTableItemModel>> ITimeTableItemService.GetAllAsync(CancellationToken cancellationToken)
+        async Task<IEnumerable<TimeTableItemModel>> ITimeTableItemService.GetAllAsync(DateTimeOffset targetDate, CancellationToken cancellationToken)
         {
-            var timeTableItems = await timeTableItemReadRepository.GetAllAsync(cancellationToken);
+            var timeTableItems = await timeTableItemReadRepository.GetAllByDateAsync(targetDate.Date, targetDate.Date.AddDays(1).AddMilliseconds(-1), cancellationToken);
 
-            var disciplineId = timeTableItems.Select(x => x.DisciplineId).Distinct();
-            var groupId = timeTableItems.Select(x => x.GroupId).Distinct();
+            var disciplineIds = timeTableItems.Select(x => x.DisciplineId).Distinct();
+            var groupIds = timeTableItems.Select(x => x.GroupId).Distinct();
+            var teacherIds = timeTableItems.Where(x => x.TeacherId.HasValue)
+                .Select(x => x.TeacherId!.Value)
+                .Distinct();
 
-            var disciplines = await disciplineReadRepository.GetByIdsAsync(disciplineId, cancellationToken);
-            var groups = await groupReadRepository.GetByIdsAsync(groupId, cancellationToken);
+            var disciplineDictionary = await disciplineReadRepository.GetByIdsAsync(disciplineIds, cancellationToken);
+            var groupDictionary = await groupReadRepository.GetByIdsAsync(groupIds, cancellationToken);
+            var teacherDictionary = await personReadRepository.GetByIdsAsync(teacherIds, cancellationToken);
 
             var listTimeTableItemModel = new List<TimeTableItemModel>();
             foreach (var timeTableItem in timeTableItems)
             {
-                if (!disciplines.TryGetValue(timeTableItem.DisciplineId, out var discipline))
+                if (!disciplineDictionary.TryGetValue(timeTableItem.DisciplineId, out var discipline))
                 {
                     Log.Warning("Запрос вернул null(Discipline) ITimeTableItemService.GetAllAsync");
                     continue;
                 }
-                if (!groups.TryGetValue(timeTableItem.GroupId, out var group))
+                if (!groupDictionary.TryGetValue(timeTableItem.GroupId, out var group))
                 {
                     Log.Warning("Запрос вернул null(Discipline) ITimeTableItemService.GetAllAsync");
                     continue;
                 }
-                if (timeTableItem.TeacherId == null)
+                if (timeTableItem.TeacherId == null ||
+                    !teacherDictionary.TryGetValue(timeTableItem.TeacherId.Value, out var teacher))
                 {
                     Log.Warning("Запрос вернул null(TeacherId) ITimeTableItemService.GetAllAsync");
                     continue;
@@ -59,9 +64,8 @@ namespace TimeTable203.Services.Implementations
                 var timeTable = mapper.Map<TimeTableItemModel>(timeTableItem);
                 timeTable.Discipline = mapper.Map<DisciplineModel>(discipline);
                 timeTable.Group = mapper.Map<GroupModel>(group);
+                timeTable.Teacher = mapper.Map<PersonModel>(teacher);
 
-                var person = await personReadRepository.GetByIdAsync(timeTableItem.TeacherId!.Value, cancellationToken);
-                timeTable.Teacher = mapper.Map<PersonModel>(person);
                 listTimeTableItemModel.Add(timeTable);
             }
 

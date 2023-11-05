@@ -8,15 +8,14 @@ namespace TimeTable203.Repositories.Contracts
     public interface ITimeTableItemReadRepository
     {
         /// <summary>
-        /// Получить список всех <see cref="TimeTableItem"/>
+        /// Получить список всех <see cref="TimeTableItem"/> входящих в период между <see langword="startDate"/> и <see langword="endDate"/> включительно
         /// </summary>
-        Task<List<TimeTableItem>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IReadOnlyCollection<TimeTableItem>> GetAllByDateAsync(DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken);
 
         /// <summary>
         /// Получить <see cref="TimeTableItem"/> по идентификатору
         /// </summary>
         Task<TimeTableItem?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-
     }
 
 }

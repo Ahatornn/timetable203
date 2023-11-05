@@ -43,8 +43,8 @@ namespace TimeTable203.Api.Infrastructures
                     : string.Empty));
 
             CreateMap<PersonModel, PersonResponse>(MemberList.Destination);
-
             CreateMap<GroupModel, GroupResponse>(MemberList.Destination);
+            CreateMap<TimeTableItemModel, TimeTableItemResponse>(MemberList.Destination);
         }
     }
 }
