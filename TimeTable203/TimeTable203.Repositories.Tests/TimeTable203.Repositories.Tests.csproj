@@ -7,14 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
-    <PackageReference Include="FluentAssertions" Version="6.8.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\TimeTable203.Context.Tests\TimeTable203.Context.Tests.csproj" />
     <ProjectReference Include="..\TimeTable203.Repositories\TimeTable203.Repositories.csproj" />
   </ItemGroup>
 
