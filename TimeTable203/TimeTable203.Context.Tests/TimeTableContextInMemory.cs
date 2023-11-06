@@ -10,6 +10,9 @@ namespace TimeTable203.Context.Tests
     /// </summary>
     public abstract class TimeTableContextInMemory : IDisposable
     {
+        readonly protected CancellationToken CancellationToken;
+        private readonly CancellationTokenSource cancellationTokenSource;
+
         /// <summary>
         /// Контекст <see cref="TimeTableContext"/>
         /// </summary>
@@ -25,6 +28,8 @@ namespace TimeTable203.Context.Tests
 
         protected TimeTableContextInMemory()
         {
+            cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken = cancellationTokenSource.Token;
             var optionsBuilder = new DbContextOptionsBuilder<TimeTableContext>()
                 .UseInMemoryDatabase($"MoneronTests{Guid.NewGuid()}")
                 .ConfigureWarnings(w => w.Ignore(InMemoryEventId.TransactionIgnoredWarning));
@@ -34,6 +39,8 @@ namespace TimeTable203.Context.Tests
         /// <inheritdoc cref="IDisposable"/>
         public void Dispose()
         {
+            cancellationTokenSource.Cancel();
+            cancellationTokenSource.Dispose();
             try
             {
                 Context.Database.EnsureDeletedAsync().Wait();
