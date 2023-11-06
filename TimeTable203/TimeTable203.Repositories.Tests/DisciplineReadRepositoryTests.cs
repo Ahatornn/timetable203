@@ -110,5 +110,30 @@ namespace TimeTable203.Repositories.Tests
                 .NotBeNull()
                 .And.BeEmpty();
         }
+
+        /// <summary>
+        /// Получение списка дисциплин по идентификаторам возвращает данные
+        /// </summary>
+        [Fact]
+        public async Task GetByIdsShouldReturnValue()
+        {
+            //Arrange
+            var target1 = TestDataGenerator.Discipline();
+            var target2 = TestDataGenerator.Discipline(x => x.DeletedAt = DateTimeOffset.UtcNow);
+            var target3 = TestDataGenerator.Discipline();
+            var target4 = TestDataGenerator.Discipline();
+            await Context.Disciplines.AddRangeAsync(target1, target2, target3, target4);
+            await Context.SaveChangesAsync(CancellationToken);
+
+            // Act
+            var result = await disciplineReadRepository.GetByIdsAsync(new[] { target1.Id, target2.Id, target4.Id }, CancellationToken);
+
+            // Assert
+            result.Should()
+                .NotBeNull()
+                .And.HaveCount(2)
+                .And.ContainKey(target1.Id)
+                .And.ContainKey(target4.Id);
+        }
     }
 }
