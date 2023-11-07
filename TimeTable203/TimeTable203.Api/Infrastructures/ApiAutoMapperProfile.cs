@@ -46,6 +46,7 @@ namespace TimeTable203.Api.Infrastructures
                 .ForMember(x => x.MobilePhone, opt => opt.MapFrom(x => x.Person != null
                     ? x.Person.Phone
                     : string.Empty));
+            CreateMap<CreateEmployeeRequest, EmployeeModel>(MemberList.Destination);
 
             CreateMap<PersonModel, PersonResponse>(MemberList.Destination);
             CreateMap<CreatePersonRequest, PersonRequestModel>(MemberList.Destination);

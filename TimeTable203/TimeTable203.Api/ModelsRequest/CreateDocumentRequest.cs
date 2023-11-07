@@ -1,4 +1,4 @@
-﻿using TimeTable203.Context.Contracts.Enums;
+﻿using TimeTable203.Api.Models.Enums;
 
 namespace TimeTable203.Api.ModelsRequest
 {
@@ -27,7 +27,7 @@ namespace TimeTable203.Api.ModelsRequest
         /// <summary>
         /// Тип документов
         /// </summary>
-        public DocumentTypes DocumentType { get; set; } = DocumentTypes.None;
+        public DocumentTypesResponse DocumentType { get; set; } = DocumentTypesResponse.None;
 
     }
 }

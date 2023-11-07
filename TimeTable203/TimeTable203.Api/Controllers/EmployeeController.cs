@@ -1,9 +1,11 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Extensions;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.ModelsRequest;
 using TimeTable203.Services.Contracts.Interface;
-
+using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Context.Contracts.Enums;
 namespace TimeTable203.Api.Controllers
 {
 
@@ -54,6 +56,41 @@ namespace TimeTable203.Api.Controllers
             }
 
             return Ok(mapper.Map<EmployeeResponse>(item));
+        }
+
+        /// <summary>
+        /// Создаёт нового рабочего
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Create([Required] Guid person_id, CreateEmployeeRequest request, CancellationToken cancellationToken)
+        {
+            var result = await employeeService.AddAsync(person_id, (EmployeeTypes)request.EmployeeType, cancellationToken);
+            return Ok(mapper.Map<EmployeeResponse>(result));
+        }
+
+        /// <summary>
+        /// Редактирует имеющищегося рабочего
+        /// </summary>
+        [HttpPut]
+        [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Edit([Required] Guid id, CreateEmployeeRequest request, CancellationToken cancellationToken, Guid id_person = default)
+        {
+            var model = mapper.Map<EmployeeModel>(request);
+            model.Id = id;
+            var result = await employeeService.EditAsync(id_person, model, cancellationToken);
+            return Ok(mapper.Map<EmployeeResponse>(result));
+        }
+
+        /// <summary>
+        /// Удаляет имеющийегося рабочего по id
+        /// </summary>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)
+        {
+            await employeeService.DeleteAsync(id, cancellationToken);
+            return Ok();
         }
     }
 }

@@ -8,6 +8,7 @@ using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
+using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
 {
@@ -31,20 +32,7 @@ namespace TimeTable203.Services.Implementations
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-        async public Task<Document> GetPersonByIdAsync(Guid id_person, Document item, CancellationToken cancellationToken)
-        {
-            if (id_person != Guid.Empty)
-            {
-                var targetPerson = await personReadRepository.GetByIdAsync(id_person, cancellationToken);
-                if (targetPerson == null)
-                {
-                    throw new TimeTableEntityNotFoundException<Person>(id_person);
-                }
-                item.PersonId = id_person;
-                item.Person = targetPerson;
-            }
-            return item;
-        }
+
         async Task<IEnumerable<DocumentModel>> IDocumentService.GetAllAsync(CancellationToken cancellationToken)
         {
             var documents = await documentReadRepository.GetAllAsync(cancellationToken);
@@ -76,9 +64,7 @@ namespace TimeTable203.Services.Implementations
             var person = await personReadRepository.GetByIdAsync(item.PersonId, cancellationToken);
 
             var document = mapper.Map<DocumentModel>(item);
-            document.Person = person != null
-                ? mapper.Map<PersonModel>(person)
-                : null;
+            document.Person = mapper.Map<PersonModel>(person);
 
             return document;
         }
@@ -95,7 +81,13 @@ namespace TimeTable203.Services.Implementations
                 DocumentType = document.DocumentType,
             };
 
-            item = await GetPersonByIdAsync(id_person, item, cancellationToken);
+            var personValidate = new PersonHelpValidate(personReadRepository);
+            var person = await personValidate.GetPersonByIdAsync(id_person, cancellationToken);
+            if (person != null)
+            {
+                item.PersonId = person.Id;
+                item.Person = person;
+            }
 
             documentWriteRepository.Add(item);
             await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -116,7 +108,13 @@ namespace TimeTable203.Services.Implementations
             targetDocument.IssuedBy = source.IssuedBy;
             targetDocument.DocumentType = (DocumentTypes)source.DocumentType;
 
-            targetDocument = await GetPersonByIdAsync(id_person, targetDocument, cancellationToken);
+            var personValidate = new PersonHelpValidate(personReadRepository);
+            var person = await personValidate.GetPersonByIdAsync(id_person, cancellationToken);
+            if (person != null)
+            {
+                targetDocument.PersonId = person.Id;
+                targetDocument.Person = person;
+            }
 
             documentWriteRepository.Update(targetDocument);
             await unitOfWork.SaveChangesAsync(cancellationToken);
