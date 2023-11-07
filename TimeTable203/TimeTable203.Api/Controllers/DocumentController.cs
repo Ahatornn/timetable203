@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.ModelsRequest;
 using TimeTable203.Services.Contracts.Interface;
+using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
+using TimeTable203.Services.Implementations;
 
 namespace TimeTable203.Api.Controllers
 {
@@ -62,6 +66,42 @@ namespace TimeTable203.Api.Controllers
         public Task<IActionResult> GetForPerson(Guid id, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Создаёт новый документ
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Create(CreateDocumentRequest request, CancellationToken cancellationToken)
+        {
+            var documentRequestModel = mapper.Map<DocumentRequestModel>(request);
+            var result = await documentService.AddAsync(documentRequestModel, cancellationToken);
+            return Ok(mapper.Map<DocumentResponse>(result));
+        }
+
+        /// <summary>
+        /// Редактирует имеющийся документ
+        /// </summary>
+        [HttpPut]
+        [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Edit(Guid id, CreateDocumentRequest request, CancellationToken cancellationToken)
+        {
+            var model = mapper.Map<DocumentModel>(request);
+            model.Id = id;
+            var result = await documentService.EditAsync(model, cancellationToken);
+            return Ok(mapper.Map<DocumentResponse>(result));
+        }
+
+        /// <summary>
+        /// Удаляет имеющийся документ по id
+        /// </summary>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            await documentService.DeleteAsync(id, cancellationToken);
+            return Ok();
         }
     }
 }

@@ -2,8 +2,10 @@
 using AutoMapper.Extensions.EnumMapping;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Enums;
+using TimeTable203.Api.ModelsRequest;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.Models.Enums;
+using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Api.Infrastructures
 {
@@ -25,7 +27,7 @@ namespace TimeTable203.Api.Infrastructures
                 .ReverseMap();
 
             CreateMap<DisciplineModel, DisciplineResponse>(MemberList.Destination);
-            CreateMap<DisciplineRequest, DisciplineModel> (MemberList.Destination);
+            CreateMap<CreateDisciplineRequest, DisciplineModel>(MemberList.Destination);
 
             CreateMap<DocumentModel, DocumentResponse>(MemberList.Destination)
                 .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Person != null
@@ -34,6 +36,8 @@ namespace TimeTable203.Api.Infrastructures
                 .ForMember(x => x.MobilePhone, opt => opt.MapFrom(x => x.Person != null
                     ? x.Person.Phone
                     : string.Empty));
+            CreateMap<CreateDocumentRequest, DocumentRequestModel>(MemberList.Destination);
+            CreateMap<DocumentRequestModel, DocumentModel>(MemberList.Destination);
 
             CreateMap<EmployeeModel, EmployeeResponse>(MemberList.Destination)
                 .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Person != null

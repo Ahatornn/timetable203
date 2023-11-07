@@ -1,4 +1,4 @@
-﻿namespace TimeTable203.Api.Models
+﻿namespace TimeTable203.Api.ModelsRequest
 {
     /// <summary>
     /// Модель запроса создания дисциплины

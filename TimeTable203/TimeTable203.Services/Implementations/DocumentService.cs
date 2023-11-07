@@ -1,23 +1,34 @@
 ﻿using AutoMapper;
 using Serilog;
+using TimeTable203.Context.Contracts.Enums;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts;
+using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Services.Implementations
 {
     public class DocumentService : IDocumentService, IServiceAnchor
     {
         private readonly IDocumentReadRepository documentReadRepository;
+        private readonly IDocumentWriteRepository documentWriteRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IPersonReadRepository personReadRepository;
         private readonly IMapper mapper;
 
         public DocumentService(IDocumentReadRepository documentReadRepository,
+            IDocumentWriteRepository documentWriteRepository,
+            IUnitOfWork unitOfWork,
             IPersonReadRepository personReadRepository,
             IMapper mapper)
         {
             this.documentReadRepository = documentReadRepository;
             this.personReadRepository = personReadRepository;
+            this.documentWriteRepository = documentWriteRepository;
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
 
@@ -57,6 +68,70 @@ namespace TimeTable203.Services.Implementations
                 : null;
 
             return document;
+        }
+
+        async Task<DocumentModel> IDocumentService.AddAsync(DocumentRequestModel document, CancellationToken cancellationToken)
+        {
+            var item = new Document
+            {
+                Id = Guid.NewGuid(),
+                Number = document.Number,
+                Series = document.Series,
+                IssuedAt = document.IssuedAt,
+                IssuedBy = document.IssuedBy,
+                DocumentType = document.DocumentType,
+                PersonId = document.PersonId,
+            };
+            documentWriteRepository.Add(item);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            return mapper.Map<DocumentModel>(item);
+        }
+
+        async Task<DocumentModel> IDocumentService.EditAsync(DocumentModel source, CancellationToken cancellationToken)
+        {
+            var targetDocument = await documentReadRepository.GetByIdAsync(source.Id, cancellationToken);
+            if (targetDocument == null)
+            {
+                throw new TimeTableEntityNotFoundException<Document>(source.Id);
+            }
+
+            targetDocument.Number = source.Number;
+            targetDocument.Series = source.Series;
+            targetDocument.IssuedAt = source.IssuedAt;
+            targetDocument.IssuedBy = source.IssuedBy;
+            targetDocument.DocumentType = (DocumentTypes)source.DocumentType;
+
+            if (source.Person?.Id == null)
+            {
+                throw new TimeTableInvalidOperationException($"У документа отсутствует Person!");
+            }
+
+            var targetPerson = await personReadRepository.GetByIdAsync(source.Person.Id, cancellationToken);
+            if (targetPerson == null)
+            {
+                throw new TimeTableEntityNotFoundException<Person>(source.Person.Id);
+            }
+
+            targetDocument.PersonId = source.Person.Id;
+            documentWriteRepository.Update(targetDocument);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            return mapper.Map<DocumentModel>(targetDocument);
+        }
+
+        async Task IDocumentService.DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var targetDocument = await documentReadRepository.GetByIdAsync(id, cancellationToken);
+            if (targetDocument == null)
+            {
+                throw new TimeTableEntityNotFoundException<Document>(id);
+            }
+            if (targetDocument.DeletedAt.HasValue)
+            {
+                throw new TimeTableInvalidOperationException($"Документ с идентификатором {id} уже удален");
+            }
+
+            documentWriteRepository.Delete(targetDocument);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 }

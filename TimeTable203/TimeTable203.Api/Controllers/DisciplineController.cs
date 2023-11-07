@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.ModelsRequest;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 
@@ -65,9 +66,10 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit(DisciplineRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(Guid id, CreateDisciplineRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<DisciplineModel>(request);
+            model.Id = id;
             var result = await disciplineService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<DisciplineResponse>(result));
         }
