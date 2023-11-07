@@ -31,7 +31,20 @@ namespace TimeTable203.Services.Implementations
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-
+        async public Task<Document> GetPersonByIdAsync(Guid id_person, Document item, CancellationToken cancellationToken)
+        {
+            if (id_person != Guid.Empty)
+            {
+                var targetPerson = await personReadRepository.GetByIdAsync(id_person, cancellationToken);
+                if (targetPerson == null)
+                {
+                    throw new TimeTableEntityNotFoundException<Person>(id_person);
+                }
+                item.PersonId = id_person;
+                item.Person = targetPerson;
+            }
+            return item;
+        }
         async Task<IEnumerable<DocumentModel>> IDocumentService.GetAllAsync(CancellationToken cancellationToken)
         {
             var documents = await documentReadRepository.GetAllAsync(cancellationToken);
@@ -70,7 +83,7 @@ namespace TimeTable203.Services.Implementations
             return document;
         }
 
-        async Task<DocumentModel> IDocumentService.AddAsync(DocumentRequestModel document, CancellationToken cancellationToken)
+        async Task<DocumentModel> IDocumentService.AddAsync(Guid id_person, DocumentRequestModel document, CancellationToken cancellationToken)
         {
             var item = new Document
             {
@@ -80,14 +93,16 @@ namespace TimeTable203.Services.Implementations
                 IssuedAt = document.IssuedAt,
                 IssuedBy = document.IssuedBy,
                 DocumentType = document.DocumentType,
-                PersonId = document.PersonId,
             };
+
+            item = await GetPersonByIdAsync(id_person, item, cancellationToken);
+
             documentWriteRepository.Add(item);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<DocumentModel>(item);
         }
 
-        async Task<DocumentModel> IDocumentService.EditAsync(DocumentModel source, CancellationToken cancellationToken)
+        async Task<DocumentModel> IDocumentService.EditAsync(Guid id_person, DocumentModel source, CancellationToken cancellationToken)
         {
             var targetDocument = await documentReadRepository.GetByIdAsync(source.Id, cancellationToken);
             if (targetDocument == null)
@@ -101,18 +116,8 @@ namespace TimeTable203.Services.Implementations
             targetDocument.IssuedBy = source.IssuedBy;
             targetDocument.DocumentType = (DocumentTypes)source.DocumentType;
 
-            if (source.Person?.Id == null)
-            {
-                throw new TimeTableInvalidOperationException($"У документа отсутствует Person!");
-            }
+            targetDocument = await GetPersonByIdAsync(id_person, targetDocument, cancellationToken);
 
-            var targetPerson = await personReadRepository.GetByIdAsync(source.Person.Id, cancellationToken);
-            if (targetPerson == null)
-            {
-                throw new TimeTableEntityNotFoundException<Person>(source.Person.Id);
-            }
-
-            targetDocument.PersonId = source.Person.Id;
             documentWriteRepository.Update(targetDocument);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<DocumentModel>(targetDocument);

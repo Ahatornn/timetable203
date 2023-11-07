@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.ModelsRequest;
@@ -47,7 +48,7 @@ namespace TimeTable203.Api.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
             var item = await documentService.GetByIdAsync(id, cancellationToken);
             if (item == null)
@@ -63,7 +64,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpGet("person/{id:guid}")]
         [ProducesResponseType(typeof(IEnumerable<DocumentResponse>), StatusCodes.Status200OK)]
-        public Task<IActionResult> GetForPerson(Guid id, CancellationToken cancellationToken)
+        public Task<IActionResult> GetForPerson([Required] Guid id, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
@@ -73,10 +74,10 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create(CreateDocumentRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create([Required] Guid person_id, CreateDocumentRequest request, CancellationToken cancellationToken)
         {
             var documentRequestModel = mapper.Map<DocumentRequestModel>(request);
-            var result = await documentService.AddAsync(documentRequestModel, cancellationToken);
+            var result = await documentService.AddAsync(person_id, documentRequestModel, cancellationToken);
             return Ok(mapper.Map<DocumentResponse>(result));
         }
 
@@ -85,11 +86,12 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit(Guid id, CreateDocumentRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit([Required] Guid id, CreateDocumentRequest request, CancellationToken cancellationToken, Guid id_person = default)
         {
-            var model = mapper.Map<DocumentModel>(request);
+            var modelRequest = mapper.Map<DocumentRequestModel>(request);
+            var model = mapper.Map<DocumentModel>(modelRequest);
             model.Id = id;
-            var result = await documentService.EditAsync(model, cancellationToken);
+            var result = await documentService.EditAsync(id_person, model, cancellationToken);
             return Ok(mapper.Map<DocumentResponse>(result));
         }
 
@@ -98,7 +100,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)
         {
             await documentService.DeleteAsync(id, cancellationToken);
             return Ok();

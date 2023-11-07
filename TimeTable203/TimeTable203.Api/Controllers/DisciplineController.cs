@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.ModelsRequest;
@@ -44,7 +45,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
             var result = await disciplineService.GetByIdAsync(id, cancellationToken);
             return Ok(mapper.Map<DisciplineResponse>(result));
@@ -66,7 +67,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit(Guid id, CreateDisciplineRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit([Required] Guid id, CreateDisciplineRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<DisciplineModel>(request);
             model.Id = id;
@@ -79,7 +80,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)
         {
             await disciplineService.DeleteAsync(id, cancellationToken);
             return Ok();

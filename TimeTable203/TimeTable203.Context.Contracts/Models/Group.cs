@@ -23,7 +23,7 @@
         /// <summary>
         /// нужна для связи один ко многим
         /// </summary>
-        public ICollection<TimeTableItem>? TimeTableItem { get; set; }
+        public ICollection<TimeTableItem> TimeTableItem { get; set; }
 
         /// <summary>
         /// Классный руководитель

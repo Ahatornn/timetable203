@@ -13,7 +13,8 @@ builder.Services.GetSwaggerDocument();
 builder.Services.AddDependencies();
 
 var conString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContextFactory<TimeTableContext>(options => options.UseSqlServer(conString), ServiceLifetime.Scoped);
+builder.Services.AddDbContextFactory<TimeTableContext>(options => options.UseSqlServer(conString),
+    ServiceLifetime.Scoped);
 
 var app = builder.Build();
 
