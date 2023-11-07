@@ -18,6 +18,6 @@
         /// <summary>
         /// нужна для связи один ко многим по вторичному ключу <see cref="TimeTableItem"/>
         /// </summary>
-        public virtual ICollection<TimeTableItem> TimeTableItem { get; set; }
+        public ICollection<TimeTableItem> TimeTableItem { get; set; }
     }
 }

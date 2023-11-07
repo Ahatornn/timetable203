@@ -1,7 +1,11 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.ModelsRequest;
 using TimeTable203.Services.Contracts.Interface;
+using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Implementations;
 
 namespace TimeTable203.Api.Controllers
 {
@@ -52,6 +56,41 @@ namespace TimeTable203.Api.Controllers
             }
 
             return Ok(mapper.Map<GroupResponse>(item));
+        }
+
+        /// <summary>
+        /// Создаёт новую группу
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Create([Required] Guid id_teacher, CreateGroupRequest request, CancellationToken cancellationToken)
+        {
+            var result = await groupService.AddAsync(id_teacher, request.Name, request.Description, cancellationToken);
+            return Ok(mapper.Map<GroupResponse>(result));
+        }
+
+        /// <summary>
+        /// Редактирует имеющуюся дисциплину
+        /// </summary>
+        [HttpPut]
+        [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Edit([Required] Guid id_teacher, CreateDisciplineRequest request, CancellationToken cancellationToken)
+        {
+            var model = mapper.Map<GroupModel>(request);
+            model.Id = id_teacher;
+            var result = await groupService.EditAsync(id_teacher, model, cancellationToken);
+            return Ok(mapper.Map<GroupResponse>(result));
+        }
+
+        /// <summary>
+        /// Удаляет имеющуюся дисциплину
+        /// </summary>
+        [HttpDelete("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)
+        {
+            await groupService.DeleteAsync(id, cancellationToken);
+            return Ok();
         }
     }
 }

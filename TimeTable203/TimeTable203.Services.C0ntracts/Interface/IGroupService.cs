@@ -13,5 +13,20 @@ namespace TimeTable203.Services.Contracts.Interface
         /// Получить <see cref="GroupModel"/> по идентификатору
         /// </summary>
         Task<GroupModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Добавляет новую группу
+        /// </summary>
+        Task<GroupModel> AddAsync(Guid id_teacher, string name, string description, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Редактирует существующую группу
+        /// </summary>
+        Task<GroupModel> EditAsync(Guid id_teacher, GroupModel source, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Удаляет существующую группу
+        /// </summary>
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }
