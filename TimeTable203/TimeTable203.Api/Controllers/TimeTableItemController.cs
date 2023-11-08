@@ -47,7 +47,7 @@ namespace TimeTable203.Api.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
             var item = await timeTableItemService.GetByIdAsync(id, cancellationToken);
             if (item == null)
