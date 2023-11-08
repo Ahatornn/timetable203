@@ -75,7 +75,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit([Required] Guid id, CreateDocumentRequest request, CancellationToken cancellationToken, Guid id_discipline = default, Guid id_group = default, Guid id_teacher = default)
+        public async Task<IActionResult> Edit([Required] Guid id, CreateTimeTableItemRequest request, CancellationToken cancellationToken, Guid id_discipline = default, Guid id_group = default, Guid id_teacher = default)
         {
             var modelRequest = mapper.Map<TimeTableItemRequestModel>(request);
             var model = mapper.Map<TimeTableItemModel>(modelRequest);
