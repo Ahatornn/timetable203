@@ -63,27 +63,27 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create([Required] Guid id_teacher, CreateGroupRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(Guid id_teacher, CreateGroupRequest request, CancellationToken cancellationToken)
         {
             var result = await groupService.AddAsync(id_teacher, request.Name, request.Description, cancellationToken);
             return Ok(mapper.Map<GroupResponse>(result));
         }
 
         /// <summary>
-        /// Редактирует имеющуюся дисциплину
+        /// Редактирует имеющуюся группу
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit([Required] Guid id_teacher, CreateDisciplineRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit([Required] Guid id_group, CreateGroupRequest request, CancellationToken cancellationToken, Guid id_teacher = default)
         {
             var model = mapper.Map<GroupModel>(request);
-            model.Id = id_teacher;
+            model.Id = id_group;
             var result = await groupService.EditAsync(id_teacher, model, cancellationToken);
             return Ok(mapper.Map<GroupResponse>(result));
         }
 
         /// <summary>
-        /// Удаляет имеющуюся дисциплину
+        /// Удаляет имеющуюся группу
         /// </summary>
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

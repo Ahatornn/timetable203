@@ -21,6 +21,11 @@ namespace TimeTable203.Services.Contracts.Interface
         Task<PersonModel> AddAsync(PersonRequestModel person, CancellationToken cancellationToken);
 
         /// <summary>
+        /// Изменяет у персоны группу
+        /// </summary>
+        Task<PersonModel> UpdateGroupAsync(Guid id, Guid id_group, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Редактирует существующую персону
         /// </summary>
         Task<PersonModel> EditAsync(PersonModel source, CancellationToken cancellationToken);

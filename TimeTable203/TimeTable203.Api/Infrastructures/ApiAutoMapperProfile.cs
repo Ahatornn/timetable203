@@ -53,6 +53,8 @@ namespace TimeTable203.Api.Infrastructures
             CreateMap<PersonRequestModel, PersonModel>(MemberList.Destination);
 
             CreateMap<GroupModel, GroupResponse>(MemberList.Destination);
+            CreateMap<CreateGroupRequest, GroupModel>(MemberList.Destination);
+
             CreateMap<TimeTableItemModel, TimeTableItemResponse>(MemberList.Destination)
                 .ForMember(x => x.NameDiscipline, opt => opt.MapFrom(x => x.Discipline!.Name))
                 .ForMember(x => x.NameGroup, opt => opt.MapFrom(x => x.Group!.Name))

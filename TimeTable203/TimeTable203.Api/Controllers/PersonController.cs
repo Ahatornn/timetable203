@@ -6,7 +6,6 @@ using TimeTable203.Api.ModelsRequest;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
-using TimeTable203.Services.Implementations;
 
 namespace TimeTable203.Api.Controllers
 {
@@ -82,6 +81,17 @@ namespace TimeTable203.Api.Controllers
             var model = mapper.Map<PersonModel>(modelRequest);
             model.Id = id;
             var result = await personService.EditAsync(model, cancellationToken);
+            return Ok(mapper.Map<PersonResponse>(result));
+        }
+
+        /// <summary>
+        /// Редактирует имеющуюся персону изменяя/добавляя его в группу
+        /// </summary>
+        [HttpPost("Group")]
+        [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> EditGroup([Required] Guid id, [Required] Guid id_group, CancellationToken cancellationToken)
+        {
+            var result = await personService.UpdateGroupAsync(id, id_group, cancellationToken);
             return Ok(mapper.Map<PersonResponse>(result));
         }
 

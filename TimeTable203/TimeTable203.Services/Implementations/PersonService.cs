@@ -6,6 +6,7 @@ using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
+using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
 {
@@ -14,16 +15,20 @@ namespace TimeTable203.Services.Implementations
         private readonly IPersonReadRepository personReadRepository;
         private readonly IPersonWriteRepository personWriteRepository;
         private readonly IUnitOfWork unitOfWork;
+
+        private readonly IGroupReadRepository groupReadRepository;
         private readonly IMapper mapper;
 
         public PersonService(IPersonReadRepository personReadRepository,
             IPersonWriteRepository personWriteRepository,
             IUnitOfWork unitOfWork,
+            IGroupReadRepository groupReadRepository,
             IMapper mapper)
         {
             this.personReadRepository = personReadRepository;
             this.personWriteRepository = personWriteRepository;
             this.unitOfWork = unitOfWork;
+            this.groupReadRepository = groupReadRepository;
             this.mapper = mapper;
         }
 
@@ -60,6 +65,26 @@ namespace TimeTable203.Services.Implementations
             return mapper.Map<PersonModel>(item);
         }
 
+        async Task<PersonModel> IPersonService.UpdateGroupAsync(Guid id, Guid id_group, CancellationToken cancellationToken)
+        {
+            var targetPerson = await personReadRepository.GetByIdAsync(id, cancellationToken);
+            if (targetPerson == null)
+            {
+                throw new TimeTableEntityNotFoundException<Person>(id);
+            }
+
+            var groupValidate = new PersonHelpValidate(groupReadRepository);
+            var group = await groupValidate.GetGroupByIdAsync(id_group, cancellationToken);
+            if (group != null)
+            {
+                targetPerson.GroupId = group.Id;
+                targetPerson.Group = group;
+            }
+            personWriteRepository.Update(targetPerson);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            return mapper.Map<PersonModel>(targetPerson);
+        }
+
         async Task<PersonModel> IPersonService.EditAsync(PersonModel source, CancellationToken cancellationToken)
         {
             var targetPerson = await personReadRepository.GetByIdAsync(source.Id, cancellationToken);
@@ -94,6 +119,5 @@ namespace TimeTable203.Services.Implementations
             personWriteRepository.Delete(targetPerson);
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }
-
     }
 }

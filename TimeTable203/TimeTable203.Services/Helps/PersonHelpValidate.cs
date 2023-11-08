@@ -9,14 +9,21 @@ namespace TimeTable203.Services.Helps
     {
         private readonly IPersonReadRepository personReadRepository;
         private readonly IEmployeeReadRepository employeeReadRepository;
+        private readonly IGroupReadRepository groupReadRepository;
 
         public PersonHelpValidate(IPersonReadRepository personReadRepository)
         {
             this.personReadRepository = personReadRepository;
         }
+
         public PersonHelpValidate(IEmployeeReadRepository employeeReadRepository)
         {
             this.employeeReadRepository = employeeReadRepository;
+        }
+
+        public PersonHelpValidate(IGroupReadRepository groupReadRepository)
+        {
+            this.groupReadRepository = groupReadRepository;
         }
         async public Task<Person?> GetPersonByIdAsync(Guid id_person, CancellationToken cancellationToken)
         {
@@ -43,9 +50,23 @@ namespace TimeTable203.Services.Helps
                 }
                 if (teacher.EmployeeType != EmployeeTypes.Teacher)
                 {
-                    throw new TimeTableInvalidOperationException("Эта персона не является учителем!");
+                    throw new TimeTableInvalidOperationException("Этот работник не является учителем!");
                 }
                 return teacher;
+            }
+            return null;
+        }
+
+        async public Task<Group?> GetGroupByIdAsync(Guid id_group, CancellationToken cancellationToken)
+        {
+            if (id_group != Guid.Empty)
+            {
+                var group = await groupReadRepository.GetByIdAsync(id_group, cancellationToken);
+                if (group == null)
+                {
+                    throw new TimeTableInvalidOperationException("Такой группы нет!");
+                }
+                return group;
             }
             return null;
         }
