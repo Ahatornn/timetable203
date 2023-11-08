@@ -1,29 +1,43 @@
-﻿using AutoMapper;
+﻿using System.Xml;
+using AutoMapper;
 using Serilog;
+using TimeTable203.Common;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Context.Contracts.Enums;
+using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts;
+using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
+using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
 {
     public class TimeTableItemService : ITimeTableItemService, IServiceAnchor
     {
         private readonly ITimeTableItemReadRepository timeTableItemReadRepository;
+        private readonly ITimeTableItemWriteRepository timeTableItemWriteRepository;
         private readonly IDisciplineReadRepository disciplineReadRepository;
         private readonly IGroupReadRepository groupReadRepository;
         private readonly IEmployeeReadRepository employeeReadRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
         public TimeTableItemService(ITimeTableItemReadRepository timeTableItemReadRepository,
+            ITimeTableItemWriteRepository timeTableItemWriteRepository,
             IDisciplineReadRepository disciplineReadRepository,
             IGroupReadRepository groupReadRepository,
             IEmployeeReadRepository employeeReadRepository,
+            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             this.timeTableItemReadRepository = timeTableItemReadRepository;
+            this.timeTableItemWriteRepository = timeTableItemWriteRepository;
             this.disciplineReadRepository = disciplineReadRepository;
             this.groupReadRepository = groupReadRepository;
             this.employeeReadRepository = employeeReadRepository;
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
 
@@ -96,5 +110,103 @@ namespace TimeTable203.Services.Implementations
             }
             return timeTable;
         }
+
+        async Task<TimeTableItemModel> ITimeTableItemService.AddAsync(Guid id_discipline, Guid id_group, Guid id_teacher, TimeTableItemRequestModel timeTable, CancellationToken cancellationToken)
+        {
+            var item = new TimeTableItem
+            {
+                Id = Guid.NewGuid(),
+                StartDate = timeTable.StartDate,
+                EndDate = timeTable.EndDate,
+                RoomNumber = timeTable.RoomNumber
+            };
+
+            var employeeValidate = new PersonHelpValidate(employeeReadRepository);
+            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(id_teacher, cancellationToken);
+            if (employee != null)
+            {
+                item.TeacherId = employee.Id;
+                item.Teacher = employee;
+            }
+
+            var groupValidate = new PersonHelpValidate(groupReadRepository);
+            var group = await groupValidate.GetGroupByIdAsync(id_group, cancellationToken);
+            if (group != null)
+            {
+                item.GroupId = group.Id;
+                item.Group = group;
+            }
+
+            var disciplineValidate = new PersonHelpValidate(disciplineReadRepository);
+            var discipline = await disciplineValidate.GetDisciplineByIdAsync(id_discipline, cancellationToken);
+            if (discipline != null)
+            {
+                item.DisciplineId = discipline.Id;
+                item.Discipline = discipline;
+            }
+
+            timeTableItemWriteRepository.Add(item);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            return mapper.Map<TimeTableItemModel>(item);
+        }
+
+        async Task<TimeTableItemModel> ITimeTableItemService.EditAsync(Guid id_discipline, Guid id_group, Guid id_teacher, TimeTableItemModel source, CancellationToken cancellationToken)
+        {
+            var targetTimeTableItem = await timeTableItemReadRepository.GetByIdAsync(source.Id, cancellationToken);
+
+            if (targetTimeTableItem == null)
+            {
+                throw new TimeTableEntityNotFoundException<TimeTableItem>(source.Id);
+            }
+
+            targetTimeTableItem.StartDate = source.StartDate;
+            targetTimeTableItem.EndDate = source.EndDate;
+            targetTimeTableItem.RoomNumber = source.RoomNumber;
+
+            var employeeValidate = new PersonHelpValidate(employeeReadRepository);
+            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(id_teacher, cancellationToken);
+            if (employee != null)
+            {
+                targetTimeTableItem.TeacherId = employee.Id;
+                targetTimeTableItem.Teacher = employee;
+            }
+
+            var groupValidate = new PersonHelpValidate(groupReadRepository);
+            var group = await groupValidate.GetGroupByIdAsync(id_group, cancellationToken);
+            if (group != null)
+            {
+                targetTimeTableItem.GroupId = group.Id;
+                targetTimeTableItem.Group = group;
+            }
+
+            var disciplineValidate = new PersonHelpValidate(disciplineReadRepository);
+            var discipline = await disciplineValidate.GetDisciplineByIdAsync(id_discipline, cancellationToken);
+            if (discipline != null)
+            {
+                targetTimeTableItem.DisciplineId = discipline.Id;
+                targetTimeTableItem.Discipline = discipline;
+            }
+
+            timeTableItemWriteRepository.Update(targetTimeTableItem);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            return mapper.Map<TimeTableItemModel>(targetTimeTableItem);
+        }
+
+        async Task ITimeTableItemService.DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var targetTimeTableItem = await timeTableItemReadRepository.GetByIdAsync(id, cancellationToken);
+            if (targetTimeTableItem == null)
+            {
+                throw new TimeTableEntityNotFoundException<TimeTableItem>(id);
+            }
+            if (targetTimeTableItem.DeletedAt.HasValue)
+            {
+                throw new TimeTableInvalidOperationException($"Расписание с идентификатором {id} уже удален");
+            }
+
+            timeTableItemWriteRepository.Delete(targetTimeTableItem);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
     }
 }

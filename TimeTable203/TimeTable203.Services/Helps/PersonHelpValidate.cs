@@ -10,6 +10,7 @@ namespace TimeTable203.Services.Helps
         private readonly IPersonReadRepository personReadRepository;
         private readonly IEmployeeReadRepository employeeReadRepository;
         private readonly IGroupReadRepository groupReadRepository;
+        private readonly IDisciplineReadRepository disciplineReadRepository;
 
         public PersonHelpValidate(IPersonReadRepository personReadRepository)
         {
@@ -25,6 +26,12 @@ namespace TimeTable203.Services.Helps
         {
             this.groupReadRepository = groupReadRepository;
         }
+
+        public PersonHelpValidate(IDisciplineReadRepository disciplineReadRepository)
+        {
+            this.disciplineReadRepository = disciplineReadRepository;
+        }
+
         async public Task<Person?> GetPersonByIdAsync(Guid id_person, CancellationToken cancellationToken)
         {
             if (id_person != Guid.Empty)
@@ -38,6 +45,7 @@ namespace TimeTable203.Services.Helps
             }
             return null;
         }
+
 
         async public Task<Employee?> GetEmployeeByIdTeacherAsync(Guid id_teacher, CancellationToken cancellationToken)
         {
@@ -67,6 +75,20 @@ namespace TimeTable203.Services.Helps
                     throw new TimeTableInvalidOperationException("Такой группы нет!");
                 }
                 return group;
+            }
+            return null;
+        }
+
+        async public Task<Discipline?> GetDisciplineByIdAsync(Guid id_discipline, CancellationToken cancellationToken)
+        {
+            if (id_discipline != Guid.Empty)
+            {
+                var discipline = await disciplineReadRepository.GetByIdAsync(id_discipline, cancellationToken);
+                if (discipline == null)
+                {
+                    throw new TimeTableInvalidOperationException("Такой дисциплины нет!");
+                }
+                return discipline;
             }
             return null;
         }

@@ -60,6 +60,8 @@ namespace TimeTable203.Api.Infrastructures
                 .ForMember(x => x.NameGroup, opt => opt.MapFrom(x => x.Group!.Name))
                 .ForMember(x => x.TeacherName, opt => opt.MapFrom(x => $"{x.Teacher!.LastName} {x.Teacher.FirstName} {x.Teacher.Patronymic}"))
                 .ForMember(x => x.Phone, opt => opt.MapFrom(x => x.Teacher!.Phone));
+            CreateMap<CreateTimeTableItemRequest, TimeTableItemRequestModel>(MemberList.Destination);
+            CreateMap<TimeTableItemRequestModel, TimeTableItemModel>(MemberList.Destination);
         }
     }
 }

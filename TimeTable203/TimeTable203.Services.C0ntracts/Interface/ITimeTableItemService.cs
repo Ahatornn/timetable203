@@ -1,4 +1,5 @@
 ﻿using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Services.Contracts.Interface
 {
@@ -13,5 +14,20 @@ namespace TimeTable203.Services.Contracts.Interface
         /// Получить <see cref="TimeTableItemModel"/> по идентификатору
         /// </summary>
         Task<TimeTableItemModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Добавляет новое расписание
+        /// </summary>
+        Task<TimeTableItemModel> AddAsync(Guid id_discipline, Guid id_group, Guid id_teacher, TimeTableItemRequestModel timeTable, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Редактирует существующее расписание
+        /// </summary>
+        Task<TimeTableItemModel> EditAsync(Guid id_discipline, Guid id_group, Guid id_teacher, TimeTableItemModel source, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Удаляет существующее расписание
+        /// </summary>
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }
