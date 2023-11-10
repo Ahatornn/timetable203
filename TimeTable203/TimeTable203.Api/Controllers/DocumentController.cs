@@ -74,10 +74,10 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create([Required] Guid person_id, CreateDocumentRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create([Required] Guid personId, CreateDocumentRequest request, CancellationToken cancellationToken)
         {
             var documentRequestModel = mapper.Map<DocumentRequestModel>(request);
-            var result = await documentService.AddAsync(person_id, documentRequestModel, cancellationToken);
+            var result = await documentService.AddAsync(personId, documentRequestModel, cancellationToken);
             return Ok(mapper.Map<DocumentResponse>(result));
         }
 
@@ -86,12 +86,12 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit([Required] Guid id, CreateDocumentRequest request, CancellationToken cancellationToken, Guid id_person = default)
+        public async Task<IActionResult> Edit([Required] Guid id, CreateDocumentRequest request, CancellationToken cancellationToken, Guid personId = default)
         {
             var modelRequest = mapper.Map<DocumentRequestModel>(request);
             var model = mapper.Map<DocumentModel>(modelRequest);
             model.Id = id;
-            var result = await documentService.EditAsync(id_person, model, cancellationToken);
+            var result = await documentService.EditAsync(personId, model, cancellationToken);
             return Ok(mapper.Map<DocumentResponse>(result));
         }
 

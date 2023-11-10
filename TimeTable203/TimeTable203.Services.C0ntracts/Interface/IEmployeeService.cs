@@ -1,6 +1,5 @@
 ﻿using TimeTable203.Context.Contracts.Enums;
 using TimeTable203.Services.Contracts.Models;
-using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Services.Contracts.Interface
 {
@@ -19,12 +18,12 @@ namespace TimeTable203.Services.Contracts.Interface
         /// <summary>
         /// Добавляет нового учителя
         /// </summary>
-        Task<EmployeeModel> AddAsync(Guid id_person, EmployeeTypes employeeTypes, CancellationToken cancellationToken);
+        Task<EmployeeModel> AddAsync(Guid personId, EmployeeTypes employeeTypes, CancellationToken cancellationToken);
 
         /// <summary>
         /// Редактирует существующего учителя
         /// </summary>
-        Task<EmployeeModel> EditAsync(Guid id_person, EmployeeModel source, CancellationToken cancellationToken);
+        Task<EmployeeModel> EditAsync(Guid personId, EmployeeModel source, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаляет существующего учителя

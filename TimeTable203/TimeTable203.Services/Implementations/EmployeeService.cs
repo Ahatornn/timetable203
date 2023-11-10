@@ -68,7 +68,7 @@ namespace TimeTable203.Services.Implementations
             return employee;
         }
 
-        async Task<EmployeeModel> IEmployeeService.AddAsync(Guid id_person, EmployeeTypes employeeTypes, CancellationToken cancellationToken)
+        async Task<EmployeeModel> IEmployeeService.AddAsync(Guid personId, EmployeeTypes employeeTypes, CancellationToken cancellationToken)
         {
             var item = new Employee
             {
@@ -77,7 +77,7 @@ namespace TimeTable203.Services.Implementations
             };
 
             var personValidate = new PersonHelpValidate(personReadRepository);
-            var person = await personValidate.GetPersonByIdAsync(id_person, cancellationToken);
+            var person = await personValidate.GetPersonByIdAsync(personId, cancellationToken);
             if (person != null)
             {
                 item.PersonId = person.Id;
@@ -88,7 +88,7 @@ namespace TimeTable203.Services.Implementations
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<EmployeeModel>(item);
         }
-        async Task<EmployeeModel> IEmployeeService.EditAsync(Guid id_person, EmployeeModel source, CancellationToken cancellationToken)
+        async Task<EmployeeModel> IEmployeeService.EditAsync(Guid personId, EmployeeModel source, CancellationToken cancellationToken)
         {
             var targetEmployee = await employeeReadRepository.GetByIdAsync(source.Id, cancellationToken);
             if (targetEmployee == null)
@@ -98,7 +98,7 @@ namespace TimeTable203.Services.Implementations
 
             targetEmployee.EmployeeType = (EmployeeTypes)source.EmployeeType;
             var personValidate = new PersonHelpValidate(personReadRepository);
-            var person = await personValidate.GetPersonByIdAsync(id_person, cancellationToken);
+            var person = await personValidate.GetPersonByIdAsync(personId, cancellationToken);
             if (person != null)
             {
                 targetEmployee.PersonId = person.Id;
