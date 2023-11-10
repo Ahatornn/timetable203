@@ -89,9 +89,9 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost("Group")]
         [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> EditGroup([Required] Guid id, [Required] Guid id_group, CancellationToken cancellationToken)
+        public async Task<IActionResult> EditGroup([Required] Guid id, [Required] Guid groupId, CancellationToken cancellationToken)
         {
-            var result = await personService.UpdateGroupAsync(id, id_group, cancellationToken);
+            var result = await personService.UpdateGroupAsync(id, groupId, cancellationToken);
             return Ok(mapper.Map<PersonResponse>(result));
         }
 

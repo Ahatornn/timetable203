@@ -63,9 +63,9 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create([Required] Guid person_id, CreateEmployeeRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create([Required] Guid personId, CreateEmployeeRequest request, CancellationToken cancellationToken)
         {
-            var result = await employeeService.AddAsync(person_id, (EmployeeTypes)request.EmployeeType, cancellationToken);
+            var result = await employeeService.AddAsync(personId, (EmployeeTypes)request.EmployeeType, cancellationToken);
             return Ok(mapper.Map<EmployeeResponse>(result));
         }
 

@@ -81,7 +81,7 @@ namespace TimeTable203.Services.Implementations
             return groupModel;
         }
 
-        async Task<GroupModel> IGroupService.AddAsync(Guid id_teacher, string name, string description, CancellationToken cancellationToken)
+        async Task<GroupModel> IGroupService.AddAsync(Guid teacherId, string name, string description, CancellationToken cancellationToken)
         {
             var item = new Group
             {
@@ -91,7 +91,7 @@ namespace TimeTable203.Services.Implementations
             };
 
             var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(id_teacher, cancellationToken);
+            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(teacherId, cancellationToken);
             if (employee != null)
             {
                 item.EmployeeId = employee.Id;
@@ -102,7 +102,7 @@ namespace TimeTable203.Services.Implementations
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<GroupModel>(item);
         }
-        async Task<GroupModel> IGroupService.EditAsync(Guid id_teacher, GroupModel source, CancellationToken cancellationToken)
+        async Task<GroupModel> IGroupService.EditAsync(Guid teacherId, GroupModel source, CancellationToken cancellationToken)
         {
             var targetGroup = await groupReadRepository.GetByIdAsync(source.Id, cancellationToken);
             if (targetGroup == null)
@@ -110,7 +110,7 @@ namespace TimeTable203.Services.Implementations
                 throw new TimeTableEntityNotFoundException<Group>(source.Id);
             }
             var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(id_teacher, cancellationToken);
+            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(teacherId, cancellationToken);
             if (employee != null)
             {
                 targetGroup.EmployeeId = employee.Id;

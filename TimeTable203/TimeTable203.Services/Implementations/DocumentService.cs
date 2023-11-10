@@ -69,7 +69,7 @@ namespace TimeTable203.Services.Implementations
             return document;
         }
 
-        async Task<DocumentModel> IDocumentService.AddAsync(Guid id_person, DocumentRequestModel document, CancellationToken cancellationToken)
+        async Task<DocumentModel> IDocumentService.AddAsync(Guid personId, DocumentRequestModel document, CancellationToken cancellationToken)
         {
             var item = new Document
             {
@@ -82,7 +82,7 @@ namespace TimeTable203.Services.Implementations
             };
 
             var personValidate = new PersonHelpValidate(personReadRepository);
-            var person = await personValidate.GetPersonByIdAsync(id_person, cancellationToken);
+            var person = await personValidate.GetPersonByIdAsync(personId, cancellationToken);
             if (person != null)
             {
                 item.PersonId = person.Id;

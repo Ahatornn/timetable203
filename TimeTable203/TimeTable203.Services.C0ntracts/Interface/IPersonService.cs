@@ -23,7 +23,7 @@ namespace TimeTable203.Services.Contracts.Interface
         /// <summary>
         /// Изменяет у персоны группу
         /// </summary>
-        Task<PersonModel> UpdateGroupAsync(Guid id, Guid id_group, CancellationToken cancellationToken);
+        Task<PersonModel> UpdateGroupAsync(Guid id, Guid groupId, CancellationToken cancellationToken);
 
         /// <summary>
         /// Редактирует существующую персону

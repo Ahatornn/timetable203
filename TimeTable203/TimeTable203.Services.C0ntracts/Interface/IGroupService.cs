@@ -17,12 +17,12 @@ namespace TimeTable203.Services.Contracts.Interface
         /// <summary>
         /// Добавляет новую группу
         /// </summary>
-        Task<GroupModel> AddAsync(Guid id_teacher, string name, string description, CancellationToken cancellationToken);
+        Task<GroupModel> AddAsync(Guid teacherId, string name, string description, CancellationToken cancellationToken);
 
         /// <summary>
         /// Редактирует существующую группу
         /// </summary>
-        Task<GroupModel> EditAsync(Guid id_teacher, GroupModel source, CancellationToken cancellationToken);
+        Task<GroupModel> EditAsync(Guid teacherId, GroupModel source, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаляет существующую группу

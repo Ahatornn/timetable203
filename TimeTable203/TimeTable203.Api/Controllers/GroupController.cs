@@ -63,9 +63,9 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create(Guid id_teacher, CreateGroupRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(Guid teacherId, CreateGroupRequest request, CancellationToken cancellationToken)
         {
-            var result = await groupService.AddAsync(id_teacher, request.Name, request.Description, cancellationToken);
+            var result = await groupService.AddAsync(teacherId, request.Name, request.Description, cancellationToken);
             return Ok(mapper.Map<GroupResponse>(result));
         }
 
@@ -74,11 +74,11 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit([Required] Guid id_group, CreateGroupRequest request, CancellationToken cancellationToken, Guid id_teacher = default)
+        public async Task<IActionResult> Edit([Required] Guid groupId, CreateGroupRequest request, CancellationToken cancellationToken, Guid teacherId = default)
         {
             var model = mapper.Map<GroupModel>(request);
-            model.Id = id_group;
-            var result = await groupService.EditAsync(id_teacher, model, cancellationToken);
+            model.Id = groupId;
+            var result = await groupService.EditAsync(teacherId, model, cancellationToken);
             return Ok(mapper.Map<GroupResponse>(result));
         }
 

@@ -74,10 +74,10 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create([Required] Guid person_id, CreateDocumentRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create([Required] Guid personId, CreateDocumentRequest request, CancellationToken cancellationToken)
         {
             var documentRequestModel = mapper.Map<DocumentRequestModel>(request);
-            var result = await documentService.AddAsync(person_id, documentRequestModel, cancellationToken);
+            var result = await documentService.AddAsync(personId, documentRequestModel, cancellationToken);
             return Ok(mapper.Map<DocumentResponse>(result));
         }
 

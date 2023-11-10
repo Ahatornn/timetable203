@@ -18,12 +18,12 @@ namespace TimeTable203.Services.Contracts.Interface
         /// <summary>
         /// Добавляет новый документ
         /// </summary>
-        Task<DocumentModel> AddAsync(Guid id_person, DocumentRequestModel document, CancellationToken cancellationToken);
+        Task<DocumentModel> AddAsync(Guid personId, DocumentRequestModel document, CancellationToken cancellationToken);
 
         /// <summary>
         /// Редактирует существующий документ
         /// </summary>
-        Task<DocumentModel> EditAsync(Guid id_person, DocumentModel source, CancellationToken cancellationToken);
+        Task<DocumentModel> EditAsync(Guid personId, DocumentModel source, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаляет существующий документ

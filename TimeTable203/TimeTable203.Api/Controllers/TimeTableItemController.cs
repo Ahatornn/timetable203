@@ -63,10 +63,10 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create([Required] Guid id_discipline, [Required] Guid id_group, [Required] Guid id_teacher, CreateTimeTableItemRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create([Required] Guid disciplineId, [Required] Guid groupId, [Required] Guid teacherId, CreateTimeTableItemRequest request, CancellationToken cancellationToken)
         {
             var timeTableRequestModel = mapper.Map<TimeTableItemRequestModel>(request);
-            var result = await timeTableItemService.AddAsync(id_discipline, id_group, id_teacher, timeTableRequestModel, cancellationToken);
+            var result = await timeTableItemService.AddAsync(disciplineId, groupId, teacherId, timeTableRequestModel, cancellationToken);
             return Ok(mapper.Map<TimeTableItemResponse>(result));
         }
 
@@ -75,12 +75,12 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit([Required] Guid id, CreateTimeTableItemRequest request, CancellationToken cancellationToken, Guid id_discipline = default, Guid id_group = default, Guid id_teacher = default)
+        public async Task<IActionResult> Edit([Required] Guid id, CreateTimeTableItemRequest request, CancellationToken cancellationToken, Guid disciplineId = default, Guid groupId = default, Guid teacherId = default)
         {
             var modelRequest = mapper.Map<TimeTableItemRequestModel>(request);
             var model = mapper.Map<TimeTableItemModel>(modelRequest);
             model.Id = id;
-            var result = await timeTableItemService.EditAsync(id_discipline, id_group, id_teacher, model, cancellationToken);
+            var result = await timeTableItemService.EditAsync(disciplineId, groupId, teacherId, model, cancellationToken);
             return Ok(mapper.Map<TimeTableItemResponse>(result));
         }
 

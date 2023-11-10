@@ -65,7 +65,7 @@ namespace TimeTable203.Services.Implementations
             return mapper.Map<PersonModel>(item);
         }
 
-        async Task<PersonModel> IPersonService.UpdateGroupAsync(Guid id, Guid id_group, CancellationToken cancellationToken)
+        async Task<PersonModel> IPersonService.UpdateGroupAsync(Guid id, Guid groupId, CancellationToken cancellationToken)
         {
             var targetPerson = await personReadRepository.GetByIdAsync(id, cancellationToken);
             if (targetPerson == null)
@@ -74,7 +74,7 @@ namespace TimeTable203.Services.Implementations
             }
 
             var groupValidate = new PersonHelpValidate(groupReadRepository);
-            var group = await groupValidate.GetGroupByIdAsync(id_group, cancellationToken);
+            var group = await groupValidate.GetGroupByIdAsync(groupId, cancellationToken);
             if (group != null)
             {
                 targetPerson.GroupId = group.Id;
