@@ -7,6 +7,7 @@ using TimeTable203.Repositories.Contracts;
 using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
 using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
@@ -68,16 +69,16 @@ namespace TimeTable203.Services.Implementations
             return employee;
         }
 
-        async Task<EmployeeModel> IEmployeeService.AddAsync(Guid personId, EmployeeTypes employeeTypes, CancellationToken cancellationToken)
+        async Task<EmployeeModel> IEmployeeService.AddAsync(EmployeeRequestModel employeeRequestModel, CancellationToken cancellationToken)
         {
             var item = new Employee
             {
                 Id = Guid.NewGuid(),
-                EmployeeType = employeeTypes,
+                EmployeeType = employeeRequestModel.EmployeeType,
             };
 
             var personValidate = new PersonHelpValidate(personReadRepository);
-            var person = await personValidate.GetPersonByIdAsync(personId, cancellationToken);
+            var person = await personValidate.GetPersonByIdAsync(employeeRequestModel.PersonId, cancellationToken);
             if (person != null)
             {
                 item.PersonId = person.Id;
@@ -88,7 +89,7 @@ namespace TimeTable203.Services.Implementations
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<EmployeeModel>(item);
         }
-        async Task<EmployeeModel> IEmployeeService.EditAsync(Guid personId, EmployeeModel source, CancellationToken cancellationToken)
+        async Task<EmployeeModel> IEmployeeService.EditAsync(EmployeeModel source, CancellationToken cancellationToken)
         {
             var targetEmployee = await employeeReadRepository.GetByIdAsync(source.Id, cancellationToken);
             if (targetEmployee == null)
@@ -98,7 +99,7 @@ namespace TimeTable203.Services.Implementations
 
             targetEmployee.EmployeeType = (EmployeeTypes)source.EmployeeType;
             var personValidate = new PersonHelpValidate(personReadRepository);
-            var person = await personValidate.GetPersonByIdAsync(personId, cancellationToken);
+            var person = await personValidate.GetPersonByIdAsync(source.Person!.Id, cancellationToken);
             if (person != null)
             {
                 targetEmployee.PersonId = person.Id;

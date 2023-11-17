@@ -1,6 +1,7 @@
 ﻿using TimeTable203.Api.Models.Enums;
+using TimeTable203.Services.Contracts.Models;
 
-namespace TimeTable203.Api.ModelsRequest
+namespace TimeTable203.Api.ModelsRequest.Document
 {
     public class CreateDocumentRequest
     {
@@ -28,6 +29,11 @@ namespace TimeTable203.Api.ModelsRequest
         /// Тип документов
         /// </summary>
         public DocumentTypesResponse DocumentType { get; set; } = DocumentTypesResponse.None;
+
+        /// <summary>
+        /// <inheritdoc cref="PersonModel"/>
+        /// </summary>
+        public Guid PersonId { get; set; }
 
     }
 }

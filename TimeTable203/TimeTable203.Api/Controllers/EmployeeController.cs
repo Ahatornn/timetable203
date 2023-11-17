@@ -2,10 +2,12 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
-using TimeTable203.Api.ModelsRequest;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Context.Contracts.Enums;
+using TimeTable203.Api.ModelsRequest.Employee;
+using TimeTable203.Services.Contracts.ModelsRequest;
+
 namespace TimeTable203.Api.Controllers
 {
 
@@ -63,22 +65,23 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create([Required] Guid personId, CreateEmployeeRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(CreateEmployeeRequest request, CancellationToken cancellationToken)
         {
-            var result = await employeeService.AddAsync(personId, (EmployeeTypes)request.EmployeeType, cancellationToken);
+            var employeeRequestModel = mapper.Map<EmployeeRequestModel>(request);
+            var result = await employeeService.AddAsync(employeeRequestModel, cancellationToken);
             return Ok(mapper.Map<EmployeeResponse>(result));
         }
 
         /// <summary>
         /// Редактирует имеющищегося рабочего
         /// </summary>
-        [HttpPut]
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit([Required] Guid id, CreateEmployeeRequest request, CancellationToken cancellationToken, Guid id_person = default)
+        public async Task<IActionResult> Edit(Guid id, CreateEmployeeRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<EmployeeModel>(request);
             model.Id = id;
-            var result = await employeeService.EditAsync(id_person, model, cancellationToken);
+            var result = await employeeService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<EmployeeResponse>(result));
         }
 
@@ -87,7 +90,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await employeeService.DeleteAsync(id, cancellationToken);
             return Ok();

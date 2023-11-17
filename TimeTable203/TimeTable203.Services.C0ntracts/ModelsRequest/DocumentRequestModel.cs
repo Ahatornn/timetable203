@@ -1,4 +1,5 @@
 ﻿using TimeTable203.Context.Contracts.Enums;
+using TimeTable203.Services.Contracts.Models;
 
 namespace TimeTable203.Services.Contracts.ModelsRequest
 {
@@ -28,5 +29,10 @@ namespace TimeTable203.Services.Contracts.ModelsRequest
         /// Тип документов
         /// </summary>
         public DocumentTypes DocumentType { get; set; } = DocumentTypes.None;
+
+        /// <summary>
+        /// <inheritdoc cref="PersonModel"/>
+        /// </summary>
+        public Guid PersonId { get; set; }
     }
 }
