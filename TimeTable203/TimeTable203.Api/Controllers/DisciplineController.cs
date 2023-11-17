@@ -3,6 +3,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.ModelsRequest.Discipline;
+using TimeTable203.Context.Contracts.Models;
+using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 
@@ -56,10 +58,23 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TimeTableEntityNotFoundException<Discipline>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(TimeTableInvalidOperationException), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create(CreateDisciplineRequest request, CancellationToken cancellationToken)
         {
-            var result = await disciplineService.AddAsync(request.Name, request.Description, cancellationToken);
-            return Ok(mapper.Map<DisciplineResponse>(result));
+            try
+            {
+                var result = await disciplineService.AddAsync(request.Name, request.Description, cancellationToken);
+                return Ok(mapper.Map<DisciplineResponse>(result));
+            }
+            catch (TimeTableEntityNotFoundException<Discipline> TimeEntityNotFound)
+            {
+                return NotFound(TimeEntityNotFound.Message);
+            }
+            catch (TimeTableInvalidOperationException TimeInvalidOperation)
+            {
+                return BadRequest(TimeInvalidOperation.Message);
+            }
         }
 
         /// <summary>
