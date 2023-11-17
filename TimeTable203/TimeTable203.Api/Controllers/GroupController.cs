@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
-using TimeTable203.Api.ModelsRequest;
+using TimeTable203.Api.ModelsRequest.Group;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
-using TimeTable203.Services.Implementations;
+using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Api.Controllers
 {
@@ -63,9 +62,10 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create(Guid teacherId, CreateGroupRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(CreateGroupRequest request, CancellationToken cancellationToken)
         {
-            var result = await groupService.AddAsync(teacherId, request.Name, request.Description, cancellationToken);
+            var groupRequestModel = mapper.Map<GroupRequestModel>(request);
+            var result = await groupService.AddAsync(groupRequestModel, cancellationToken);
             return Ok(mapper.Map<GroupResponse>(result));
         }
 
@@ -74,11 +74,10 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit([Required] Guid groupId, CreateGroupRequest request, CancellationToken cancellationToken, Guid teacherId = default)
+        public async Task<IActionResult> Edit(GroupRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<GroupModel>(request);
-            model.Id = groupId;
-            var result = await groupService.EditAsync(teacherId, model, cancellationToken);
+            var result = await groupService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<GroupResponse>(result));
         }
 
@@ -87,7 +86,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await groupService.DeleteAsync(id, cancellationToken);
             return Ok();

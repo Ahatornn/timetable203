@@ -2,10 +2,12 @@
 using AutoMapper.Extensions.EnumMapping;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Enums;
-using TimeTable203.Api.ModelsRequest;
 using TimeTable203.Api.ModelsRequest.Discipline;
 using TimeTable203.Api.ModelsRequest.Document;
 using TimeTable203.Api.ModelsRequest.Employee;
+using TimeTable203.Api.ModelsRequest.Group;
+using TimeTable203.Api.ModelsRequest.Person;
+using TimeTable203.Api.ModelsRequest.TimeTableItemRequest;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.Models.Enums;
 using TimeTable203.Services.Contracts.ModelsRequest;

@@ -65,12 +65,11 @@ namespace TimeTable203.Api.Controllers
         /// <summary>
         /// Редактирует имеющуюся дисциплину
         /// </summary>
-        [HttpPut("{id}")]
+        [HttpPut]
         [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit(Guid id, DisciplineRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(DisciplineRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<DisciplineModel>(request);
-            model.Id = id;
             var result = await disciplineService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<DisciplineResponse>(result));
         }
@@ -80,7 +79,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await disciplineService.DeleteAsync(id, cancellationToken);
             return Ok();

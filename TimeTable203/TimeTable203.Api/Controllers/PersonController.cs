@@ -2,7 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
-using TimeTable203.Api.ModelsRequest;
+using TimeTable203.Api.ModelsRequest.Person;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
@@ -75,11 +75,9 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit([Required] Guid id, CreatePersonRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(PersonRequest request, CancellationToken cancellationToken)
         {
-            var modelRequest = mapper.Map<PersonRequestModel>(request);
-            var model = mapper.Map<PersonModel>(modelRequest);
-            model.Id = id;
+            var model = mapper.Map<PersonModel>(request);
             var result = await personService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<PersonResponse>(result));
         }
@@ -87,9 +85,9 @@ namespace TimeTable203.Api.Controllers
         /// <summary>
         /// Редактирует имеющуюся персону изменяя/добавляя его в группу
         /// </summary>
-        [HttpPost("Group")]
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> EditGroup([Required] Guid id, [Required] Guid groupId, CancellationToken cancellationToken)
+        public async Task<IActionResult> EditGroup(Guid id, [Required] Guid groupId, CancellationToken cancellationToken)
         {
             var result = await personService.UpdateGroupAsync(id, groupId, cancellationToken);
             return Ok(mapper.Map<PersonResponse>(result));
@@ -100,7 +98,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await personService.DeleteAsync(id, cancellationToken);
             return Ok();

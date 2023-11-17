@@ -5,6 +5,7 @@ using TimeTable203.Repositories.Contracts;
 using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
 using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
@@ -81,17 +82,17 @@ namespace TimeTable203.Services.Implementations
             return groupModel;
         }
 
-        async Task<GroupModel> IGroupService.AddAsync(Guid teacherId, string name, string description, CancellationToken cancellationToken)
+        async Task<GroupModel> IGroupService.AddAsync(GroupRequestModel groupRequestModel, CancellationToken cancellationToken)
         {
             var item = new Group
             {
                 Id = Guid.NewGuid(),
-                Name = name,
-                Description = description,
+                Name = groupRequestModel.Name,
+                Description = groupRequestModel.Description,
             };
 
             var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(teacherId, cancellationToken);
+            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(groupRequestModel.ClassroomTeacher!.Value, cancellationToken);
             if (employee != null)
             {
                 item.EmployeeId = employee.Id;
@@ -102,7 +103,7 @@ namespace TimeTable203.Services.Implementations
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<GroupModel>(item);
         }
-        async Task<GroupModel> IGroupService.EditAsync(Guid teacherId, GroupModel source, CancellationToken cancellationToken)
+        async Task<GroupModel> IGroupService.EditAsync(GroupModel source, CancellationToken cancellationToken)
         {
             var targetGroup = await groupReadRepository.GetByIdAsync(source.Id, cancellationToken);
             if (targetGroup == null)
@@ -110,7 +111,7 @@ namespace TimeTable203.Services.Implementations
                 throw new TimeTableEntityNotFoundException<Group>(source.Id);
             }
             var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(teacherId, cancellationToken);
+            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(source.ClassroomTeacher!.Id, cancellationToken);
             if (employee != null)
             {
                 targetGroup.EmployeeId = employee.Id;

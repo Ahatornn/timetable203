@@ -1,8 +1,8 @@
 ﻿using TimeTable203.Services.Contracts.Models;
 
-namespace TimeTable203.Services.Contracts.ModelsRequest
+namespace TimeTable203.Api.ModelsRequest.TimeTableItemRequest
 {
-    public class TimeTableItemRequestModel
+    public class CreateTimeTableItemRequest
     {
         /// <summary>
         /// Дата начала

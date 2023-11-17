@@ -18,12 +18,12 @@ namespace TimeTable203.Services.Contracts.Interface
         /// <summary>
         /// Добавляет новое расписание
         /// </summary>
-        Task<TimeTableItemModel> AddAsync(Guid id_discipline, Guid groupId, Guid teacherId, TimeTableItemRequestModel timeTable, CancellationToken cancellationToken);
+        Task<TimeTableItemModel> AddAsync(TimeTableItemRequestModel timeTable, CancellationToken cancellationToken);
 
         /// <summary>
         /// Редактирует существующее расписание
         /// </summary>
-        Task<TimeTableItemModel> EditAsync(Guid id_discipline, Guid groupId, Guid teacherId, TimeTableItemModel source, CancellationToken cancellationToken);
+        Task<TimeTableItemModel> EditAsync(TimeTableItemModel source, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаляет существующее расписание

@@ -111,7 +111,7 @@ namespace TimeTable203.Services.Implementations
             return timeTable;
         }
 
-        async Task<TimeTableItemModel> ITimeTableItemService.AddAsync(Guid disciplineId, Guid groupId, Guid teacherId, TimeTableItemRequestModel timeTable, CancellationToken cancellationToken)
+        async Task<TimeTableItemModel> ITimeTableItemService.AddAsync(TimeTableItemRequestModel timeTable, CancellationToken cancellationToken)
         {
             var item = new TimeTableItem
             {
@@ -122,7 +122,7 @@ namespace TimeTable203.Services.Implementations
             };
 
             var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(teacherId, cancellationToken);
+            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(timeTable.Teacher, cancellationToken);
             if (employee != null)
             {
                 item.TeacherId = employee.Id;
@@ -130,7 +130,7 @@ namespace TimeTable203.Services.Implementations
             }
 
             var groupValidate = new PersonHelpValidate(groupReadRepository);
-            var group = await groupValidate.GetGroupByIdAsync(groupId, cancellationToken);
+            var group = await groupValidate.GetGroupByIdAsync(timeTable.Group, cancellationToken);
             if (group != null)
             {
                 item.GroupId = group.Id;
@@ -138,7 +138,7 @@ namespace TimeTable203.Services.Implementations
             }
 
             var disciplineValidate = new PersonHelpValidate(disciplineReadRepository);
-            var discipline = await disciplineValidate.GetDisciplineByIdAsync(disciplineId, cancellationToken);
+            var discipline = await disciplineValidate.GetDisciplineByIdAsync(timeTable.Discipline, cancellationToken);
             if (discipline != null)
             {
                 item.DisciplineId = discipline.Id;
@@ -150,7 +150,7 @@ namespace TimeTable203.Services.Implementations
             return mapper.Map<TimeTableItemModel>(item);
         }
 
-        async Task<TimeTableItemModel> ITimeTableItemService.EditAsync(Guid disciplineId, Guid groupId, Guid teacherId, TimeTableItemModel source, CancellationToken cancellationToken)
+        async Task<TimeTableItemModel> ITimeTableItemService.EditAsync(TimeTableItemModel source, CancellationToken cancellationToken)
         {
             var targetTimeTableItem = await timeTableItemReadRepository.GetByIdAsync(source.Id, cancellationToken);
 
@@ -164,7 +164,7 @@ namespace TimeTable203.Services.Implementations
             targetTimeTableItem.RoomNumber = source.RoomNumber;
 
             var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(teacherId, cancellationToken);
+            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(source.Teacher!.Id, cancellationToken);
             if (employee != null)
             {
                 targetTimeTableItem.TeacherId = employee.Id;
@@ -172,7 +172,7 @@ namespace TimeTable203.Services.Implementations
             }
 
             var groupValidate = new PersonHelpValidate(groupReadRepository);
-            var group = await groupValidate.GetGroupByIdAsync(groupId, cancellationToken);
+            var group = await groupValidate.GetGroupByIdAsync(source.Group!.Id, cancellationToken);
             if (group != null)
             {
                 targetTimeTableItem.GroupId = group.Id;
@@ -180,7 +180,7 @@ namespace TimeTable203.Services.Implementations
             }
 
             var disciplineValidate = new PersonHelpValidate(disciplineReadRepository);
-            var discipline = await disciplineValidate.GetDisciplineByIdAsync(disciplineId, cancellationToken);
+            var discipline = await disciplineValidate.GetDisciplineByIdAsync(source.Discipline!.Id, cancellationToken);
             if (discipline != null)
             {
                 targetTimeTableItem.DisciplineId = discipline.Id;

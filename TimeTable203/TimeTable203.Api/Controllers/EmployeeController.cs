@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.ModelsRequest.Document;
+using TimeTable203.Api.ModelsRequest.Employee;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
-using TimeTable203.Context.Contracts.Enums;
-using TimeTable203.Api.ModelsRequest.Employee;
 using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Api.Controllers
@@ -75,12 +74,11 @@ namespace TimeTable203.Api.Controllers
         /// <summary>
         /// Редактирует имеющищегося рабочего
         /// </summary>
-        [HttpPut("{id}")]
+        [HttpPut]
         [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit(Guid id, CreateEmployeeRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(DocumentRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<EmployeeModel>(request);
-            model.Id = id;
             var result = await employeeService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<EmployeeResponse>(result));
         }

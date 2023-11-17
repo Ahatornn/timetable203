@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.ModelsRequest.Document;
@@ -83,12 +82,11 @@ namespace TimeTable203.Api.Controllers
         /// <summary>
         /// Редактирует имеющийся документ
         /// </summary>
-        [HttpPut("{id}")]
+        [HttpPut]
         [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit(Guid id, DocumentRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(DocumentRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<DocumentModel>(request);
-            model.Id = id;
             var result = await documentService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<DocumentResponse>(result));
         }

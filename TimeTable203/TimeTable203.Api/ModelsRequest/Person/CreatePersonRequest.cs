@@ -1,4 +1,4 @@
-﻿namespace TimeTable203.Api.ModelsRequest
+﻿namespace TimeTable203.Api.ModelsRequest.Person
 {
     public class CreatePersonRequest
     {
