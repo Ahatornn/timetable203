@@ -23,7 +23,7 @@ namespace TimeTable203.Services.Contracts.Interface
         /// <summary>
         /// Редактирует существующее расписание
         /// </summary>
-        Task<TimeTableItemModel> EditAsync(TimeTableItemModel source, CancellationToken cancellationToken);
+        Task<TimeTableItemModel> EditAsync(TimeTableItemRequestModel source, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаляет существующее расписание

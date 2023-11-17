@@ -5,6 +5,11 @@ namespace TimeTable203.Services.Contracts.ModelsRequest
 {
     public class EmployeeRequestModel
     {
+        /// <summary>
+        /// Идентификатор
+        /// </summary>
+        public Guid Id { get; set; }
+
         /// <inheritdoc cref="EmployeeTypes"/>
         public EmployeeTypes EmployeeType { get; set; }
 

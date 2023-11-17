@@ -150,7 +150,7 @@ namespace TimeTable203.Services.Implementations
             return mapper.Map<TimeTableItemModel>(item);
         }
 
-        async Task<TimeTableItemModel> ITimeTableItemService.EditAsync(TimeTableItemModel source, CancellationToken cancellationToken)
+        async Task<TimeTableItemModel> ITimeTableItemService.EditAsync(TimeTableItemRequestModel source, CancellationToken cancellationToken)
         {
             var targetTimeTableItem = await timeTableItemReadRepository.GetByIdAsync(source.Id, cancellationToken);
 
@@ -164,7 +164,7 @@ namespace TimeTable203.Services.Implementations
             targetTimeTableItem.RoomNumber = source.RoomNumber;
 
             var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(source.Teacher!.Id, cancellationToken);
+            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(source.Teacher, cancellationToken);
             if (employee != null)
             {
                 targetTimeTableItem.TeacherId = employee.Id;
@@ -172,7 +172,7 @@ namespace TimeTable203.Services.Implementations
             }
 
             var groupValidate = new PersonHelpValidate(groupReadRepository);
-            var group = await groupValidate.GetGroupByIdAsync(source.Group!.Id, cancellationToken);
+            var group = await groupValidate.GetGroupByIdAsync(source.Group, cancellationToken);
             if (group != null)
             {
                 targetTimeTableItem.GroupId = group.Id;
@@ -180,7 +180,7 @@ namespace TimeTable203.Services.Implementations
             }
 
             var disciplineValidate = new PersonHelpValidate(disciplineReadRepository);
-            var discipline = await disciplineValidate.GetDisciplineByIdAsync(source.Discipline!.Id, cancellationToken);
+            var discipline = await disciplineValidate.GetDisciplineByIdAsync(source.Discipline, cancellationToken);
             if (discipline != null)
             {
                 targetTimeTableItem.DisciplineId = discipline.Id;

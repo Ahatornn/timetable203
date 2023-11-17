@@ -5,6 +5,11 @@ namespace TimeTable203.Services.Contracts.ModelsRequest
     public class TimeTableItemRequestModel
     {
         /// <summary>
+        /// Идентификатор
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// Дата начала
         /// </summary>
         public DateTimeOffset StartDate { get; set; }

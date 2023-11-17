@@ -23,7 +23,7 @@ namespace TimeTable203.Services.Contracts.Interface
         /// <summary>
         /// Редактирует существующую группу
         /// </summary>
-        Task<GroupModel> EditAsync(GroupModel source, CancellationToken cancellationToken);
+        Task<GroupModel> EditAsync(GroupRequestModel source, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаляет существующую группу

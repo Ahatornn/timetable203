@@ -89,7 +89,7 @@ namespace TimeTable203.Services.Implementations
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<EmployeeModel>(item);
         }
-        async Task<EmployeeModel> IEmployeeService.EditAsync(EmployeeModel source, CancellationToken cancellationToken)
+        async Task<EmployeeModel> IEmployeeService.EditAsync(EmployeeRequestModel source, CancellationToken cancellationToken)
         {
             var targetEmployee = await employeeReadRepository.GetByIdAsync(source.Id, cancellationToken);
             if (targetEmployee == null)
@@ -97,9 +97,9 @@ namespace TimeTable203.Services.Implementations
                 throw new TimeTableEntityNotFoundException<Employee>(source.Id);
             }
 
-            targetEmployee.EmployeeType = (EmployeeTypes)source.EmployeeType;
+            targetEmployee.EmployeeType = source.EmployeeType;
             var personValidate = new PersonHelpValidate(personReadRepository);
-            var person = await personValidate.GetPersonByIdAsync(source.Person!.Id, cancellationToken);
+            var person = await personValidate.GetPersonByIdAsync(source.PersonId, cancellationToken);
             if (person != null)
             {
                 targetEmployee.PersonId = person.Id;

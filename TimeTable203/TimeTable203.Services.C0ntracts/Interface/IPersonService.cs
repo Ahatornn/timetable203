@@ -28,7 +28,7 @@ namespace TimeTable203.Services.Contracts.Interface
         /// <summary>
         /// Редактирует существующую персону
         /// </summary>
-        Task<PersonModel> EditAsync(PersonModel source, CancellationToken cancellationToken);
+        Task<PersonModel> EditAsync(PersonRequestModel source, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаляет существующую персону

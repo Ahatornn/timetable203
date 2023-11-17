@@ -8,8 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.GetSwaggerDocument();
+
 // У кого логгер есть - тот использует это
 //builder.Services.AddLoggerRegistr();
+
 builder.Services.AddDependencies();
 
 var conString = builder.Configuration.GetConnectionString("DefaultConnection");

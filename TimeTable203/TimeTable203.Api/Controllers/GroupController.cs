@@ -76,7 +76,7 @@ namespace TimeTable203.Api.Controllers
         [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Edit(GroupRequest request, CancellationToken cancellationToken)
         {
-            var model = mapper.Map<GroupModel>(request);
+            var model = mapper.Map<GroupRequestModel>(request);
             var result = await groupService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<GroupResponse>(result));
         }

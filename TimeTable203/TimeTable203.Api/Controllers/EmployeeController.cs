@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
-using TimeTable203.Api.ModelsRequest.Document;
 using TimeTable203.Api.ModelsRequest.Employee;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
@@ -76,9 +75,9 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit(DocumentRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(EmployeeRequest request, CancellationToken cancellationToken)
         {
-            var model = mapper.Map<EmployeeModel>(request);
+            var model = mapper.Map<EmployeeRequestModel>(request);
             var result = await employeeService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<EmployeeResponse>(result));
         }

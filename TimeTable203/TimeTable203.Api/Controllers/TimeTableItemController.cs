@@ -78,7 +78,7 @@ namespace TimeTable203.Api.Controllers
         [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Edit(TimeTableItemRequest request, CancellationToken cancellationToken)
         {
-            var model = mapper.Map<TimeTableItemModel>(request);
+            var model = mapper.Map<TimeTableItemRequestModel>(request);
             var result = await timeTableItemService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<TimeTableItemResponse>(result));
         }

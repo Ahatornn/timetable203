@@ -77,7 +77,7 @@ namespace TimeTable203.Api.Controllers
         [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Edit(PersonRequest request, CancellationToken cancellationToken)
         {
-            var model = mapper.Map<PersonModel>(request);
+            var model = mapper.Map<PersonRequestModel>(request);
             var result = await personService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<PersonResponse>(result));
         }

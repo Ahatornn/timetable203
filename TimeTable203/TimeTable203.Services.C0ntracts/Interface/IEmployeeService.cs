@@ -24,7 +24,7 @@ namespace TimeTable203.Services.Contracts.Interface
         /// <summary>
         /// Редактирует существующего учителя
         /// </summary>
-        Task<EmployeeModel> EditAsync(EmployeeModel source, CancellationToken cancellationToken);
+        Task<EmployeeModel> EditAsync(EmployeeRequestModel source, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаляет существующего учителя

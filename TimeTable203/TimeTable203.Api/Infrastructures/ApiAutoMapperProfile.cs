@@ -7,6 +7,7 @@ using TimeTable203.Api.ModelsRequest.Document;
 using TimeTable203.Api.ModelsRequest.Employee;
 using TimeTable203.Api.ModelsRequest.Group;
 using TimeTable203.Api.ModelsRequest.Person;
+using TimeTable203.Api.ModelsRequest.TimeTableItem;
 using TimeTable203.Api.ModelsRequest.TimeTableItemRequest;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.Models.Enums;
@@ -32,7 +33,7 @@ namespace TimeTable203.Api.Infrastructures
                 .ReverseMap();
 
             CreateMap<DisciplineModel, DisciplineResponse>(MemberList.Destination);
-            CreateMap<CreateDisciplineRequest, DisciplineModel>(MemberList.Destination);
+            CreateMap<DisciplineRequest, DisciplineModel>(MemberList.Destination);
 
             CreateMap<DocumentModel, DocumentResponse>(MemberList.Destination)
                 .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Person != null
@@ -42,7 +43,7 @@ namespace TimeTable203.Api.Infrastructures
                     ? x.Person.Phone
                     : string.Empty));
             CreateMap<CreateDocumentRequest, DocumentRequestModel>(MemberList.Destination);
-            CreateMap<DocumentRequestModel, DocumentModel>(MemberList.Destination);
+            CreateMap<DocumentRequest, DocumentRequestModel>(MemberList.Destination);
 
             CreateMap<EmployeeModel, EmployeeResponse>(MemberList.Destination)
                 .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Person != null
@@ -51,14 +52,16 @@ namespace TimeTable203.Api.Infrastructures
                 .ForMember(x => x.MobilePhone, opt => opt.MapFrom(x => x.Person != null
                     ? x.Person.Phone
                     : string.Empty));
-            CreateMap<CreateEmployeeRequest, EmployeeModel>(MemberList.Destination);
+            CreateMap<CreateEmployeeRequest, EmployeeRequestModel>(MemberList.Destination);
+            CreateMap<EmployeeRequest, EmployeeRequestModel>(MemberList.Destination);
 
             CreateMap<PersonModel, PersonResponse>(MemberList.Destination);
             CreateMap<CreatePersonRequest, PersonRequestModel>(MemberList.Destination);
-            CreateMap<PersonRequestModel, PersonModel>(MemberList.Destination);
+            CreateMap<PersonRequest, PersonRequestModel>(MemberList.Destination);
 
             CreateMap<GroupModel, GroupResponse>(MemberList.Destination);
-            CreateMap<CreateGroupRequest, GroupModel>(MemberList.Destination);
+            CreateMap<CreateGroupRequest, GroupRequestModel>(MemberList.Destination);
+            CreateMap<GroupRequest, GroupRequestModel>(MemberList.Destination);
 
             CreateMap<TimeTableItemModel, TimeTableItemResponse>(MemberList.Destination)
                 .ForMember(x => x.NameDiscipline, opt => opt.MapFrom(x => x.Discipline!.Name))
@@ -66,7 +69,10 @@ namespace TimeTable203.Api.Infrastructures
                 .ForMember(x => x.TeacherName, opt => opt.MapFrom(x => $"{x.Teacher!.LastName} {x.Teacher.FirstName} {x.Teacher.Patronymic}"))
                 .ForMember(x => x.Phone, opt => opt.MapFrom(x => x.Teacher!.Phone));
             CreateMap<CreateTimeTableItemRequest, TimeTableItemRequestModel>(MemberList.Destination);
-            CreateMap<TimeTableItemRequestModel, TimeTableItemModel>(MemberList.Destination);
+            CreateMap<TimeTableItemRequest, TimeTableItemRequestModel>(MemberList.Destination);
+
+
         }
     }
+
 }

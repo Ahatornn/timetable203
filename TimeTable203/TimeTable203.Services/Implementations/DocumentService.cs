@@ -94,7 +94,7 @@ namespace TimeTable203.Services.Implementations
             return mapper.Map<DocumentModel>(item);
         }
 
-        async Task<DocumentModel> IDocumentService.EditAsync(DocumentModel source, CancellationToken cancellationToken)
+        async Task<DocumentModel> IDocumentService.EditAsync(DocumentRequestModel source, CancellationToken cancellationToken)
         {
             var targetDocument = await documentReadRepository.GetByIdAsync(source.Id, cancellationToken);
             if (targetDocument == null)
@@ -106,10 +106,10 @@ namespace TimeTable203.Services.Implementations
             targetDocument.Series = source.Series;
             targetDocument.IssuedAt = source.IssuedAt;
             targetDocument.IssuedBy = source.IssuedBy;
-            targetDocument.DocumentType = (DocumentTypes)source.DocumentType;
+            targetDocument.DocumentType = source.DocumentType;
 
             var personValidate = new PersonHelpValidate(personReadRepository);
-            var person = await personValidate.GetPersonByIdAsync(source.Person.Id, cancellationToken);
+            var person = await personValidate.GetPersonByIdAsync(source.PersonId, cancellationToken);
             if (person != null)
             {
                 targetDocument.PersonId = person.Id;

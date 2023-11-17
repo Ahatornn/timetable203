@@ -85,7 +85,7 @@ namespace TimeTable203.Services.Implementations
             return mapper.Map<PersonModel>(targetPerson);
         }
 
-        async Task<PersonModel> IPersonService.EditAsync(PersonModel source, CancellationToken cancellationToken)
+        async Task<PersonModel> IPersonService.EditAsync(PersonRequestModel source, CancellationToken cancellationToken)
         {
             var targetPerson = await personReadRepository.GetByIdAsync(source.Id, cancellationToken);
             if (targetPerson == null)

@@ -92,18 +92,21 @@ namespace TimeTable203.Services.Implementations
             };
 
             var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(groupRequestModel.ClassroomTeacher!.Value, cancellationToken);
-            if (employee != null)
+            if (groupRequestModel.ClassroomTeacher != null)
             {
-                item.EmployeeId = employee.Id;
-                item.Employee = employee;
+                var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(groupRequestModel.ClassroomTeacher!.Value, cancellationToken);
+                if (employee != null)
+                {
+                    item.EmployeeId = employee.Id;
+                    item.Employee = employee;
+                }
             }
 
             groupWriteRepository.Add(item);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<GroupModel>(item);
         }
-        async Task<GroupModel> IGroupService.EditAsync(GroupModel source, CancellationToken cancellationToken)
+        async Task<GroupModel> IGroupService.EditAsync(GroupRequestModel source, CancellationToken cancellationToken)
         {
             var targetGroup = await groupReadRepository.GetByIdAsync(source.Id, cancellationToken);
             if (targetGroup == null)
@@ -111,11 +114,14 @@ namespace TimeTable203.Services.Implementations
                 throw new TimeTableEntityNotFoundException<Group>(source.Id);
             }
             var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(source.ClassroomTeacher!.Id, cancellationToken);
-            if (employee != null)
+            if (source.ClassroomTeacher != null)
             {
-                targetGroup.EmployeeId = employee.Id;
-                targetGroup.Employee = employee;
+                var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(source.ClassroomTeacher!.Value, cancellationToken);
+                if (employee != null)
+                {
+                    targetGroup.EmployeeId = employee.Id;
+                    targetGroup.Employee = employee;
+                }
             }
 
             targetGroup.Name = source.Name;

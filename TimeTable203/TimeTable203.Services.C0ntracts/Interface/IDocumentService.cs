@@ -23,7 +23,7 @@ namespace TimeTable203.Services.Contracts.Interface
         /// <summary>
         /// Редактирует существующий документ
         /// </summary>
-        Task<DocumentModel> EditAsync(DocumentModel source, CancellationToken cancellationToken);
+        Task<DocumentModel> EditAsync(DocumentRequestModel source, CancellationToken cancellationToken);
 
         /// <summary>
         /// Удаляет существующий документ

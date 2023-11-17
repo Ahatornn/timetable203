@@ -6,6 +6,11 @@ namespace TimeTable203.Services.Contracts.ModelsRequest
     public class DocumentRequestModel
     {
         /// <summary>
+        /// Идентификатор
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// Номер документа
         /// </summary>
         public string Number { get; set; } = string.Empty;

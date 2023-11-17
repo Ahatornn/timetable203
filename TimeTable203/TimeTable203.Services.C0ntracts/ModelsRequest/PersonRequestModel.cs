@@ -3,6 +3,11 @@
     public class PersonRequestModel
     {
         /// <summary>
+        /// Идентификатор
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// Фамилия
         /// </summary>
         public string LastName { get; set; } = string.Empty;
