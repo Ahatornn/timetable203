@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Discipline;
-using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 
@@ -48,6 +46,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
             var result = await disciplineService.GetByIdAsync(id, cancellationToken);
@@ -62,19 +61,8 @@ namespace TimeTable203.Api.Controllers
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreateDisciplineRequest request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var result = await disciplineService.AddAsync(request.Name, request.Description, cancellationToken);
-                return Ok(mapper.Map<DisciplineResponse>(result));
-            }
-            catch (TimeTableEntityNotFoundException<Discipline> TimeEntityNotFound)
-            {
-                return NotFound(TimeEntityNotFound.Message);
-            }
-            catch (TimeTableInvalidOperationException TimeInvalidOperation)
-            {
-                return BadRequest(TimeInvalidOperation.Message);
-            }
+            var result = await disciplineService.AddAsync(request.Name, request.Description, cancellationToken);
+            return Ok(mapper.Map<DisciplineResponse>(result));
         }
 
         /// <summary>
@@ -97,6 +85,7 @@ namespace TimeTable203.Api.Controllers
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await disciplineService.DeleteAsync(id, cancellationToken);
