@@ -7,7 +7,10 @@ namespace TimeTable203.Services.FluentValidation
     {
         public DisciplineValidator()
         {
-            RuleFor(discipline => discipline.Name).NotNull().NotEmpty().WithMessage("Имя не должно быть пустым или null");
+            RuleFor(discipline => discipline.Name)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("Имя не должно быть пустым или null");
         }
     }
 }

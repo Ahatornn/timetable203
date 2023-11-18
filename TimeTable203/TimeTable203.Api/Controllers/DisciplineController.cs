@@ -58,8 +58,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(TimeTableEntityNotFoundException<Discipline>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(TimeTableInvalidOperationException), StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(typeof(TimeTableEntityNotFoundException<Discipline>), StatusCodes.Status404NotFound)]
+        //[ProducesResponseType(typeof(TimeTableInvalidOperationException), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create(CreateDisciplineRequest request, CancellationToken cancellationToken)
         {
             try
