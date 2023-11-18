@@ -12,8 +12,8 @@ using TimeTable203.Context;
 namespace TimeTable203.Context.Migrations
 {
     [DbContext(typeof(TimeTableContext))]
-    [Migration("20231105052717_Inital")]
-    partial class Inital
+    [Migration("20231107123358_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

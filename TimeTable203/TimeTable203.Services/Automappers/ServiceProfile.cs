@@ -23,8 +23,7 @@ namespace TimeTable203.Services.Automappers
 
             CreateMap<Person, PersonModel>(MemberList.Destination);
 
-            CreateMap<Document, DocumentModel>(MemberList.Destination)
-                .ForMember(x => x.Person, next => next.Ignore());
+            CreateMap<Document, DocumentModel>(MemberList.Destination);
 
             CreateMap<Employee, EmployeeModel>(MemberList.Destination)
                 .ForMember(x => x.Person, next => next.Ignore());

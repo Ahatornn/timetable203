@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Extensions;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.ModelsRequest.Employee;
 using TimeTable203.Services.Contracts.Interface;
+using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Api.Controllers
 {
@@ -54,6 +56,41 @@ namespace TimeTable203.Api.Controllers
             }
 
             return Ok(mapper.Map<EmployeeResponse>(item));
+        }
+
+        /// <summary>
+        /// Создаёт нового рабочего
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Create(CreateEmployeeRequest request, CancellationToken cancellationToken)
+        {
+            var employeeRequestModel = mapper.Map<EmployeeRequestModel>(request);
+            var result = await employeeService.AddAsync(employeeRequestModel, cancellationToken);
+            return Ok(mapper.Map<EmployeeResponse>(result));
+        }
+
+        /// <summary>
+        /// Редактирует имеющищегося рабочего
+        /// </summary>
+        [HttpPut]
+        [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Edit(EmployeeRequest request, CancellationToken cancellationToken)
+        {
+            var model = mapper.Map<EmployeeRequestModel>(request);
+            var result = await employeeService.EditAsync(model, cancellationToken);
+            return Ok(mapper.Map<EmployeeResponse>(result));
+        }
+
+        /// <summary>
+        /// Удаляет имеющийегося рабочего по id
+        /// </summary>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            await employeeService.DeleteAsync(id, cancellationToken);
+            return Ok();
         }
     }
 }

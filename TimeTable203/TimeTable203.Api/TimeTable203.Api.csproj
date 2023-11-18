@@ -26,4 +26,8 @@
     <ProjectReference Include="..\TimeTable203.Services\TimeTable203.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ModelsRequest\Employee\" />
+  </ItemGroup>
+
 </Project>

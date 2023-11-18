@@ -1,7 +1,12 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.ModelsRequest.TimeTableItem;
+using TimeTable203.Api.ModelsRequest.TimeTableItemRequest;
 using TimeTable203.Services.Contracts.Interface;
+using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Api.Controllers
 {
@@ -43,7 +48,7 @@ namespace TimeTable203.Api.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
             var item = await timeTableItemService.GetByIdAsync(id, cancellationToken);
             if (item == null)
@@ -52,6 +57,41 @@ namespace TimeTable203.Api.Controllers
             }
 
             return Ok(mapper.Map<TimeTableItemResponse>(item));
+        }
+
+        /// <summary>
+        /// Создаёт новое расписание
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Create(CreateTimeTableItemRequest request, CancellationToken cancellationToken)
+        {
+            var timeTableRequestModel = mapper.Map<TimeTableItemRequestModel>(request);
+            var result = await timeTableItemService.AddAsync(timeTableRequestModel, cancellationToken);
+            return Ok(mapper.Map<TimeTableItemResponse>(result));
+        }
+
+        /// <summary>
+        /// Редактирует имеющееся расписание
+        /// </summary>
+        [HttpPut]
+        [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Edit(TimeTableItemRequest request, CancellationToken cancellationToken)
+        {
+            var model = mapper.Map<TimeTableItemRequestModel>(request);
+            var result = await timeTableItemService.EditAsync(model, cancellationToken);
+            return Ok(mapper.Map<TimeTableItemResponse>(result));
+        }
+
+        /// <summary>
+        /// Удаляет имеющееся расписание по id
+        /// </summary>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)
+        {
+            await timeTableItemService.DeleteAsync(id, cancellationToken);
+            return Ok();
         }
     }
 }

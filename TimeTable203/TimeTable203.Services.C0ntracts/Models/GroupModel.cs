@@ -26,7 +26,7 @@
         public ICollection<PersonModel>? Students { get; set; }
 
         /// <summary>
-        /// <inheritdoc cref="EmployeeModel"/>
+        /// <inheritdoc cref="PersonModel"/>
         /// </summary>
         public PersonModel? ClassroomTeacher { get; set; }
     }

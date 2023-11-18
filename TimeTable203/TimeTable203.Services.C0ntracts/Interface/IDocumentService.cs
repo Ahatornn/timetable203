@@ -1,4 +1,5 @@
 ﻿using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Services.Contracts.Interface
 {
@@ -13,5 +14,20 @@ namespace TimeTable203.Services.Contracts.Interface
         /// Получить <see cref="DocumentModel"/> по идентификатору
         /// </summary>
         Task<DocumentModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Добавляет новый документ
+        /// </summary>
+        Task<DocumentModel> AddAsync(DocumentRequestModel document, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Редактирует существующий документ
+        /// </summary>
+        Task<DocumentModel> EditAsync(DocumentRequestModel source, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Удаляет существующий документ
+        /// </summary>
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }

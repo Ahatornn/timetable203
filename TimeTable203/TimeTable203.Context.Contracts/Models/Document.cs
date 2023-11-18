@@ -40,6 +40,6 @@ namespace TimeTable203.Context.Contracts.Models
         /// <summary>
         /// Делаем связь один ко многим
         /// </summary>
-        public Person? Person { get; set; }
+        public Person Person { get; set; }
     }
 }

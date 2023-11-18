@@ -43,11 +43,11 @@
         /// <summary>
         /// нужна для связи один ко многим по вторичному ключу <see cref="Employee"/>
         /// </summary>
-        public ICollection<Employee>? Employee { get; set; }
+        public ICollection<Employee> Employee { get; set; }
 
         /// <summary>
         /// нужна для связи один ко многим по вторичному ключу <see cref="Document"/>
         /// </summary>
-        public ICollection<Document>? Document { get; set; }
+        public ICollection<Document> Document { get; set; }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.ModelsRequest.Group;
 using TimeTable203.Services.Contracts.Interface;
+using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Api.Controllers
 {
@@ -52,6 +55,41 @@ namespace TimeTable203.Api.Controllers
             }
 
             return Ok(mapper.Map<GroupResponse>(item));
+        }
+
+        /// <summary>
+        /// Создаёт новую группу
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Create(CreateGroupRequest request, CancellationToken cancellationToken)
+        {
+            var groupRequestModel = mapper.Map<GroupRequestModel>(request);
+            var result = await groupService.AddAsync(groupRequestModel, cancellationToken);
+            return Ok(mapper.Map<GroupResponse>(result));
+        }
+
+        /// <summary>
+        /// Редактирует имеющуюся группу
+        /// </summary>
+        [HttpPut]
+        [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Edit(GroupRequest request, CancellationToken cancellationToken)
+        {
+            var model = mapper.Map<GroupRequestModel>(request);
+            var result = await groupService.EditAsync(model, cancellationToken);
+            return Ok(mapper.Map<GroupResponse>(result));
+        }
+
+        /// <summary>
+        /// Удаляет имеющуюся группу
+        /// </summary>
+        [HttpDelete("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            await groupService.DeleteAsync(id, cancellationToken);
+            return Ok();
         }
     }
 }

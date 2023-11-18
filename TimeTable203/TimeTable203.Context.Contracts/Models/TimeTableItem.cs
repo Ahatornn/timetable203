@@ -23,7 +23,7 @@
         /// <summary>
         /// Делаем связь один ко многим
         /// </summary>
-        public Discipline? Discipline { get; set; }
+        public Discipline Discipline { get; set; }
 
         /// <summary>
         /// Идентификатор группы
@@ -33,7 +33,7 @@
         /// <summary>
         /// Делаем связь один ко многим
         /// </summary>
-        public Group? Group { get; set; }
+        public Group Group { get; set; }
 
         /// <summary>
         /// Номер аудитории

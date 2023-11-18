@@ -39,6 +39,6 @@ namespace TimeTable203.Services.Contracts.Models
         /// <summary>
         /// <inheritdoc cref="PersonModel"/>
         /// </summary>
-        public PersonModel? Person { get; set; }
+        public PersonModel Person { get; set; }
     }
 }

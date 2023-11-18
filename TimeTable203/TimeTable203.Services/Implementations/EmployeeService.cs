@@ -1,22 +1,34 @@
 ﻿using AutoMapper;
 using Serilog;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Context.Contracts.Enums;
+using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts;
+using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
+using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
 {
     public class EmployeeService : IEmployeeService, IServiceAnchor
     {
         private readonly IEmployeeReadRepository employeeReadRepository;
+        private readonly IEmployeeWriteRepository employeeWriteRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IPersonReadRepository personReadRepository;
         private readonly IMapper mapper;
 
         public EmployeeService(IEmployeeReadRepository employeeReadRepository,
+            IEmployeeWriteRepository employeeWriteRepository,
+            IUnitOfWork unitOfWork,
             IPersonReadRepository personReadRepository,
             IMapper mapper)
         {
             this.employeeReadRepository = employeeReadRepository;
+            this.employeeWriteRepository = employeeWriteRepository;
+            this.unitOfWork = unitOfWork;
             this.personReadRepository = personReadRepository;
             this.mapper = mapper;
         }
@@ -55,6 +67,63 @@ namespace TimeTable203.Services.Implementations
                 ? mapper.Map<PersonModel>(person)
                 : null;
             return employee;
+        }
+
+        async Task<EmployeeModel> IEmployeeService.AddAsync(EmployeeRequestModel employeeRequestModel, CancellationToken cancellationToken)
+        {
+            var item = new Employee
+            {
+                Id = Guid.NewGuid(),
+                EmployeeType = employeeRequestModel.EmployeeType,
+            };
+
+            var personValidate = new PersonHelpValidate(personReadRepository);
+            var person = await personValidate.GetPersonByIdAsync(employeeRequestModel.PersonId, cancellationToken);
+            if (person != null)
+            {
+                item.PersonId = person.Id;
+                item.Person = person;
+            }
+
+            employeeWriteRepository.Add(item);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            return mapper.Map<EmployeeModel>(item);
+        }
+        async Task<EmployeeModel> IEmployeeService.EditAsync(EmployeeRequestModel source, CancellationToken cancellationToken)
+        {
+            var targetEmployee = await employeeReadRepository.GetByIdAsync(source.Id, cancellationToken);
+            if (targetEmployee == null)
+            {
+                throw new TimeTableEntityNotFoundException<Employee>(source.Id);
+            }
+
+            targetEmployee.EmployeeType = source.EmployeeType;
+            var personValidate = new PersonHelpValidate(personReadRepository);
+            var person = await personValidate.GetPersonByIdAsync(source.PersonId, cancellationToken);
+            if (person != null)
+            {
+                targetEmployee.PersonId = person.Id;
+                targetEmployee.Person = person;
+            }
+
+            employeeWriteRepository.Update(targetEmployee);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            return mapper.Map<EmployeeModel>(targetEmployee);
+        }
+        async Task IEmployeeService.DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var targetEmployee = await employeeReadRepository.GetByIdAsync(id, cancellationToken);
+            if (targetEmployee == null)
+            {
+                throw new TimeTableEntityNotFoundException<Employee>(id);
+            }
+            if (targetEmployee.DeletedAt.HasValue)
+            {
+                throw new TimeTableInvalidOperationException($"Рабочий с идентификатором {id} уже удален");
+            }
+
+            employeeWriteRepository.Delete(targetEmployee);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 }
