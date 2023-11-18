@@ -4,7 +4,7 @@ using TimeTable203.Repositories.Contracts;
 using TimeTable203.Repositories.Implementations;
 using Xunit;
 
-namespace TimeTable203.Repositories.Tests
+namespace TimeTable203.Repositories.Tests.Tests
 {
     /// <summary>
     /// Тесты для <see cref="IDisciplineReadRepository"/>

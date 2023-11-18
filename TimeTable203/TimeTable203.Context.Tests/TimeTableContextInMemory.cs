@@ -10,7 +10,7 @@ namespace TimeTable203.Context.Tests
     /// </summary>
     public abstract class TimeTableContextInMemory : IDisposable
     {
-        readonly protected CancellationToken CancellationToken;
+        protected readonly CancellationToken CancellationToken;
         private readonly CancellationTokenSource cancellationTokenSource;
 
         /// <summary>
