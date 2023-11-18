@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TimeTable203.Context.Contracts\TimeTable203.Context.Contracts.csproj" />
+    <ProjectReference Include="..\TimeTable203.Shared\TimeTable203.Shared.csproj" />
   </ItemGroup>
 
 </Project>
