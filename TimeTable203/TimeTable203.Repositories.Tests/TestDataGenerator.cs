@@ -92,5 +92,23 @@ namespace TimeTable203.Repositories.Tests
             action?.Invoke(item);
             return item;
         }
+
+        static internal TimeTableItem TimeTableItem(Action<TimeTableItem>? action = null)
+        {
+            var item = new TimeTableItem
+            {
+                Id = Guid.NewGuid(),
+                StartDate = DateTimeOffset.UtcNow,
+                EndDate = DateTimeOffset.UtcNow.AddDays(1),
+                RoomNumber = (short)Random.Shared.Next(0, 100),
+                CreatedAt = DateTimeOffset.UtcNow,
+                CreatedBy = $"CreatedBy{Guid.NewGuid():N}",
+                UpdatedAt = DateTimeOffset.UtcNow,
+                UpdatedBy = $"UpdatedBy{Guid.NewGuid():N}",
+            };
+
+            action?.Invoke(item);
+            return item;
+        }
     }
 }
