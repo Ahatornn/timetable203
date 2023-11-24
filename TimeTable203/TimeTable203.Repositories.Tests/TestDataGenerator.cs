@@ -59,5 +59,21 @@ namespace TimeTable203.Repositories.Tests
             action?.Invoke(item);
             return item;
         }
+
+        static internal Employee Employee(Action<Employee>? action = null)
+        {
+            var item = new Employee
+            {
+                Id = Guid.NewGuid(),
+                EmployeeType = Context.Contracts.Enums.EmployeeTypes.Student,
+                CreatedAt = DateTimeOffset.UtcNow,
+                CreatedBy = $"CreatedBy{Guid.NewGuid():N}",
+                UpdatedAt = DateTimeOffset.UtcNow,
+                UpdatedBy = $"UpdatedBy{Guid.NewGuid():N}",
+            };
+
+            action?.Invoke(item);
+            return item;
+        }
     }
 }
