@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TimeTable203.Api.Attribute;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Employee;
@@ -34,7 +35,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех сотрудников
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<EmployeeResponse>), StatusCodes.Status200OK)]
+        [ApiOk(typeof(IEnumerable<EmployeeResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await employeeService.GetAllAsync(cancellationToken);
@@ -45,7 +46,7 @@ namespace TimeTable203.Api.Controllers
         /// Получает сотрудника по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(EmployeeResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
@@ -62,7 +63,7 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт нового рабочего
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(EmployeeResponse))]
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreateEmployeeRequest request, CancellationToken cancellationToken)
         {
@@ -75,7 +76,7 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющищегося рабочего
         /// </summary>
         [HttpPut]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(EmployeeResponse))]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Edit(EmployeeRequest request, CancellationToken cancellationToken)
@@ -89,7 +90,7 @@ namespace TimeTable203.Api.Controllers
         /// Удаляет имеющийегося рабочего по id
         /// </summary>
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ApiOk]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)

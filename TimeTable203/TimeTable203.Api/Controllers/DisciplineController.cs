@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TimeTable203.Api.Attribute;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Discipline;
@@ -34,7 +35,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех дисциплин
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<DisciplineResponse>), StatusCodes.Status200OK)]
+        [ApiOk(typeof(IEnumerable<DisciplineResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await disciplineService.GetAllAsync(cancellationToken);
@@ -45,7 +46,7 @@ namespace TimeTable203.Api.Controllers
         /// Получает дисциплину по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(DisciplineResponse))]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
@@ -57,7 +58,7 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новую дисциплину
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(DisciplineResponse))]
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreateDisciplineRequest request, CancellationToken cancellationToken)
         {
@@ -69,7 +70,7 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющуюся дисциплину
         /// </summary>
         [HttpPut]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(DisciplineResponse))]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Edit(DisciplineRequest request, CancellationToken cancellationToken)
@@ -83,7 +84,7 @@ namespace TimeTable203.Api.Controllers
         /// Удаляет имеющуюся дисциплину
         /// </summary>
         [HttpDelete("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ApiOk(typeof(DisciplineResponse))]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)

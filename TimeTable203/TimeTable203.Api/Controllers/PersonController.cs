@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TimeTable203.Api.Attribute;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Person;
@@ -35,7 +36,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех участников
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<PersonResponse>), StatusCodes.Status200OK)]
+        [ApiOk(typeof(IEnumerable<PersonResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await personService.GetAllAsync(cancellationToken);
@@ -46,7 +47,7 @@ namespace TimeTable203.Api.Controllers
         /// Получает участника по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(PersonResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
@@ -63,7 +64,7 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новую персону
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(PersonResponse))]
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreatePersonRequest request, CancellationToken cancellationToken)
         {
@@ -76,7 +77,7 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющуюся персону
         /// </summary>
         [HttpPut]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(PersonResponse))]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Edit(PersonRequest request, CancellationToken cancellationToken)
@@ -90,7 +91,7 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющуюся персону изменяя/добавляя его в группу
         /// </summary>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(PersonResponse))]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> EditGroup(Guid id, [Required] Guid groupId, CancellationToken cancellationToken)
@@ -103,7 +104,7 @@ namespace TimeTable203.Api.Controllers
         /// Удаляет имеющуюся персону по id
         /// </summary>
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ApiOk]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TimeTable203.Api.Attribute;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.TimeTableItem;
@@ -35,7 +36,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех занятий на указанный день
         /// </summary>
         [HttpGet("{targetDate:datetime}")]
-        [ProducesResponseType(typeof(IEnumerable<TimeTableItemResponse>), StatusCodes.Status200OK)]
+        [ApiOk(typeof(IEnumerable<TimeTableItemResponse>))]
         public async Task<IActionResult> GetByDate(DateTime targetDate, CancellationToken cancellationToken)
         {
             var items = await timeTableItemService.GetAllAsync(targetDate, cancellationToken);
@@ -46,7 +47,7 @@ namespace TimeTable203.Api.Controllers
         /// Получает участника по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(TimeTableItemResponse)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
@@ -63,7 +64,7 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новое расписание
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(TimeTableItemResponse)]
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreateTimeTableItemRequest request, CancellationToken cancellationToken)
         {
@@ -76,7 +77,7 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющееся расписание
         /// </summary>
         [HttpPut]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(TimeTableItemResponse)]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Edit(TimeTableItemRequest request, CancellationToken cancellationToken)
@@ -90,7 +91,7 @@ namespace TimeTable203.Api.Controllers
         /// Удаляет имеющееся расписание по id
         /// </summary>
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ApiOk]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
         public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)

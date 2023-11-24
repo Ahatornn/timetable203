@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TimeTable203.Api.Attribute;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Document;
@@ -33,7 +34,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех документов
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<DocumentResponse>), StatusCodes.Status200OK)]
+        [ApiOk(typeof(IEnumerable<DocumentResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await documentService.GetAllAsync(cancellationToken);
@@ -44,7 +45,7 @@ namespace TimeTable203.Api.Controllers
         /// Получает документ по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(DocumentResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
@@ -61,7 +62,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех документов по идентификатору пользователя
         /// </summary>
         [HttpGet("person/{id:guid}")]
-        [ProducesResponseType(typeof(IEnumerable<DocumentResponse>), StatusCodes.Status200OK)]
+        [ApiOk(typeof(IEnumerable<DocumentResponse>))]
         public Task<IActionResult> GetForPerson(Guid id, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -71,7 +72,7 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новый документ
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(DocumentResponse))]
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreateDocumentRequest request, CancellationToken cancellationToken)
         {
@@ -84,7 +85,7 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющийся документ
         /// </summary>
         [HttpPut]
-        [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(DocumentResponse))]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Edit(DocumentRequest request, CancellationToken cancellationToken)
@@ -98,7 +99,7 @@ namespace TimeTable203.Api.Controllers
         /// Удаляет имеющийся документ по id
         /// </summary>
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ApiOk]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
