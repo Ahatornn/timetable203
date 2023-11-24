@@ -48,7 +48,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpGet("{id:guid}")]
         [ApiOk(typeof(PersonResponse))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ApiNotFound]
         public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
             var item = await personService.GetByIdAsync(id, cancellationToken);
@@ -65,7 +65,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ApiOk(typeof(PersonResponse))]
-        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
+        [ApiConflict]
         public async Task<IActionResult> Create(CreatePersonRequest request, CancellationToken cancellationToken)
         {
             var personRequestModel = mapper.Map<PersonRequestModel>(request);
@@ -78,8 +78,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ApiOk(typeof(PersonResponse))]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
+        [ApiNotFound]
+        [ApiConflict]
         public async Task<IActionResult> Edit(PersonRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<PersonRequestModel>(request);
@@ -92,8 +92,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut("{id}")]
         [ApiOk(typeof(PersonResponse))]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
+        [ApiNotFound]
+        [ApiConflict]
         public async Task<IActionResult> EditGroup(Guid id, [Required] Guid groupId, CancellationToken cancellationToken)
         {
             var result = await personService.UpdateGroupAsync(id, groupId, cancellationToken);
@@ -105,8 +105,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id}")]
         [ApiOk]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
+        [ApiNotFound]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await personService.DeleteAsync(id, cancellationToken);

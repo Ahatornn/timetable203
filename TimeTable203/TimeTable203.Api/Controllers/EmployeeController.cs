@@ -47,7 +47,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpGet("{id:guid}")]
         [ApiOk(typeof(EmployeeResponse))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ApiNotFound]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var item = await employeeService.GetByIdAsync(id, cancellationToken);
@@ -64,7 +64,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ApiOk(typeof(EmployeeResponse))]
-        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
+        [ApiConflict]
         public async Task<IActionResult> Create(CreateEmployeeRequest request, CancellationToken cancellationToken)
         {
             var employeeRequestModel = mapper.Map<EmployeeRequestModel>(request);
@@ -77,8 +77,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ApiOk(typeof(EmployeeResponse))]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
+        [ApiNotFound]
+        [ApiConflict]
         public async Task<IActionResult> Edit(EmployeeRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<EmployeeRequestModel>(request);
@@ -91,8 +91,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id}")]
         [ApiOk]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
+        [ApiNotFound]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await employeeService.DeleteAsync(id, cancellationToken);

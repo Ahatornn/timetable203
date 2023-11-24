@@ -47,7 +47,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpGet("{id:guid}")]
         [ApiOk(typeof(DisciplineResponse))]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
+        [ApiNotFound]
         public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
             var result = await disciplineService.GetByIdAsync(id, cancellationToken);
@@ -59,7 +59,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ApiOk(typeof(DisciplineResponse))]
-        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
+        [ApiConflict]
         public async Task<IActionResult> Create(CreateDisciplineRequest request, CancellationToken cancellationToken)
         {
             var result = await disciplineService.AddAsync(request.Name, request.Description, cancellationToken);
@@ -71,8 +71,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ApiOk(typeof(DisciplineResponse))]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
+        [ApiNotFound]
+        [ApiConflict]
         public async Task<IActionResult> Edit(DisciplineRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<DisciplineModel>(request);
@@ -85,8 +85,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id:guid}")]
         [ApiOk(typeof(DisciplineResponse))]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
+        [ApiNotFound]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await disciplineService.DeleteAsync(id, cancellationToken);

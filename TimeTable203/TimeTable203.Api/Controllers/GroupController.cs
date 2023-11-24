@@ -46,7 +46,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpGet("{id:guid}")]
         [ApiOk(typeof(GroupResponse))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ApiNotFound]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var item = await groupService.GetByIdAsync(id, cancellationToken);
@@ -63,7 +63,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ApiOk(typeof(GroupResponse))]
-        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
+        [ApiConflict]
         public async Task<IActionResult> Create(CreateGroupRequest request, CancellationToken cancellationToken)
         {
             var groupRequestModel = mapper.Map<GroupRequestModel>(request);
@@ -76,8 +76,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPut]
         [ApiOk(typeof(GroupResponse))]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
+        [ApiNotFound]
+        [ApiConflict]
         public async Task<IActionResult> Edit(GroupRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<GroupRequestModel>(request);
@@ -90,8 +90,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id:guid}")]
         [ApiOk]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
+        [ApiNotFound]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await groupService.DeleteAsync(id, cancellationToken);

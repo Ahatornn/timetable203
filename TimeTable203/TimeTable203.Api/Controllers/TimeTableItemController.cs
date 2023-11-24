@@ -47,8 +47,8 @@ namespace TimeTable203.Api.Controllers
         /// Получает участника по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ApiOk(typeof(TimeTableItemResponse)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ApiOk(typeof(TimeTableItemResponse))]
+        [ApiNotFound]
         public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
             var item = await timeTableItemService.GetByIdAsync(id, cancellationToken);
@@ -64,8 +64,8 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новое расписание
         /// </summary>
         [HttpPost]
-        [ApiOk(typeof(TimeTableItemResponse)]
-        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
+        [ApiOk(typeof(TimeTableItemResponse))]
+        [ApiConflict]
         public async Task<IActionResult> Create(CreateTimeTableItemRequest request, CancellationToken cancellationToken)
         {
             var timeTableRequestModel = mapper.Map<TimeTableItemRequestModel>(request);
@@ -77,9 +77,9 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющееся расписание
         /// </summary>
         [HttpPut]
-        [ApiOk(typeof(TimeTableItemResponse)]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
+        [ApiOk(typeof(TimeTableItemResponse))]
+        [ApiNotFound]
+        [ApiConflict]
         public async Task<IActionResult> Edit(TimeTableItemRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<TimeTableItemRequestModel>(request);
@@ -92,8 +92,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id}")]
         [ApiOk]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
+        [ApiNotFound]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)
         {
             await timeTableItemService.DeleteAsync(id, cancellationToken);
