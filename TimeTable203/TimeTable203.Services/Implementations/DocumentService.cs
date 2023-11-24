@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Serilog;
-using TimeTable203.Context.Contracts.Enums;
 using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts;

@@ -1,5 +1,4 @@
-﻿using TimeTable203.Context.Contracts.Enums;
-using TimeTable203.Services.Contracts.Models;
+﻿using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Services.Contracts.Interface

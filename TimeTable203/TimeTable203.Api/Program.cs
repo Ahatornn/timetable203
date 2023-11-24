@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TimeTable203.Api.Infrastructures;
 using TimeTable203.Context;
-using TimeTable203.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -4,7 +4,6 @@ using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Document;
 using TimeTable203.Services.Contracts.Interface;
-using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
 
 namespace TimeTable203.Api.Controllers
