@@ -75,5 +75,22 @@ namespace TimeTable203.Repositories.Tests
             action?.Invoke(item);
             return item;
         }
+
+        static internal Group Group(Action<Group>? action = null)
+        {
+            var item = new Group
+            {
+                Id = Guid.NewGuid(),
+                Name = $"Name{Guid.NewGuid():N}",
+                Description = $"Description{Guid.NewGuid():N}",
+                CreatedAt = DateTimeOffset.UtcNow,
+                CreatedBy = $"CreatedBy{Guid.NewGuid():N}",
+                UpdatedAt = DateTimeOffset.UtcNow,
+                UpdatedBy = $"UpdatedBy{Guid.NewGuid():N}",
+            };
+
+            action?.Invoke(item);
+            return item;
+        }
     }
 }
