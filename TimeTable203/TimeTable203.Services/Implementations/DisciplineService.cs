@@ -60,6 +60,7 @@ namespace TimeTable203.Services.Implementations
                 var text = "";
                 foreach (var failure in result.Errors)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();//Если пользователь ушел, выбрасываем исключение
                     text = $"Свойство {failure.PropertyName} вызвало ошибку. Ошибка: {failure.ErrorMessage}\n";
                 }
                 throw new TimeTableInvalidOperationException(text);

@@ -1,9 +1,6 @@
-﻿using System.Xml;
-using AutoMapper;
+﻿using AutoMapper;
 using Serilog;
-using TimeTable203.Common;
 using TimeTable203.Common.Entity.InterfaceDB;
-using TimeTable203.Context.Contracts.Enums;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts;
 using TimeTable203.Services.Contracts.Exceptions;
@@ -58,6 +55,7 @@ namespace TimeTable203.Services.Implementations
             var listTimeTableItemModel = new List<TimeTableItemModel>();
             foreach (var timeTableItem in timeTableItems)
             {
+                cancellationToken.ThrowIfCancellationRequested();//Если пользователь ушел, выбрасываем исключение
                 if (!disciplineDictionary.TryGetValue(timeTableItem.DisciplineId, out var discipline))
                 {
                     Log.Warning("Запрос вернул null(Discipline) ITimeTableItemService.GetAllAsync");

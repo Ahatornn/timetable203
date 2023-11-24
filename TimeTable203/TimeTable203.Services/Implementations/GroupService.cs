@@ -45,6 +45,7 @@ namespace TimeTable203.Services.Implementations
             var listGroupModel = new List<GroupModel>();
             foreach (var group in groups)
             {
+                cancellationToken.ThrowIfCancellationRequested();//Если пользователь ушел, выбрасываем исключение
                 var groupModel = mapper.Map<GroupModel>(group);
                 groupModel.ClassroomTeacher = group.EmployeeId.HasValue &&
                                               teacherDictionary.TryGetValue(group.EmployeeId!.Value, out var teacher)

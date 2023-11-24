@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Group;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
@@ -61,7 +62,8 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новую группу
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreateGroupRequest request, CancellationToken cancellationToken)
         {
             var groupRequestModel = mapper.Map<GroupRequestModel>(request);
@@ -73,7 +75,9 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющуюся группу
         /// </summary>
         [HttpPut]
-        [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Edit(GroupRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<GroupRequestModel>(request);
@@ -86,6 +90,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await groupService.DeleteAsync(id, cancellationToken);

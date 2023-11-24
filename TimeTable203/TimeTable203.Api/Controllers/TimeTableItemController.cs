@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.TimeTableItem;
 using TimeTable203.Api.ModelsRequest.TimeTableItemRequest;
 using TimeTable203.Services.Contracts.Interface;
@@ -63,7 +64,8 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новое расписание
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreateTimeTableItemRequest request, CancellationToken cancellationToken)
         {
             var timeTableRequestModel = mapper.Map<TimeTableItemRequestModel>(request);
@@ -75,7 +77,9 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющееся расписание
         /// </summary>
         [HttpPut]
-        [ProducesResponseType(typeof(TimeTableItemResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiValidationExceptionDetail), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Edit(TimeTableItemRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<TimeTableItemRequestModel>(request);
@@ -88,6 +92,8 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiExceptionDetail), StatusCodes.Status406NotAcceptable)]
         public async Task<IActionResult> Delete([Required] Guid id, CancellationToken cancellationToken)
         {
             await timeTableItemService.DeleteAsync(id, cancellationToken);

@@ -40,6 +40,7 @@ namespace TimeTable203.Services.Implementations
             var result = new List<EmployeeModel>();
             foreach (var employee in employees)
             {
+                cancellationToken.ThrowIfCancellationRequested();//Если пользователь ушел, выбрасываем исключение
                 if (!persons.TryGetValue(employee.PersonId, out var person))
                 {
                     Log.Warning("Запрос вернул null(Person) IEmployeeService.GetAllAsync");

@@ -40,6 +40,7 @@ namespace TimeTable203.Services.Implementations
             var result = new List<DocumentModel>();
             foreach (var document in documents)
             {
+                cancellationToken.ThrowIfCancellationRequested();//Если пользователь ушел, выбрасываем исключение
                 if (!persons.TryGetValue(document.PersonId, out var person))
                 {
                     Log.Warning("Запрос вернул null(Person) IDocumentService.GetAllAsync");
