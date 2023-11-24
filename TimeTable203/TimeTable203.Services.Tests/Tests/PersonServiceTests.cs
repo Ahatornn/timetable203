@@ -7,29 +7,30 @@ using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Implementations;
 using Xunit;
 
-namespace TimeTable203.Services.Tests
+namespace TimeTable203.Services.Tests.Tests
 {
-    /// <summary>
-    /// Тесты для <see cref="IDisciplineService"/>
-    /// </summary>
-    public class DisciplineServiceTests : TimeTableContextInMemory
+    public class PersonServiceTests : TimeTableContextInMemory
     {
-        private readonly IDisciplineService disciplineService;
+        private readonly IPersonService personService;
 
         /// <summary>
-        /// Инициализирует новый экземпляр <see cref="DisciplineServiceTests"/>
+        /// Инициализирует новый экземпляр <see cref="PersonServiceTests"/>
         /// </summary>
-        public DisciplineServiceTests()
+
+        public PersonServiceTests(IPersonService personService)
         {
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new ServiceProfile());
             });
-            disciplineService = new DisciplineService(new DisciplineReadRepository(Reader), config.CreateMapper());
+            personService = new PersonService(
+                new PersonReadRepository(Reader),
+                config.CreateMapper()
+            );
         }
 
         /// <summary>
-        /// Получение дисциплины по идентификатору возвращает null
+        /// Получение персоны по идентификатору возвращает null
         /// </summary>
         [Fact]
         public async Task GetByIdShouldReturnNull()
@@ -38,25 +39,25 @@ namespace TimeTable203.Services.Tests
             var id = Guid.NewGuid();
 
             // Act
-            var result = await disciplineService.GetByIdAsync(id, CancellationToken);
+            var result = await personService.GetByIdAsync(id, CancellationToken);
 
             // Assert
             result.Should().BeNull();
         }
 
         /// <summary>
-        /// Получение дисциплины по идентификатору возвращает данные
+        /// Получение персоны по идентификатору возвращает данные
         /// </summary>
         [Fact]
         public async Task GetByIdShouldReturnValue()
         {
             //Arrange
-            var target = TestDataGenerator.Discipline();
-            await Context.Disciplines.AddAsync(target);
+            var target = TestDataGenerator.Person();
+            await Context.Persons.AddAsync(target);
             await Context.SaveChangesAsync(CancellationToken);
 
             // Act
-            var result = await disciplineService.GetByIdAsync(target.Id, CancellationToken);
+            var result = await personService.GetByIdAsync(target.Id, CancellationToken);
 
             // Assert
             result.Should()
@@ -64,9 +65,13 @@ namespace TimeTable203.Services.Tests
                 .And.BeEquivalentTo(new
                 {
                     target.Id,
-                    target.Name,
-                    target.Description,
+                    target.LastName,
+                    target.FirstName,
+                    target.Email,
+                    target.Phone
                 });
         }
+
     }
 }
+
