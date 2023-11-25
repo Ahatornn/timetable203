@@ -54,7 +54,7 @@ namespace TimeTable203.Services.Implementations
                 Name = name,
                 Description = description,
             };
-           
+
             disciplineWriteRepository.Add(item);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<DisciplineModel>(item);
