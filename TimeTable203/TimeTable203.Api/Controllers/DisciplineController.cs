@@ -1,10 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Attribute;
+using TimeTable203.Api.Infrastructures;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Discipline;
+using TimeTable203.Api.Validators;
+using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 
@@ -19,16 +23,19 @@ namespace TimeTable203.Api.Controllers
     public class DisciplineController : ControllerBase
     {
         private readonly IDisciplineService disciplineService;
+        private readonly IApiValidatorService validatorService;
         private readonly IMapper mapper;
 
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="DisciplineController"/>
         /// </summary>
         public DisciplineController(IDisciplineService disciplineService,
-            IMapper mapper)
+            IMapper mapper,
+            IApiValidatorService validatorService)
         {
             this.disciplineService = disciplineService;
             this.mapper = mapper;
+            this.validatorService = validatorService;
         }
 
         /// <summary>
@@ -59,9 +66,11 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ApiOk(typeof(DisciplineResponse))]
-        [ApiConflict]
+        [ApiConflict(typeof(ApiValidationExceptionDetail))]
         public async Task<IActionResult> Create(CreateDisciplineRequest request, CancellationToken cancellationToken)
         {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
             var result = await disciplineService.AddAsync(request.Name, request.Description, cancellationToken);
             return Ok(mapper.Map<DisciplineResponse>(result));
         }
@@ -75,6 +84,8 @@ namespace TimeTable203.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Edit(DisciplineRequest request, CancellationToken cancellationToken)
         {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
             var model = mapper.Map<DisciplineModel>(request);
             var result = await disciplineService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<DisciplineResponse>(result));
