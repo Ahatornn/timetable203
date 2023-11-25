@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TimeTable203.Api.Attribute;
 using TimeTable203.Api.Models;
-using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Group;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.ModelsRequest;
@@ -34,7 +32,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех групп
         /// </summary>
         [HttpGet]
-        [ApiOk(typeof(IEnumerable<GroupResponse>))]
+        [ProducesResponseType(typeof(IEnumerable<GroupResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await groupService.GetAllAsync(cancellationToken);
@@ -45,8 +43,8 @@ namespace TimeTable203.Api.Controllers
         /// Получает группу по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ApiOk(typeof(GroupResponse))]
-        [ApiNotFound]
+        [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var item = await groupService.GetByIdAsync(id, cancellationToken);
@@ -62,8 +60,7 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новую группу
         /// </summary>
         [HttpPost]
-        [ApiOk(typeof(GroupResponse))]
-        [ApiConflict]
+        [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(CreateGroupRequest request, CancellationToken cancellationToken)
         {
             var groupRequestModel = mapper.Map<GroupRequestModel>(request);
@@ -75,9 +72,7 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющуюся группу
         /// </summary>
         [HttpPut]
-        [ApiOk(typeof(GroupResponse))]
-        [ApiNotFound]
-        [ApiConflict]
+        [ProducesResponseType(typeof(GroupResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Edit(GroupRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<GroupRequestModel>(request);
@@ -89,9 +84,7 @@ namespace TimeTable203.Api.Controllers
         /// Удаляет имеющуюся группу
         /// </summary>
         [HttpDelete("{id:guid}")]
-        [ApiOk]
-        [ApiNotFound]
-        [ApiNotAcceptable]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await groupService.DeleteAsync(id, cancellationToken);

@@ -55,7 +55,6 @@ namespace TimeTable203.Services.Implementations
             var listTimeTableItemModel = new List<TimeTableItemModel>();
             foreach (var timeTableItem in timeTableItems)
             {
-                cancellationToken.ThrowIfCancellationRequested();//Если пользователь ушел, выбрасываем исключение
                 if (!disciplineDictionary.TryGetValue(timeTableItem.DisciplineId, out var discipline))
                 {
                     Log.Warning("Запрос вернул null(Discipline) ITimeTableItemService.GetAllAsync");

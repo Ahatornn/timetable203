@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TimeTable203.Api.Attribute;
 using TimeTable203.Api.Models;
-using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Document;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.ModelsRequest;
@@ -34,7 +32,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех документов
         /// </summary>
         [HttpGet]
-        [ApiOk(typeof(IEnumerable<DocumentResponse>))]
+        [ProducesResponseType(typeof(IEnumerable<DocumentResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await documentService.GetAllAsync(cancellationToken);
@@ -45,8 +43,8 @@ namespace TimeTable203.Api.Controllers
         /// Получает документ по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ApiOk(typeof(DocumentResponse))]
-        [ApiNotFound]
+        [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var item = await documentService.GetByIdAsync(id, cancellationToken);
@@ -62,7 +60,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех документов по идентификатору пользователя
         /// </summary>
         [HttpGet("person/{id:guid}")]
-        [ApiOk(typeof(IEnumerable<DocumentResponse>))]
+        [ProducesResponseType(typeof(IEnumerable<DocumentResponse>), StatusCodes.Status200OK)]
         public Task<IActionResult> GetForPerson(Guid id, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -72,8 +70,7 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новый документ
         /// </summary>
         [HttpPost]
-        [ApiOk(typeof(DocumentResponse))]
-        [ApiConflict]
+        [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(CreateDocumentRequest request, CancellationToken cancellationToken)
         {
             var documentRequestModel = mapper.Map<DocumentRequestModel>(request);
@@ -85,9 +82,7 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющийся документ
         /// </summary>
         [HttpPut]
-        [ApiOk(typeof(DocumentResponse))]
-        [ApiNotFound]
-        [ApiConflict]
+        [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Edit(DocumentRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<DocumentRequestModel>(request);
@@ -99,9 +94,7 @@ namespace TimeTable203.Api.Controllers
         /// Удаляет имеющийся документ по id
         /// </summary>
         [HttpDelete("{id}")]
-        [ApiOk]
-        [ApiNotFound]
-        [ApiNotAcceptable]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await documentService.DeleteAsync(id, cancellationToken);

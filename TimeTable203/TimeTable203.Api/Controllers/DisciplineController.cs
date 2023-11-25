@@ -1,14 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Attribute;
 using TimeTable203.Api.Infrastructures;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Discipline;
-using TimeTable203.Api.Validators;
-using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 
