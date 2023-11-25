@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TimeTable203.Api.Attribute;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Person;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
@@ -34,7 +36,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех участников
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<PersonResponse>), StatusCodes.Status200OK)]
+        [ApiOk(typeof(IEnumerable<PersonResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await personService.GetAllAsync(cancellationToken);
@@ -45,8 +47,8 @@ namespace TimeTable203.Api.Controllers
         /// Получает участника по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ApiOk(typeof(PersonResponse))]
+        [ApiNotFound]
         public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
             var item = await personService.GetByIdAsync(id, cancellationToken);
@@ -62,7 +64,8 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новую персону
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(PersonResponse))]
+        [ApiConflict]
         public async Task<IActionResult> Create(CreatePersonRequest request, CancellationToken cancellationToken)
         {
             var personRequestModel = mapper.Map<PersonRequestModel>(request);
@@ -74,7 +77,9 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющуюся персону
         /// </summary>
         [HttpPut]
-        [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(PersonResponse))]
+        [ApiNotFound]
+        [ApiConflict]
         public async Task<IActionResult> Edit(PersonRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<PersonRequestModel>(request);
@@ -86,7 +91,9 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющуюся персону изменяя/добавляя его в группу
         /// </summary>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(PersonResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(PersonResponse))]
+        [ApiNotFound]
+        [ApiConflict]
         public async Task<IActionResult> EditGroup(Guid id, [Required] Guid groupId, CancellationToken cancellationToken)
         {
             var result = await personService.UpdateGroupAsync(id, groupId, cancellationToken);
@@ -97,7 +104,9 @@ namespace TimeTable203.Api.Controllers
         /// Удаляет имеющуюся персону по id
         /// </summary>
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ApiOk]
+        [ApiNotFound]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await personService.DeleteAsync(id, cancellationToken);

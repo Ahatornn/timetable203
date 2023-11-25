@@ -54,16 +54,7 @@ namespace TimeTable203.Services.Implementations
                 Name = name,
                 Description = description,
             };
-            var result = disciplineValidator.Validate(item);
-            if (!result.IsValid)
-            {
-                var text = "";
-                foreach (var failure in result.Errors)
-                {
-                    text = $"Свойство {failure.PropertyName} вызвало ошибку. Ошибка: {failure.ErrorMessage}\n";
-                }
-                throw new TimeTableInvalidOperationException(text);
-            }
+
             disciplineWriteRepository.Add(item);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<DisciplineModel>(item);

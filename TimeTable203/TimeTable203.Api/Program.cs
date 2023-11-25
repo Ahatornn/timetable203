@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using TimeTable203.Api.Infrastructures;
 using TimeTable203.Context;
-using TimeTable203.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(x =>
+{
+    x.Filters.Add<TimeTableExceptionFilter>();
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.GetSwaggerDocument();
 

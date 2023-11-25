@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TimeTable203.Api.Attribute;
+using TimeTable203.Api.Infrastructures;
 using TimeTable203.Api.Models;
+using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Discipline;
-using TimeTable203.Context.Contracts.Models;
-using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 
@@ -19,23 +20,26 @@ namespace TimeTable203.Api.Controllers
     public class DisciplineController : ControllerBase
     {
         private readonly IDisciplineService disciplineService;
+        private readonly IApiValidatorService validatorService;
         private readonly IMapper mapper;
 
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="DisciplineController"/>
         /// </summary>
         public DisciplineController(IDisciplineService disciplineService,
-            IMapper mapper)
+            IMapper mapper,
+            IApiValidatorService validatorService)
         {
             this.disciplineService = disciplineService;
             this.mapper = mapper;
+            this.validatorService = validatorService;
         }
 
         /// <summary>
         /// Получить список всех дисциплин
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<DisciplineResponse>), StatusCodes.Status200OK)]
+        [ApiOk(typeof(IEnumerable<DisciplineResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await disciplineService.GetAllAsync(cancellationToken);
@@ -46,7 +50,8 @@ namespace TimeTable203.Api.Controllers
         /// Получает дисциплину по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(DisciplineResponse))]
+        [ApiNotFound]
         public async Task<IActionResult> GetById([Required] Guid id, CancellationToken cancellationToken)
         {
             var result = await disciplineService.GetByIdAsync(id, cancellationToken);
@@ -57,33 +62,27 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новую дисциплину
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
-        //[ProducesResponseType(typeof(TimeTableEntityNotFoundException<Discipline>), StatusCodes.Status404NotFound)]
-        //[ProducesResponseType(typeof(TimeTableInvalidOperationException), StatusCodes.Status400BadRequest)]
+        [ApiOk(typeof(DisciplineResponse))]
+        [ApiConflict(typeof(ApiValidationExceptionDetail))]
         public async Task<IActionResult> Create(CreateDisciplineRequest request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var result = await disciplineService.AddAsync(request.Name, request.Description, cancellationToken);
-                return Ok(mapper.Map<DisciplineResponse>(result));
-            }
-            catch (TimeTableEntityNotFoundException<Discipline> TimeEntityNotFound)
-            {
-                return NotFound(TimeEntityNotFound.Message);
-            }
-            catch (TimeTableInvalidOperationException TimeInvalidOperation)
-            {
-                return BadRequest(TimeInvalidOperation.Message);
-            }
+            await validatorService.ValidateAsync(request, cancellationToken);
+
+            var result = await disciplineService.AddAsync(request.Name, request.Description, cancellationToken);
+            return Ok(mapper.Map<DisciplineResponse>(result));
         }
 
         /// <summary>
         /// Редактирует имеющуюся дисциплину
         /// </summary>
         [HttpPut]
-        [ProducesResponseType(typeof(DisciplineResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(DisciplineResponse))]
+        [ApiNotFound]
+        [ApiConflict]
         public async Task<IActionResult> Edit(DisciplineRequest request, CancellationToken cancellationToken)
         {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
             var model = mapper.Map<DisciplineModel>(request);
             var result = await disciplineService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<DisciplineResponse>(result));
@@ -93,7 +92,9 @@ namespace TimeTable203.Api.Controllers
         /// Удаляет имеющуюся дисциплину
         /// </summary>
         [HttpDelete("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ApiOk(typeof(DisciplineResponse))]
+        [ApiNotFound]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await disciplineService.DeleteAsync(id, cancellationToken);
