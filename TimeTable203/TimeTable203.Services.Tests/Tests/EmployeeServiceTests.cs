@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentAssertions;
+using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Context.Tests;
 using TimeTable203.Repositories.Implementations;
 using TimeTable203.Services.Automappers;
@@ -25,6 +26,8 @@ namespace TimeTable203.Services.Tests.Tests
             });
             employeeService = new EmployeeService(
                 new EmployeeReadRepository(Reader),
+                new EmployeeWriteRepository(WriterContext),
+                UnitOfWork,
                 new PersonReadRepository(Reader),
                 config.CreateMapper()
             );

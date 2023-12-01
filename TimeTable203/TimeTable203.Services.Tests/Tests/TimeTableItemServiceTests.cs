@@ -25,9 +25,11 @@ namespace TimeTable203.Services.Tests.Tests
             });
             timeTableItemService = new TimeTableItemService(
                 new TimeTableItemReadRepository(Reader),
+                new TimeTableItemWriteRepository(WriterContext),
                 new DisciplineReadRepository(Reader),
                 new GroupReadRepository(Reader),
                 new EmployeeReadRepository(Reader),
+                UnitOfWork,
                 config.CreateMapper()
             );
         }

@@ -25,6 +25,9 @@ namespace TimeTable203.Services.Tests.Tests
             });
             personService = new PersonService(
                 new PersonReadRepository(Reader),
+                new PersonWriteRepository(WriterContext),
+                UnitOfWork,
+                new GroupReadRepository(Reader),
                 config.CreateMapper()
             );
         }

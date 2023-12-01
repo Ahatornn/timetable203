@@ -25,6 +25,8 @@ namespace TimeTable203.Services.Tests.Tests
             });
             documentService = new DocumentService(
                 new DocumentReadRepository(Reader),
+                new DocumentWriteRepository(WriterContext),
+                UnitOfWork,
                 new PersonReadRepository(Reader),
                 config.CreateMapper()
             );

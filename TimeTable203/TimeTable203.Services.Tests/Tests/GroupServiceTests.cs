@@ -25,6 +25,8 @@ namespace TimeTable203.Services.Tests.Tests
             });
             groupService = new GroupService(
                 new GroupReadRepository(Reader),
+                new GroupWriteRepository(WriterContext),
+                UnitOfWork,
                 new PersonReadRepository(Reader),
                 new EmployeeReadRepository(Reader),
                 config.CreateMapper()

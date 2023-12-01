@@ -25,7 +25,11 @@ namespace TimeTable203.Services.Tests.Tests
             {
                 cfg.AddProfile(new ServiceProfile());
             });
-            disciplineService = new DisciplineService(new DisciplineReadRepository(Reader), config.CreateMapper());
+            disciplineService = new DisciplineService(
+                new DisciplineReadRepository(Reader),
+                new DisciplineWriteRepository(WriterContext),
+                UnitOfWork,
+                config.CreateMapper());
         }
 
         /// <summary>
