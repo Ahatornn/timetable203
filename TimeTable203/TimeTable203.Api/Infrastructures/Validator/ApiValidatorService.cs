@@ -1,11 +1,4 @@
 ﻿using FluentValidation;
-using TimeTable203.Api.ModelsRequest.Discipline;
-using TimeTable203.Api.ModelsRequest.Document;
-using TimeTable203.Api.ModelsRequest.Employee;
-using TimeTable203.Api.ModelsRequest.Group;
-using TimeTable203.Api.ModelsRequest.Person;
-using TimeTable203.Api.ModelsRequest.TimeTableItem;
-using TimeTable203.Api.ModelsRequest.TimeTableItemRequest;
 using TimeTable203.Api.Validators.Discipline;
 using TimeTable203.Api.Validators.Document;
 using TimeTable203.Api.Validators.Employee;
