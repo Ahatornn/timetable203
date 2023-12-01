@@ -63,7 +63,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ApiOk(typeof(DisciplineResponse))]
-        [ApiConflict(typeof(ApiValidationExceptionDetail))]
+        [ApiConflict]
         public async Task<IActionResult> Create(CreateDisciplineRequest request, CancellationToken cancellationToken)
         {
             await validatorService.ValidateAsync(request, cancellationToken);

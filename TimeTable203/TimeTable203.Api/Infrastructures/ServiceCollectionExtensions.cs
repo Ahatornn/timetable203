@@ -13,8 +13,8 @@ namespace TimeTable203.Api.Infrastructures
         {
             service.AddTransient<IDateTimeProvider, DateTimeProvider>();
             service.AddTransient<IDbWriterContext, DbWriterContext>();
-            service.RegisterAutoMapperProfile<ApiAutoMapperProfile>();
             service.AddTransient<IApiValidatorService, ApiValidatorService>();
+            service.RegisterAutoMapperProfile<ApiAutoMapperProfile>();
 
             service.RegisterModule<ServiceModule>();
             service.RegisterModule<RepositoryModule>();

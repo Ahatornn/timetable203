@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TimeTable203.Api.Attribute;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.ModelsRequest.Employee;
 using TimeTable203.Services.Contracts.Interface;
@@ -33,7 +34,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех сотрудников
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<EmployeeResponse>), StatusCodes.Status200OK)]
+        [ApiOk(typeof(IEnumerable<EmployeeResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await employeeService.GetAllAsync(cancellationToken);
@@ -44,8 +45,8 @@ namespace TimeTable203.Api.Controllers
         /// Получает сотрудника по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ApiOk(typeof(EmployeeResponse))]
+        [ApiNotFound]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var item = await employeeService.GetByIdAsync(id, cancellationToken);
@@ -61,7 +62,8 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт нового рабочего
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(EmployeeResponse))]
+        [ApiConflict]
         public async Task<IActionResult> Create(CreateEmployeeRequest request, CancellationToken cancellationToken)
         {
             var employeeRequestModel = mapper.Map<EmployeeRequestModel>(request);
@@ -73,7 +75,8 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющищегося рабочего
         /// </summary>
         [HttpPut]
-        [ProducesResponseType(typeof(EmployeeResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(EmployeeResponse))]
+        [ApiConflict]
         public async Task<IActionResult> Edit(EmployeeRequest request, CancellationToken cancellationToken)
         {
             var model = mapper.Map<EmployeeRequestModel>(request);
@@ -85,7 +88,9 @@ namespace TimeTable203.Api.Controllers
         /// Удаляет имеющийегося рабочего по id
         /// </summary>
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ApiOk]
+        [ApiNotFound]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await employeeService.DeleteAsync(id, cancellationToken);

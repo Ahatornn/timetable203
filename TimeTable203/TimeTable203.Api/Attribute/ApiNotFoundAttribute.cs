@@ -5,7 +5,7 @@ namespace TimeTable203.Api.Attribute
 {
 
     /// <summary>
-    /// Фильтр, который определяет тип значения и код состояния 404, возвращаемый действием
+    /// Фильтр, который определяет тип значения и код состояния 404, возвращаемый действием <see cref="ApiExceptionDetail"/>
     /// </summary>
     public class ApiNotFoundAttribute : ProducesResponseTypeAttribute
     {

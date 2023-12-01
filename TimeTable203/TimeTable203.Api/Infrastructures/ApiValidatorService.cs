@@ -1,6 +1,10 @@
 ﻿using FluentValidation;
 using TimeTable203.Api.ModelsRequest.Discipline;
-using TimeTable203.Api.Validators;
+using TimeTable203.Api.ModelsRequest.Document;
+using TimeTable203.Api.Validators.Discipline;
+using TimeTable203.Api.Validators.Document;
+using TimeTable203.Repositories;
+using TimeTable203.Repositories.Contracts;
 using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Shared;
 
@@ -10,10 +14,12 @@ namespace TimeTable203.Api.Infrastructures
     {
         private readonly Dictionary<Type, IValidator> validators = new Dictionary<Type, IValidator>();
 
-        public ApiValidatorService()
+        public ApiValidatorService(IPersonReadRepository personReadRepository)
         {
             validators.Add(typeof(DisciplineRequest), new DisciplineRequestValidator());
             validators.Add(typeof(CreateDisciplineRequest), new CreateDisciplineRequestValidator());
+            validators.Add(typeof(CreateDocumentRequest), new CreateDocumentRequestValidator(personReadRepository));
+            validators.Add(typeof(DocumentRequest), new DocumentRequestValidator(personReadRepository));
         }
 
         public async Task ValidateAsync<TModel>(TModel model, CancellationToken cancellationToken)

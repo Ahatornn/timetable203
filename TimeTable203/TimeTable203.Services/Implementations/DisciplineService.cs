@@ -5,7 +5,6 @@ using TimeTable203.Repositories.Contracts;
 using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
-using TimeTable203.Services.FluentValidation;
 
 namespace TimeTable203.Services.Implementations
 {
@@ -16,7 +15,6 @@ namespace TimeTable203.Services.Implementations
         private readonly IDisciplineWriteRepository disciplineWriteRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-        private readonly DisciplineValidator disciplineValidator;
 
         public DisciplineService(IDisciplineReadRepository disciplineReadRepository,
             IDisciplineWriteRepository disciplineWriteRepository,
@@ -27,7 +25,6 @@ namespace TimeTable203.Services.Implementations
             this.disciplineWriteRepository = disciplineWriteRepository;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
-            disciplineValidator = new DisciplineValidator();
         }
 
         async Task<IEnumerable<DisciplineModel>> IDisciplineService.GetAllAsync(CancellationToken cancellationToken)
