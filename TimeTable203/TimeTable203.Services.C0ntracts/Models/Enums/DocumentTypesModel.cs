@@ -8,7 +8,7 @@
         /// <summary>
         /// Не определён
         /// </summary>
-        None = 1,
+        None,
 
         /// <summary>
         /// Пасспорт

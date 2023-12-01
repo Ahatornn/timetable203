@@ -29,9 +29,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTable203.Shared", "Time
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTable203.Context.Configuration", "TimeTable203.Context.Configuration\TimeTable203.Context.Configuration.csproj", "{18B374A2-2F64-4399-BF57-F5ABC478A2CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTable203.Common.Entity", "TimeTable203.Common.Entity\TimeTable203.Common.Entity.csproj", "{D1AD5713-E927-4C88-8E41-D2A09DD5F738}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTable203.Common.Entity", "TimeTable203.Common.Entity\TimeTable203.Common.Entity.csproj", "{D1AD5713-E927-4C88-8E41-D2A09DD5F738}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTable203.Logging", "TimeTable203.Logging\TimeTable203.Logging.csproj", "{222EE828-09E7-4FC6-84F0-097BDB3D9AC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTable203.Logging", "TimeTable203.Logging\TimeTable203.Logging.csproj", "{222EE828-09E7-4FC6-84F0-097BDB3D9AC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTable203.Context.Tests", "TimeTable203.Context.Tests\TimeTable203.Context.Tests.csproj", "{6F6CC922-C6E0-4A79-9B0D-9455CFC926A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +101,10 @@ Global
 		{222EE828-09E7-4FC6-84F0-097BDB3D9AC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{222EE828-09E7-4FC6-84F0-097BDB3D9AC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{222EE828-09E7-4FC6-84F0-097BDB3D9AC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F6CC922-C6E0-4A79-9B0D-9455CFC926A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F6CC922-C6E0-4A79-9B0D-9455CFC926A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F6CC922-C6E0-4A79-9B0D-9455CFC926A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F6CC922-C6E0-4A79-9B0D-9455CFC926A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

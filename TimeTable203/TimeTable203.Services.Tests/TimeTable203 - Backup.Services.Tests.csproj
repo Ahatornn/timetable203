@@ -16,6 +16,11 @@
   <ItemGroup>
     <ProjectReference Include="..\TimeTable203.Context.Tests\TimeTable203.Context.Tests.csproj" />
     <ProjectReference Include="..\TimeTable203.Repositories\TimeTable203.Repositories.csproj" />
+    <ProjectReference Include="..\TimeTable203.Services\TimeTable203.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Tests\" />
   </ItemGroup>
 
 </Project>
