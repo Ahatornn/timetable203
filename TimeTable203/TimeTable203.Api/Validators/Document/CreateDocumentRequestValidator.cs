@@ -14,26 +14,26 @@ namespace TimeTable203.Api.Validators.Document
         /// </summary>
         public CreateDocumentRequestValidator(IPersonReadRepository personReadRepository)
         {
-            RuleFor(discipline => discipline.Number)
+            RuleFor(x => x.Number)
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("Номер не должен быть пустым или null");
 
-            RuleFor(discipline => discipline.Series)
+            RuleFor(x => x.Series)
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("Серия не должна быть пустым или null");
 
-            RuleFor(discipline => discipline.IssuedAt)
+            RuleFor(x => x.IssuedAt)
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("Дата выдачи не должна быть пустым или null");
 
-            RuleFor(discipline => discipline.DocumentType)
+            RuleFor(x => x.DocumentType)
                 .NotNull()
                 .WithMessage("Тип документа не должен быть null");
 
-            RuleFor(discipline => discipline.PersonId)
+            RuleFor(x => x.PersonId)
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("Персона не должна быть пустым или null")

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Attribute;
+using TimeTable203.Api.Infrastructures;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.ModelsRequest.Employee;
 using TimeTable203.Services.Contracts.Interface;
@@ -18,16 +19,19 @@ namespace TimeTable203.Api.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService employeeService;
+        private readonly IApiValidatorService validatorService;
         private readonly IMapper mapper;
 
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="EmployeeController"/>
         /// </summary>
         public EmployeeController(IEmployeeService employeeService,
-            IMapper mapper)
+            IMapper mapper,
+            IApiValidatorService validatorService)
         {
             this.employeeService = employeeService;
             this.mapper = mapper;
+            this.validatorService = validatorService;
         }
 
         /// <summary>
@@ -66,6 +70,8 @@ namespace TimeTable203.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Create(CreateEmployeeRequest request, CancellationToken cancellationToken)
         {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
             var employeeRequestModel = mapper.Map<EmployeeRequestModel>(request);
             var result = await employeeService.AddAsync(employeeRequestModel, cancellationToken);
             return Ok(mapper.Map<EmployeeResponse>(result));
@@ -79,6 +85,8 @@ namespace TimeTable203.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Edit(EmployeeRequest request, CancellationToken cancellationToken)
         {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
             var model = mapper.Map<EmployeeRequestModel>(request);
             var result = await employeeService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<EmployeeResponse>(result));

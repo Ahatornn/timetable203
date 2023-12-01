@@ -94,6 +94,8 @@ namespace TimeTable203.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Edit(DocumentRequest request, CancellationToken cancellationToken)
         {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
             var model = mapper.Map<DocumentRequestModel>(request);
             var result = await documentService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<DocumentResponse>(result));

@@ -1,40 +1,25 @@
 ﻿using FluentValidation;
-using TimeTable203.Api.ModelsRequest.Document;
+using TimeTable203.Api.ModelsRequest.Employee;
 using TimeTable203.Repositories.Contracts;
 
-namespace TimeTable203.Api.Validators.Document
+namespace TimeTable203.Api.Validators.Employee
 {
     /// <summary>
     /// 
     /// </summary>
-    public class DocumentRequestValidator : AbstractValidator<DocumentRequest>
+    public class EmployeeRequestValidator : AbstractValidator<EmployeeRequest>
     {
         /// <summary>
         /// 
         /// </summary>
-        public DocumentRequestValidator(IPersonReadRepository personReadRepository)
+        public EmployeeRequestValidator(IPersonReadRepository personReadRepository)
         {
             RuleFor(x => x.Id)
                .NotNull()
                .NotEmpty()
                .WithMessage("Id не должен быть пустым или null");
 
-            RuleFor(x => x.Number)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("Номер не должен быть пустым или null");
-
-            RuleFor(x => x.Series)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("Серия не должна быть пустым или null");
-
-            RuleFor(x => x.IssuedAt)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("Дата выдачи не должна быть пустым или null");
-
-            RuleFor(x => x.DocumentType)
+            RuleFor(x => x.EmployeeType)
                 .NotNull()
                 .WithMessage("Тип документа не должен быть null");
 

@@ -74,15 +74,8 @@ namespace TimeTable203.Services.Implementations
             {
                 Id = Guid.NewGuid(),
                 EmployeeType = employeeRequestModel.EmployeeType,
+                PersonId = employeeRequestModel.PersonId,
             };
-
-            var personValidate = new PersonHelpValidate(personReadRepository);
-            var person = await personValidate.GetPersonByIdAsync(employeeRequestModel.PersonId, cancellationToken);
-            if (person != null)
-            {
-                item.PersonId = person.Id;
-                item.Person = person;
-            }
 
             employeeWriteRepository.Add(item);
             await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -97,13 +90,10 @@ namespace TimeTable203.Services.Implementations
             }
 
             targetEmployee.EmployeeType = source.EmployeeType;
-            var personValidate = new PersonHelpValidate(personReadRepository);
-            var person = await personValidate.GetPersonByIdAsync(source.PersonId, cancellationToken);
-            if (person != null)
-            {
-                targetEmployee.PersonId = person.Id;
-                targetEmployee.Person = person;
-            }
+
+            var person = await personReadRepository.GetByIdAsync(source.PersonId, cancellationToken);
+            targetEmployee.PersonId = person!.Id;
+            targetEmployee.Person = person;
 
             employeeWriteRepository.Update(targetEmployee);
             await unitOfWork.SaveChangesAsync(cancellationToken);
