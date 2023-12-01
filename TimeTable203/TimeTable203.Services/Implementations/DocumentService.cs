@@ -7,7 +7,6 @@ using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
-using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
 {
