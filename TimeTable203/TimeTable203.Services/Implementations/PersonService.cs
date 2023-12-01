@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using AutoMapper;
+﻿using AutoMapper;
 using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts;
@@ -7,7 +6,6 @@ using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
-using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
 {

@@ -1,4 +1,5 @@
-﻿using TimeTable203.Common;
+﻿using TimeTable203.Api.Infrastructures.Validator;
+using TimeTable203.Common;
 using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Context;
 using TimeTable203.Repositories;

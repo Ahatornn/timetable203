@@ -2,7 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Attribute;
-using TimeTable203.Api.Infrastructures;
+using TimeTable203.Api.Infrastructures.Validator;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.ModelsRequest.Discipline;
 using TimeTable203.Services.Contracts.Interface;
