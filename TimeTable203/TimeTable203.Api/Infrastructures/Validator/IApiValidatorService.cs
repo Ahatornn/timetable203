@@ -1,4 +1,4 @@
-﻿namespace TimeTable203.Api.Infrastructures
+﻿namespace TimeTable203.Api.Infrastructures.Validator
 {
     /// <summary>
     /// Сервис валидации

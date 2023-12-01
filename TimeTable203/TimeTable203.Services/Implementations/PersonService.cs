@@ -6,7 +6,6 @@ using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
-using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
 {
@@ -73,13 +72,14 @@ namespace TimeTable203.Services.Implementations
                 throw new TimeTableEntityNotFoundException<Person>(id);
             }
 
-            var groupValidate = new PersonHelpValidate(groupReadRepository);
-            var group = await groupValidate.GetGroupByIdAsync(groupId, cancellationToken);
-            if (group != null)
+            var group = await groupReadRepository.GetByIdAsync(groupId, cancellationToken);
+            if (group == null)
             {
-                targetPerson.GroupId = group.Id;
-                targetPerson.Group = group;
+                throw new TimeTableEntityNotFoundException<Group>(groupId);
             }
+            targetPerson.GroupId = group.Id;
+            targetPerson.Group = group;
+
             personWriteRepository.Update(targetPerson);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<PersonModel>(targetPerson);

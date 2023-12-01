@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TimeTable203.Api.Attribute;
+using TimeTable203.Api.Infrastructures.Validator;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.ModelsRequest.Document;
 using TimeTable203.Services.Contracts.Interface;
@@ -16,23 +18,26 @@ namespace TimeTable203.Api.Controllers
     public class DocumentController : ControllerBase
     {
         private readonly IDocumentService documentService;
+        private readonly IApiValidatorService validatorService;
         private readonly IMapper mapper;
 
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="DocumentController"/>
         /// </summary>
         public DocumentController(IDocumentService documentService,
-            IMapper mapper)
+            IMapper mapper,
+            IApiValidatorService validatorService)
         {
             this.documentService = documentService;
             this.mapper = mapper;
+            this.validatorService = validatorService;
         }
 
         /// <summary>
         /// Получить список всех документов
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<DocumentResponse>), StatusCodes.Status200OK)]
+        [ApiOk(typeof(IEnumerable<DocumentResponse>))]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var result = await documentService.GetAllAsync(cancellationToken);
@@ -43,8 +48,8 @@ namespace TimeTable203.Api.Controllers
         /// Получает документ по идентификатору
         /// </summary>
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ApiOk(typeof(IEnumerable<DocumentResponse>))]
+        [ApiNotFound]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var item = await documentService.GetByIdAsync(id, cancellationToken);
@@ -60,7 +65,7 @@ namespace TimeTable203.Api.Controllers
         /// Получить список всех документов по идентификатору пользователя
         /// </summary>
         [HttpGet("person/{id:guid}")]
-        [ProducesResponseType(typeof(IEnumerable<DocumentResponse>), StatusCodes.Status200OK)]
+        [ApiOk(typeof(IEnumerable<DocumentResponse>))]
         public Task<IActionResult> GetForPerson(Guid id, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -70,9 +75,12 @@ namespace TimeTable203.Api.Controllers
         /// Создаёт новый документ
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(DocumentResponse))]
+        [ApiConflict]
         public async Task<IActionResult> Create(CreateDocumentRequest request, CancellationToken cancellationToken)
         {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
             var documentRequestModel = mapper.Map<DocumentRequestModel>(request);
             var result = await documentService.AddAsync(documentRequestModel, cancellationToken);
             return Ok(mapper.Map<DocumentResponse>(result));
@@ -82,9 +90,12 @@ namespace TimeTable203.Api.Controllers
         /// Редактирует имеющийся документ
         /// </summary>
         [HttpPut]
-        [ProducesResponseType(typeof(DocumentResponse), StatusCodes.Status200OK)]
+        [ApiOk(typeof(DocumentResponse))]
+        [ApiConflict]
         public async Task<IActionResult> Edit(DocumentRequest request, CancellationToken cancellationToken)
         {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
             var model = mapper.Map<DocumentRequestModel>(request);
             var result = await documentService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<DocumentResponse>(result));
@@ -94,7 +105,9 @@ namespace TimeTable203.Api.Controllers
         /// Удаляет имеющийся документ по id
         /// </summary>
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ApiOk]
+        [ApiNotFound]
+        [ApiNotAcceptable]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await documentService.DeleteAsync(id, cancellationToken);

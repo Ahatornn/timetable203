@@ -1,4 +1,5 @@
-﻿using TimeTable203.Common;
+﻿using TimeTable203.Api.Infrastructures.Validator;
+using TimeTable203.Common;
 using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Context;
 using TimeTable203.Repositories;
@@ -13,8 +14,8 @@ namespace TimeTable203.Api.Infrastructures
         {
             service.AddTransient<IDateTimeProvider, DateTimeProvider>();
             service.AddTransient<IDbWriterContext, DbWriterContext>();
-            service.RegisterAutoMapperProfile<ApiAutoMapperProfile>();
             service.AddTransient<IApiValidatorService, ApiValidatorService>();
+            service.RegisterAutoMapperProfile<ApiAutoMapperProfile>();
 
             service.RegisterModule<ServiceModule>();
             service.RegisterModule<RepositoryModule>();

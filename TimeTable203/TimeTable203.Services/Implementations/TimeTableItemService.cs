@@ -7,7 +7,6 @@ using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
-using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
 {
@@ -55,6 +54,7 @@ namespace TimeTable203.Services.Implementations
             var listTimeTableItemModel = new List<TimeTableItemModel>();
             foreach (var timeTableItem in timeTableItems)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 if (!disciplineDictionary.TryGetValue(timeTableItem.DisciplineId, out var discipline))
                 {
                     Log.Warning("Запрос вернул null(Discipline) ITimeTableItemService.GetAllAsync");
@@ -115,32 +115,11 @@ namespace TimeTable203.Services.Implementations
                 Id = Guid.NewGuid(),
                 StartDate = timeTable.StartDate,
                 EndDate = timeTable.EndDate,
-                RoomNumber = timeTable.RoomNumber
+                RoomNumber = timeTable.RoomNumber,
+                TeacherId = timeTable.Teacher,
+                DisciplineId = timeTable.Discipline,
+                GroupId = timeTable.Group,
             };
-
-            var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(timeTable.Teacher, cancellationToken);
-            if (employee != null)
-            {
-                item.TeacherId = employee.Id;
-                item.Teacher = employee;
-            }
-
-            var groupValidate = new PersonHelpValidate(groupReadRepository);
-            var group = await groupValidate.GetGroupByIdAsync(timeTable.Group, cancellationToken);
-            if (group != null)
-            {
-                item.GroupId = group.Id;
-                item.Group = group;
-            }
-
-            var disciplineValidate = new PersonHelpValidate(disciplineReadRepository);
-            var discipline = await disciplineValidate.GetDisciplineByIdAsync(timeTable.Discipline, cancellationToken);
-            if (discipline != null)
-            {
-                item.DisciplineId = discipline.Id;
-                item.Discipline = discipline;
-            }
 
             timeTableItemWriteRepository.Add(item);
             await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -160,29 +139,17 @@ namespace TimeTable203.Services.Implementations
             targetTimeTableItem.EndDate = source.EndDate;
             targetTimeTableItem.RoomNumber = source.RoomNumber;
 
-            var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(source.Teacher, cancellationToken);
-            if (employee != null)
-            {
-                targetTimeTableItem.TeacherId = employee.Id;
-                targetTimeTableItem.Teacher = employee;
-            }
+            var employee = await employeeReadRepository.GetByIdAsync(source.Teacher, cancellationToken);
+            targetTimeTableItem.TeacherId = employee!.Id;
+            targetTimeTableItem.Teacher = employee;
 
-            var groupValidate = new PersonHelpValidate(groupReadRepository);
-            var group = await groupValidate.GetGroupByIdAsync(source.Group, cancellationToken);
-            if (group != null)
-            {
-                targetTimeTableItem.GroupId = group.Id;
-                targetTimeTableItem.Group = group;
-            }
+            var group = await groupReadRepository.GetByIdAsync(source.Group, cancellationToken);
+            targetTimeTableItem.GroupId = group!.Id;
+            targetTimeTableItem.Group = group;
 
-            var disciplineValidate = new PersonHelpValidate(disciplineReadRepository);
-            var discipline = await disciplineValidate.GetDisciplineByIdAsync(source.Discipline, cancellationToken);
-            if (discipline != null)
-            {
-                targetTimeTableItem.DisciplineId = discipline.Id;
-                targetTimeTableItem.Discipline = discipline;
-            }
+            var discipline = await disciplineReadRepository.GetByIdAsync(source.Discipline, cancellationToken);
+            targetTimeTableItem.DisciplineId = discipline!.Id;
+            targetTimeTableItem.Discipline = discipline;
 
             timeTableItemWriteRepository.Update(targetTimeTableItem);
             await unitOfWork.SaveChangesAsync(cancellationToken);

@@ -40,6 +40,6 @@ namespace TimeTable203.Context.Contracts.Models
         /// <summary>
         /// Дата удаления
         /// </summary>
-        public DateTimeOffset? DeletedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; } = null;
     }
 }

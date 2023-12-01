@@ -2,9 +2,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Attribute;
-using TimeTable203.Api.Infrastructures;
+using TimeTable203.Api.Infrastructures.Validator;
 using TimeTable203.Api.Models;
-using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Discipline;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
@@ -63,7 +62,7 @@ namespace TimeTable203.Api.Controllers
         /// </summary>
         [HttpPost]
         [ApiOk(typeof(DisciplineResponse))]
-        [ApiConflict(typeof(ApiValidationExceptionDetail))]
+        [ApiConflict]
         public async Task<IActionResult> Create(CreateDisciplineRequest request, CancellationToken cancellationToken)
         {
             await validatorService.ValidateAsync(request, cancellationToken);

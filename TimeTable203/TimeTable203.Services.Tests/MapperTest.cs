@@ -7,7 +7,7 @@ namespace TimeTable203.Services.Tests
     public class MapperTest
     {
         /// <summary>
-        /// 
+        /// Тесты на маппер
         /// </summary>
         [Fact]
         public void TestMap()

@@ -6,7 +6,6 @@ using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
-using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
 {
@@ -90,18 +89,8 @@ namespace TimeTable203.Services.Implementations
                 Id = Guid.NewGuid(),
                 Name = groupRequestModel.Name,
                 Description = groupRequestModel.Description,
+                EmployeeId = groupRequestModel.ClassroomTeacher
             };
-
-            var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            if (groupRequestModel.ClassroomTeacher != null)
-            {
-                var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(groupRequestModel.ClassroomTeacher!.Value, cancellationToken);
-                if (employee != null)
-                {
-                    item.EmployeeId = employee.Id;
-                    item.Employee = employee;
-                }
-            }
 
             groupWriteRepository.Add(item);
             await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -114,16 +103,10 @@ namespace TimeTable203.Services.Implementations
             {
                 throw new TimeTableEntityNotFoundException<Group>(source.Id);
             }
-            var employeeValidate = new PersonHelpValidate(employeeReadRepository);
-            if (source.ClassroomTeacher != null)
-            {
-                var employee = await employeeValidate.GetEmployeeByIdTeacherAsync(source.ClassroomTeacher!.Value, cancellationToken);
-                if (employee != null)
-                {
-                    targetGroup.EmployeeId = employee.Id;
-                    targetGroup.Employee = employee;
-                }
-            }
+
+            var employee = await employeeReadRepository.GetByIdAsync(source.ClassroomTeacher!.Value, cancellationToken);
+            targetGroup.EmployeeId = employee!.Id;
+            targetGroup.Employee = employee;
 
             targetGroup.Name = source.Name;
             targetGroup.Description = source.Description;

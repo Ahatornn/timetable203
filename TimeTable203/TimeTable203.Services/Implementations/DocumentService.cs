@@ -7,7 +7,6 @@ using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
 using TimeTable203.Services.Contracts.ModelsRequest;
-using TimeTable203.Services.Helps;
 
 namespace TimeTable203.Services.Implementations
 {
@@ -78,15 +77,8 @@ namespace TimeTable203.Services.Implementations
                 IssuedAt = document.IssuedAt,
                 IssuedBy = document.IssuedBy,
                 DocumentType = document.DocumentType,
+                PersonId = document.PersonId,
             };
-
-            var personValidate = new PersonHelpValidate(personReadRepository);
-            var person = await personValidate.GetPersonByIdAsync(document.PersonId, cancellationToken);
-            if (person != null)
-            {
-                item.PersonId = person.Id;
-                item.Person = person;
-            }
 
             documentWriteRepository.Add(item);
             await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -107,13 +99,9 @@ namespace TimeTable203.Services.Implementations
             targetDocument.IssuedBy = source.IssuedBy;
             targetDocument.DocumentType = source.DocumentType;
 
-            var personValidate = new PersonHelpValidate(personReadRepository);
-            var person = await personValidate.GetPersonByIdAsync(source.PersonId, cancellationToken);
-            if (person != null)
-            {
-                targetDocument.PersonId = person.Id;
-                targetDocument.Person = person;
-            }
+            var person = await personReadRepository.GetByIdAsync(source.PersonId, cancellationToken);
+            targetDocument.PersonId = person!.Id;
+            targetDocument.Person = person;
 
             documentWriteRepository.Update(targetDocument);
             await unitOfWork.SaveChangesAsync(cancellationToken);

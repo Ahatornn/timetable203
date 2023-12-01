@@ -2,8 +2,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TimeTable203.Api.Attribute;
+using TimeTable203.Api.Infrastructures.Validator;
 using TimeTable203.Api.Models;
-using TimeTable203.Api.Models.Exceptions;
 using TimeTable203.Api.ModelsRequest.Person;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Contracts.Models;
@@ -20,16 +20,19 @@ namespace TimeTable203.Api.Controllers
     public class PersonController : Controller
     {
         private readonly IPersonService personService;
+        private readonly IApiValidatorService validatorService;
         private readonly IMapper mapper;
 
         /// <summary>
         /// Инициализирует новый экземпляр <see cref="PersonController"/>
         /// </summary>
         public PersonController(IPersonService personService,
-            IMapper mapper)
+            IMapper mapper,
+            IApiValidatorService validatorService)
         {
             this.personService = personService;
             this.mapper = mapper;
+            this.validatorService = validatorService;
         }
 
         /// <summary>
@@ -68,6 +71,8 @@ namespace TimeTable203.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Create(CreatePersonRequest request, CancellationToken cancellationToken)
         {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
             var personRequestModel = mapper.Map<PersonRequestModel>(request);
             var result = await personService.AddAsync(personRequestModel, cancellationToken);
             return Ok(mapper.Map<PersonModel>(result));
@@ -82,6 +87,8 @@ namespace TimeTable203.Api.Controllers
         [ApiConflict]
         public async Task<IActionResult> Edit(PersonRequest request, CancellationToken cancellationToken)
         {
+            await validatorService.ValidateAsync(request, cancellationToken);
+
             var model = mapper.Map<PersonRequestModel>(request);
             var result = await personService.EditAsync(model, cancellationToken);
             return Ok(mapper.Map<PersonResponse>(result));

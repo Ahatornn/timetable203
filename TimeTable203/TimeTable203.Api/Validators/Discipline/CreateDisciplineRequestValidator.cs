@@ -1,17 +1,17 @@
 ﻿using FluentValidation;
 using TimeTable203.Api.ModelsRequest.Discipline;
 
-namespace TimeTable203.Api.Validators
+namespace TimeTable203.Api.Validators.Discipline
 {
     /// <summary>
     /// 
     /// </summary>
-    public class DisciplineRequestValidator : AbstractValidator<DisciplineRequest>
+    public class CreateDisciplineRequestValidator : AbstractValidator<CreateDisciplineRequest>
     {
         /// <summary>
         /// 
         /// </summary>
-        public DisciplineRequestValidator()
+        public CreateDisciplineRequestValidator()
         {
             RuleFor(discipline => discipline.Name)
                 .NotNull()
