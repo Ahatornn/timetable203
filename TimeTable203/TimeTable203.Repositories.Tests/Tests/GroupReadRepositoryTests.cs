@@ -37,12 +37,12 @@ namespace TimeTable203.Repositories.Tests.Tests
         /// Возвращает список груп
         /// </summary>
         [Fact]
-        public async Task GetAllPersonsValue()
+        public async Task GetAllGroupValue()
         {
             //Arrange
             var target = TestDataGenerator.Group();
             await Context.Groups.AddRangeAsync(target,
-                TestDataGenerator.Person(x => x.DeletedAt = DateTimeOffset.UtcNow));
+                TestDataGenerator.Group(x => x.DeletedAt = DateTimeOffset.UtcNow));
             await Context.SaveChangesAsync(CancellationToken);
 
             // Act

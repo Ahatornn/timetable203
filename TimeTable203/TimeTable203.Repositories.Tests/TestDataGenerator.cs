@@ -1,4 +1,5 @@
-﻿using TimeTable203.Context.Contracts.Models;
+﻿using TimeTable203.Context.Contracts.Enums;
+using TimeTable203.Context.Contracts.Models;
 
 namespace TimeTable203.Repositories.Tests
 {
@@ -27,7 +28,7 @@ namespace TimeTable203.Repositories.Tests
             var item = new Document
             {
                 Id = Guid.NewGuid(),
-                DocumentType = Context.Contracts.Enums.DocumentTypes.None,
+                DocumentType = DocumentTypes.None,
                 IssuedAt = DateTime.UtcNow,
                 IssuedBy = $"IssuedBy{Guid.NewGuid():N}",
                 Number = $"Number{Guid.NewGuid():N}",
@@ -65,7 +66,7 @@ namespace TimeTable203.Repositories.Tests
             var item = new Employee
             {
                 Id = Guid.NewGuid(),
-                EmployeeType = Context.Contracts.Enums.EmployeeTypes.Student,
+                EmployeeType = EmployeeTypes.Student,
                 CreatedAt = DateTimeOffset.UtcNow,
                 CreatedBy = $"CreatedBy{Guid.NewGuid():N}",
                 UpdatedAt = DateTimeOffset.UtcNow,
@@ -99,7 +100,7 @@ namespace TimeTable203.Repositories.Tests
             {
                 Id = Guid.NewGuid(),
                 StartDate = DateTimeOffset.UtcNow,
-                EndDate = DateTimeOffset.UtcNow.AddDays(1),
+                EndDate = DateTimeOffset.UtcNow.AddHours(1),
                 RoomNumber = (short)Random.Shared.Next(0, 100),
                 CreatedAt = DateTimeOffset.UtcNow,
                 CreatedBy = $"CreatedBy{Guid.NewGuid():N}",

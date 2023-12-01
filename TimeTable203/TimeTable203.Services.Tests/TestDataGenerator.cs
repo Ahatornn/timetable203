@@ -1,4 +1,5 @@
-﻿using TimeTable203.Context.Contracts.Models;
+﻿using TimeTable203.Context.Contracts.Enums;
+using TimeTable203.Context.Contracts.Models;
 
 namespace TimeTable203.Services.Tests
 {
@@ -26,7 +27,7 @@ namespace TimeTable203.Services.Tests
             var item = new Document
             {
                 Id = Guid.NewGuid(),
-                DocumentType = Context.Contracts.Enums.DocumentTypes.None,
+                DocumentType = DocumentTypes.Passport,
                 IssuedAt = DateTime.UtcNow,
                 IssuedBy = $"IssuedBy{Guid.NewGuid():N}",
                 Number = $"Number{Guid.NewGuid():N}",
@@ -64,7 +65,7 @@ namespace TimeTable203.Services.Tests
             var item = new Employee
             {
                 Id = Guid.NewGuid(),
-                EmployeeType = Context.Contracts.Enums.EmployeeTypes.Student,
+                EmployeeType = EmployeeTypes.Student,
                 CreatedAt = DateTimeOffset.UtcNow,
                 CreatedBy = $"CreatedBy{Guid.NewGuid():N}",
                 UpdatedAt = DateTimeOffset.UtcNow,

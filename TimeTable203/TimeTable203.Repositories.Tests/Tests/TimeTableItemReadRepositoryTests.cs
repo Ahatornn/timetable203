@@ -46,10 +46,10 @@ namespace TimeTable203.Repositories.Tests.Tests
             //Arrange
             var target = TestDataGenerator.TimeTableItem();
             await Context.TimeTableItems.AddRangeAsync(target,
-                TestDataGenerator.Person(x => x.DeletedAt = DateTimeOffset.UtcNow));
+                TestDataGenerator.TimeTableItem(x => x.DeletedAt = DateTimeOffset.UtcNow));
             await Context.SaveChangesAsync(CancellationToken);
 
-            var date = DateTimeOffset.UtcNow;
+            var date = DateTimeOffset.UtcNow.AddHours(-10);
 
             // Act
             var result = await timeTableItemReadRepository.GetAllByDateAsync(date, date.AddDays(1), CancellationToken);

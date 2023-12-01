@@ -17,7 +17,7 @@ namespace TimeTable203.Services.Tests.Tests
         /// Инициализирует новый экземпляр <see cref="PersonServiceTests"/>
         /// </summary>
 
-        public PersonServiceTests(IPersonService personService)
+        public PersonServiceTests()
         {
             var config = new MapperConfiguration(cfg =>
             {
