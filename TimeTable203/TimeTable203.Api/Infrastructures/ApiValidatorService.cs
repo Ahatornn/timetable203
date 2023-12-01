@@ -4,11 +4,14 @@ using TimeTable203.Api.ModelsRequest.Document;
 using TimeTable203.Api.ModelsRequest.Employee;
 using TimeTable203.Api.ModelsRequest.Group;
 using TimeTable203.Api.ModelsRequest.Person;
+using TimeTable203.Api.ModelsRequest.TimeTableItem;
+using TimeTable203.Api.ModelsRequest.TimeTableItemRequest;
 using TimeTable203.Api.Validators.Discipline;
 using TimeTable203.Api.Validators.Document;
 using TimeTable203.Api.Validators.Employee;
 using TimeTable203.Api.Validators.Group;
 using TimeTable203.Api.Validators.Person;
+using TimeTable203.Api.Validators.TimeTableItem;
 using TimeTable203.Repositories.Contracts;
 using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Shared;
@@ -20,7 +23,9 @@ namespace TimeTable203.Api.Infrastructures
         private readonly Dictionary<Type, IValidator> validators = new Dictionary<Type, IValidator>();
 
         public ApiValidatorService(IPersonReadRepository personReadRepository,
-            IEmployeeReadRepository employeeReadRepository)
+            IEmployeeReadRepository employeeReadRepository,
+            IDisciplineReadRepository disciplineReadRepository,
+            IGroupReadRepository groupReadRepository)
         {
             validators.Add(typeof(CreateDisciplineRequest), new CreateDisciplineRequestValidator());
             validators.Add(typeof(DisciplineRequest), new DisciplineRequestValidator());
@@ -36,6 +41,9 @@ namespace TimeTable203.Api.Infrastructures
 
             validators.Add(typeof(CreatePersonRequest), new CreatePersonRequestValidator());
             validators.Add(typeof(PersonRequest), new PersonRequestValidator());
+
+            validators.Add(typeof(CreateTimeTableItemRequest), new CreateTimeTableItemRequestValidator(employeeReadRepository, disciplineReadRepository,groupReadRepository));
+            validators.Add(typeof(TimeTableItemRequest), new TimeTableItemRequestValidator(employeeReadRepository, disciplineReadRepository, groupReadRepository));
         }
 
         public async Task ValidateAsync<TModel>(TModel model, CancellationToken cancellationToken)

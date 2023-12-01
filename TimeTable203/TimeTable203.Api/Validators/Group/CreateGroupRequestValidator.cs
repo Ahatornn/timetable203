@@ -24,7 +24,7 @@ namespace TimeTable203.Api.Validators.Group
             RuleFor(x => x.ClassroomTeacher)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Клаасный руководитель не должнен быть пустым или null")
+                .WithMessage("Клаасный руководитель не должен быть пустым или null")
                 .MustAsync(async (id, CancellationToken) =>
                 {
                     var employee = await employeeReadRepository.GetByIdAsync(id!.Value, CancellationToken);

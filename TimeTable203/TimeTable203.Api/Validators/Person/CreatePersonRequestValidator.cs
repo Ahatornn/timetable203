@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using TimeTable203.Api.ModelsRequest.Person;
-using TimeTable203.Repositories.Contracts;
 
 namespace TimeTable203.Api.Validators.Person
 {

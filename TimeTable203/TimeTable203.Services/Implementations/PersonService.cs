@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Cryptography;
+using AutoMapper;
 using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts;
@@ -73,13 +74,14 @@ namespace TimeTable203.Services.Implementations
                 throw new TimeTableEntityNotFoundException<Person>(id);
             }
 
-            var groupValidate = new PersonHelpValidate(groupReadRepository);
-            var group = await groupValidate.GetGroupByIdAsync(groupId, cancellationToken);
-            if (group != null)
+            var group = await groupReadRepository.GetByIdAsync(groupId, cancellationToken);
+            if (group == null)
             {
-                targetPerson.GroupId = group.Id;
-                targetPerson.Group = group;
+                throw new TimeTableEntityNotFoundException<Group>(groupId);
             }
+            targetPerson.GroupId = group.Id;
+            targetPerson.Group = group;
+
             personWriteRepository.Update(targetPerson);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return mapper.Map<PersonModel>(targetPerson);
