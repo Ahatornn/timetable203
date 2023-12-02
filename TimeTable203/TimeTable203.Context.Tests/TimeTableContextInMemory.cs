@@ -8,7 +8,7 @@ namespace TimeTable203.Context.Tests
     /// <summary>
     /// Класс <see cref="TimeTableContext"/> для тестов с базой в памяти. Один контекст на тест
     /// </summary>
-    public abstract class TimeTableContextInMemory : IDisposable
+    public abstract class TimeTableContextInMemory : IAsyncDisposable
     {
         protected readonly CancellationToken CancellationToken;
         private readonly CancellationTokenSource cancellationTokenSource;
@@ -37,14 +37,14 @@ namespace TimeTable203.Context.Tests
         }
 
         /// <inheritdoc cref="IDisposable"/>
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
             cancellationTokenSource.Cancel();
             cancellationTokenSource.Dispose();
             try
             {
-                Context.Database.EnsureDeletedAsync().Wait();
-                Context.Dispose();
+                await Context.Database.EnsureDeletedAsync();
+                await Context.DisposeAsync();
             }
             catch (ObjectDisposedException ex)
             {
