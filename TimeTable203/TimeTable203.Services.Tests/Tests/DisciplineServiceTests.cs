@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using FluentAssertions;
+using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Context.Tests;
 using TimeTable203.Repositories.Implementations;
 using TimeTable203.Services.Automappers;
+using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Implementations;
 using Xunit;
@@ -42,10 +44,11 @@ namespace TimeTable203.Services.Tests.Tests
             var id = Guid.NewGuid();
 
             // Act
-            var result = await disciplineService.GetByIdAsync(id, CancellationToken);
+            Func<Task> act = () => disciplineService.GetByIdAsync(id, CancellationToken);
 
             // Assert
-            result.Should().BeNull();
+            await act.Should().ThrowAsync<TimeTableEntityNotFoundException<Discipline>>()
+                .WithMessage($"*{id}*");
         }
 
         /// <summary>
