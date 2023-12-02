@@ -70,11 +70,16 @@ namespace TimeTable203.Context
         {
             Log.Information("Идет сохранение данных в бд");
             var count = await base.SaveChangesAsync(cancellationToken);
+            SkipTracker();
+            return count;
+        }
+
+        public void SkipTracker()
+        {
             foreach (var entry in base.ChangeTracker.Entries().ToArray())
             {
                 entry.State = EntityState.Detached;
             }
-            return count;
         }
     }
 }

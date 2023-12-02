@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentAssertions;
+using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Context.Tests;
 using TimeTable203.Repositories.Implementations;
@@ -74,6 +75,27 @@ namespace TimeTable203.Services.Tests.Tests
                     target.Name,
                     target.Description,
                 });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Fact]
+        public async Task DeleteShouldWork()
+        {
+            //Arrange
+            var target = TestDataGenerator.Discipline();
+            await Context.Disciplines.AddAsync(target);
+            await UnitOfWork.SaveChangesAsync(CancellationToken);
+
+            // Act
+            Func<Task> act = () => disciplineService.DeleteAsync(target.Id, CancellationToken);
+
+            // Assert
+            await act.Should().NotThrowAsync();
+            var entity = Context.Disciplines.Single(x => x.Id == target.Id);
+            entity.Should().NotBeNull();
+            entity.DeletedAt.Should().NotBeNull();
         }
     }
 }
