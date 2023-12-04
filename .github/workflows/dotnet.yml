@@ -26,8 +26,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
-      - name: Dotnet Run
-        run: dotnet TimeTable203.Api.dll
       - name: Install dependenciesdotnet MyProject.dll
         run: dotnet restore
       - name: Build
