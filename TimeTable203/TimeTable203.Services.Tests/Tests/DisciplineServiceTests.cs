@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using FluentAssertions;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Context.Tests;
 using TimeTable203.Repositories.Implementations;
 using TimeTable203.Services.Automappers;
+using TimeTable203.Services.Contracts.Exceptions;
 using TimeTable203.Services.Contracts.Interface;
 using TimeTable203.Services.Implementations;
 using Xunit;
@@ -42,10 +45,11 @@ namespace TimeTable203.Services.Tests.Tests
             var id = Guid.NewGuid();
 
             // Act
-            var result = await disciplineService.GetByIdAsync(id, CancellationToken);
+            Func<Task> act = () => disciplineService.GetByIdAsync(id, CancellationToken);
 
             // Assert
-            result.Should().BeNull();
+            await act.Should().ThrowAsync<TimeTableEntityNotFoundException<Discipline>>()
+                .WithMessage($"*{id}*");
         }
 
         /// <summary>
@@ -71,6 +75,27 @@ namespace TimeTable203.Services.Tests.Tests
                     target.Name,
                     target.Description,
                 });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Fact]
+        public async Task DeleteShouldWork()
+        {
+            //Arrange
+            var target = TestDataGenerator.Discipline();
+            await Context.Disciplines.AddAsync(target);
+            await UnitOfWork.SaveChangesAsync(CancellationToken);
+
+            // Act
+            Func<Task> act = () => disciplineService.DeleteAsync(target.Id, CancellationToken);
+
+            // Assert
+            await act.Should().NotThrowAsync();
+            var entity = Context.Disciplines.Single(x => x.Id == target.Id);
+            entity.Should().NotBeNull();
+            entity.DeletedAt.Should().NotBeNull();
         }
     }
 }

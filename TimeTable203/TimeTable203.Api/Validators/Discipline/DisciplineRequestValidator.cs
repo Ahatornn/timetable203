@@ -9,7 +9,7 @@ namespace TimeTable203.Api.Validators.Discipline
     public class DisciplineRequestValidator : AbstractValidator<DisciplineRequest>
     {
         /// <summary>
-        /// 
+        /// ctor
         /// </summary>
         public DisciplineRequestValidator()
         {

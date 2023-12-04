@@ -19,6 +19,11 @@ namespace TimeTable203.Repositories.Contracts
         Task<Person?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
+        /// 
+        /// </summary>
+        Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Получить список <see cref="Person"/> по идентификаторам
         /// </summary>
         Task<Dictionary<Guid, Person>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation);
