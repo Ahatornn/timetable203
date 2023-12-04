@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Setup dotnet ${{ matrix.dotnet-version }}
-      uses: actions/setup-dotnet@v7.0.400
+      uses: actions/setup-dotnet@4
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
     - name: Restore dependencies
