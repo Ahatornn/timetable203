@@ -19,7 +19,7 @@ jobs:
     - name: Setup dotnet ${{ matrix.dotnet-version }}
       uses: actions/setup-dotnet@3
       with:
-        dotnet-version: ${{ matrix.dotnet-version }}
+        dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
