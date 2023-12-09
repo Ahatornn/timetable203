@@ -17,11 +17,6 @@ namespace TimeTable203.Api.Validators.Discipline
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("Имя не должно быть пустым или null");
-
-            RuleFor(discipline => discipline.Id)
-                .NotEmpty()
-                .NotNull()
-                .WithMessage("Id не должно быть пустым или null");
         }
     }
 }
