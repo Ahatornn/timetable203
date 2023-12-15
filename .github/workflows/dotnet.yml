@@ -31,12 +31,14 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Install dependencies
-      working-directory: ..\..\TimeTable203\TimeTable203.Api
+      working-directory: TimeTable203\TimeTable203.Api
       run: dotnet restore 
       
       
     - name: Build
-      run: dotnet build --configuration Debug --no-restore ..\..\TimeTable203.Api\TimeTable203.Api.csproj
+      working-directory: TimeTable203\TimeTable203.Api
+      run: dotnet build --configuration Debug --no-restore
     
     - name: Test
-      run: dotnet test --no-restore --verbosity normal ..\..\TimeTable203.Api\TimeTable203.Api.csproj
+      working-directory: TimeTable203\TimeTable203.Api
+      run: dotnet test --no-restore --verbosity normal
