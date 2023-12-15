@@ -1,6 +1,6 @@
-﻿using Xunit;
-using FluentAssertions.Extensions;
-using FluentAssertions;
+﻿using AutoMapper;
+using TimeTable203.Api.Infrastructures;
+using Xunit;
 
 namespace TimeTable203.Api.Tests
 {
@@ -11,9 +11,12 @@ namespace TimeTable203.Api.Tests
         [Fact]
         public void TestValidate()
         {
-            var item = 1.March(2022).At(20, 30).AsLocal();
-            var item2 = 2.March(2022).At(20, 30).AsLocal();
-            item.Should().NotBe(item2);
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new ApiAutoMapperProfile());
+            });
+
+            config.AssertConfigurationIsValid();
         }
     }
 }

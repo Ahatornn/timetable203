@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentAssertions;
-using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Context.Tests;
 using TimeTable203.Repositories.Implementations;

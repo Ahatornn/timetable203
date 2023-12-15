@@ -10,27 +10,29 @@ namespace TimeTable203.Api.Tests.Validators
     /// </summary>
     public class DisciplineRequestValidatorTest
     {
-        private readonly DisciplineRequestValidator validator;
+        private readonly CreateDisciplineRequestValidator validatorCreateRequest;
+        private readonly DisciplineRequestValidator validatorRequest;
 
         /// <summary>
         /// ctor
         /// </summary>
         public DisciplineRequestValidatorTest()
         {
-            validator = new DisciplineRequestValidator();
+            validatorRequest = new DisciplineRequestValidator();
+            validatorCreateRequest = new CreateDisciplineRequestValidator();
         }
 
         /// <summary>
         /// Тест на наличие ошибок
         /// </summary>
         [Fact]
-        public void ValidatorShouldError()
+        public void ValidatorRequestShouldError()
         {
             //Arrange
             var model = new DisciplineRequest();
 
             // Act
-            var result = validator.TestValidate(model);
+            var result = validatorRequest.TestValidate(model);
 
             // Assert
             result.ShouldHaveValidationErrorFor(x => x.Name);
@@ -40,7 +42,7 @@ namespace TimeTable203.Api.Tests.Validators
         /// Тест на отсутствие ошибок
         /// </summary>
         [Fact]
-        public void ValidatorShouldSuccess()
+        public void ValidatorRequestShouldSuccess()
         {
             //Arrange
             var model = new DisciplineRequest
@@ -49,7 +51,42 @@ namespace TimeTable203.Api.Tests.Validators
             };
 
             // Act
-            var result = validator.TestValidate(model);
+            var result = validatorRequest.TestValidate(model);
+
+            // Assert
+            result.ShouldNotHaveValidationErrorFor(x => x.Name);
+        }
+
+        /// <summary>
+        /// Тест на наличие ошибок
+        /// </summary>
+        [Fact]
+        public void ValidatorCreateRequestShouldError()
+        {
+            //Arrange
+            var model = new CreateDisciplineRequest();
+
+            // Act
+            var result = validatorCreateRequest.TestValidate(model);
+
+            // Assert
+            result.ShouldHaveValidationErrorFor(x => x.Name);
+        }
+
+        /// <summary>
+        /// Тест на отсутствие ошибок
+        /// </summary>
+        [Fact]
+        public void ValidatorCreateRequestShouldSuccess()
+        {
+            //Arrange
+            var model = new CreateDisciplineRequest
+            {
+                Name = $"Name{Guid.NewGuid():N}",
+            };
+
+            // Act
+            var result = validatorCreateRequest.TestValidate(model);
 
             // Assert
             result.ShouldNotHaveValidationErrorFor(x => x.Name);
