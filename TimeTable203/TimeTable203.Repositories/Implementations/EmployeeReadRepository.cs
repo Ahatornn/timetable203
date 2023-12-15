@@ -22,13 +22,11 @@ namespace TimeTable203.Repositories.Implementations
             => reader.Read<Employee>()
                 .NotDeletedAt()
                 .OrderBy(x => x.EmployeeType)
-                .ThenBy(x => x.Person!.LastName)
-                .ThenBy(x => x.Person!.FirstName)
-                .ThenBy(x => x.Person!.Patronymic)
                 .ToReadOnlyCollectionAsync(cancellationToken);
 
         Task<Employee?> IEmployeeReadRepository.GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Employee>()
+                .NotDeletedAt()
                 .ById(id)
                 .FirstOrDefaultAsync(cancellationToken);
 
