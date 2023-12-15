@@ -31,7 +31,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Install dependencies
-      run: dotnet restore ..\..\TimeTable203.Api\TimeTable203.Api.csproj
+      run: dotnet restore ..\..\
       
     - name: Build
       run: dotnet build --configuration Debug --no-restore ..\..\TimeTable203.Api\TimeTable203.Api.csproj
