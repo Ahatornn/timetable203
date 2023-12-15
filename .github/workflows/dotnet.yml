@@ -31,10 +31,10 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Install dependencies
-      run: dotnet restore ..\..\
+      run: dotnet restore ..\..\TimeTable203.Api\TimeTable203.Api.csproj
       
     - name: Build
-      run: dotnet build --configuration Debug --no-restore ..\..\
+      run: dotnet build --configuration Debug --no-restore ..\..\TimeTable203.Api\TimeTable203.Api.csproj
     
     - name: Test
-      run: dotnet test --no-restore --verbosity normal ..\..\
+      run: dotnet test --no-restore --verbosity normal ..\..\TimeTable203.Api\TimeTable203.Api.csproj
