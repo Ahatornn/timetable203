@@ -19,7 +19,7 @@ namespace TimeTable203.Repositories.Contracts
         Task<Person?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
         /// <summary>
-        /// 
+        /// Проверка есть ли <see cref="Person"/> по указанному id
         /// </summary>
         Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken);
 

@@ -17,12 +17,16 @@ namespace TimeTable203.Api.Validators.Document
             RuleFor(x => x.Number)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Номер не должен быть пустым или null");
+                .WithMessage("Номер не должен быть пустым или null")
+                .MaximumLength(8)
+                .WithMessage("Номер больше 8 символов");
 
             RuleFor(x => x.Series)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Серия не должна быть пустым или null");
+                .WithMessage("Серия не должна быть пустым или null")
+                .MaximumLength(12)
+                .WithMessage("Серия больше 12 символов");
 
             RuleFor(x => x.IssuedAt)
                 .NotNull()

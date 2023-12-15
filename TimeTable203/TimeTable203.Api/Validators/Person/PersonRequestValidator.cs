@@ -19,14 +19,18 @@ namespace TimeTable203.Api.Validators.Person
                .WithMessage("Id не должен быть пустым или null");
 
             RuleFor(x => x.LastName)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("Фамилия не должна быть пустой или null");
+               .NotNull()
+               .NotEmpty()
+               .WithMessage("Фамилия не должна быть пустой или null")
+               .MaximumLength(80)
+               .WithMessage("Фамилия больше 80 символов");
 
             RuleFor(x => x.FirstName)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Имя не должно быть пустым или null");
+                .WithMessage("Имя не должно быть пустым или null")
+                .MaximumLength(80)
+                .WithMessage("Имя больше 80 символов");
 
             RuleFor(x => x.Email)
                .NotNull()

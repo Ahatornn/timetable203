@@ -2,6 +2,7 @@
 using Serilog;
 using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Common.Entity.Repositories;
+using TimeTable203.Context.Contracts.Enums;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Repositories.Contracts;
 
@@ -29,6 +30,18 @@ namespace TimeTable203.Repositories.Implementations
                 .NotDeletedAt()
                 .ById(id)
                 .FirstOrDefaultAsync(cancellationToken);
+
+        Task<bool> IEmployeeReadRepository.AnyByIdAsync(Guid id, CancellationToken cancellationToken)
+           => reader.Read<Employee>()
+               .NotDeletedAt()
+               .ById(id)
+               .AnyAsync(cancellationToken);
+
+        Task<bool> IEmployeeReadRepository.AnyByIdWithTeacherAsync(Guid id, CancellationToken cancellationToken)
+           => reader.Read<Employee>()
+               .NotDeletedAt()
+               .ById(id)
+               .AnyAsync(x => x.EmployeeType == EmployeeTypes.Teacher, cancellationToken);
 
         Task<Dictionary<Guid, Employee>> IEmployeeReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
             => reader.Read<Employee>()
