@@ -17,7 +17,7 @@ namespace TimeTable203.Api.Controllers
     [ApiController]
     [Route("[controller]")]
     [ApiExplorerSettings(GroupName = "TimeTableItem")]
-    public class TimeTableItemController : Controller
+    public class TimeTableItemController : ControllerBase
     {
         private readonly ITimeTableItemService timeTableItemService;
         private readonly IApiValidatorService validatorService;
