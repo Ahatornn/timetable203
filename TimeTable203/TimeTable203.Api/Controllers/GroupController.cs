@@ -15,7 +15,7 @@ namespace TimeTable203.Api.Controllers
     [ApiController]
     [Route("[controller]")]
     [ApiExplorerSettings(GroupName = "Group")]
-    public class GroupController : Controller
+    public class GroupController : ControllerBase
     {
         private readonly IGroupService groupService;
         private readonly IApiValidatorService validatorService;

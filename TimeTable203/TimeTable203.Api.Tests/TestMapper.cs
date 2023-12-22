@@ -4,10 +4,14 @@ using Xunit;
 
 namespace TimeTable203.Api.Tests
 {
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class TestMapper
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Fact]
         public void TestValidate()
         {

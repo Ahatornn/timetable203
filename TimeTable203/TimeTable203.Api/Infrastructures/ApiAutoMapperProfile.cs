@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.Extensions.EnumMapping;
-using EnumPerevod;
 using TimeTable203.Api.Models;
 using TimeTable203.Api.Models.Enums;
 using TimeTable203.Api.ModelsRequest.Discipline;
@@ -43,7 +42,7 @@ namespace TimeTable203.Api.Infrastructures
                 .ForMember(x => x.MobilePhone, opt => opt.MapFrom(x => x.Person != null
                     ? x.Person.Phone
                     : string.Empty))
-                .ForMember(x => x.DocumentType, opt => opt.MapFrom(x => x.DocumentType.PerevodDescription()));
+                .ForMember(x => x.DocumentType, opt => opt.MapFrom(x => x.DocumentType));
 
             CreateMap<CreateDocumentRequest, DocumentRequestModel>(MemberList.Destination);
             CreateMap<DocumentRequest, DocumentRequestModel>(MemberList.Destination);
@@ -55,7 +54,7 @@ namespace TimeTable203.Api.Infrastructures
                 .ForMember(x => x.MobilePhone, opt => opt.MapFrom(x => x.Person != null
                     ? x.Person.Phone
                     : string.Empty))
-                .ForMember(x => x.EmployeeType, opt => opt.MapFrom(x => x.EmployeeType.PerevodDescription()));
+                .ForMember(x => x.EmployeeType, opt => opt.MapFrom(x => x.EmployeeType));
 
             CreateMap<CreateEmployeeRequest, EmployeeRequestModel>(MemberList.Destination);
             CreateMap<EmployeeRequest, EmployeeRequestModel>(MemberList.Destination);
