@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentAssertions;
-using TimeTable203.Common.Entity.InterfaceDB;
 using TimeTable203.Context.Contracts.Models;
 using TimeTable203.Context.Tests;
 using TimeTable203.Repositories.Implementations;
@@ -76,9 +75,53 @@ namespace TimeTable203.Services.Tests.Tests
                     target.Description,
                 });
         }
+        /// <summary>
+        /// Добавление дисциплины, возвращает данные
+        /// </summary>
+        [Fact]
+        public async Task AddShouldWork()
+        {
+            //Arrange
+            var target = TestDataGenerator.Discipline();
+
+            //Act
+            var act = await disciplineService.AddAsync(target.Name, target.Description, CancellationToken);
+
+            //Assert
+            var entity = Context.Disciplines.Single(x =>
+                x.Id == act.Id &&
+                x.Name == target.Name
+            );
+            entity.Should().NotBeNull();
+        }
 
         /// <summary>
-        /// 
+        /// Изменение дисциплины, изменяет данные
+        /// </summary>
+        [Fact]
+        public async Task EditShouldWork()
+        {
+            //Arrange
+            var target = TestDataGenerator.Discipline();
+            await Context.Disciplines.AddAsync(target);
+            await UnitOfWork.SaveChangesAsync(CancellationToken);
+
+            var targetModel = TestDataGenerator.DisciplineModel();
+            targetModel.Id = target.Id;
+
+            //Act
+            var act = await disciplineService.EditAsync(targetModel, CancellationToken);
+
+            //Assert
+            var entityTargetModel = Context.Disciplines.Single(x =>
+                x.Id == act.Id &&
+                x.Name == targetModel.Name
+            );
+            entityTargetModel.Should().NotBeNull();
+        }
+
+        /// <summary>
+        /// Удаление дисциплины, возвращает пустоту
         /// </summary>
         [Fact]
         public async Task DeleteShouldWork()

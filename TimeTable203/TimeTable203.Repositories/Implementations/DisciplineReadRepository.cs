@@ -28,6 +28,12 @@ namespace TimeTable203.Repositories.Implementations
                 .ById(id)
                 .FirstOrDefaultAsync(cancellationToken);
 
+        Task<bool> IDisciplineReadRepository.AnyByIdAsync(Guid id, CancellationToken cancellationToken)
+         => reader.Read<Discipline>()
+             .NotDeletedAt()
+             .ById(id)
+             .AnyAsync(cancellationToken);
+
         Task<Dictionary<Guid, Discipline>> IDisciplineReadRepository.GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellation)
             => reader.Read<Discipline>()
                 .NotDeletedAt()

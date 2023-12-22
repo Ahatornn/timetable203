@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using TimeTable203.Api.ModelsRequest.Group;
-using TimeTable203.Context.Contracts.Enums;
 using TimeTable203.Repositories.Contracts;
 
 namespace TimeTable203.Api.Validators.Group
@@ -27,18 +26,14 @@ namespace TimeTable203.Api.Validators.Group
                 .WithMessage("Клаасный руководитель не должен быть пустым или null")
                 .MustAsync(async (id, CancellationToken) =>
                 {
-                    var employee = await employeeReadRepository.GetByIdAsync(id!.Value, CancellationToken);
-                    return employee != null;
+                    var employeeExists = await employeeReadRepository.AnyByIdAsync(id!.Value, CancellationToken);
+                    return employeeExists;
                 })
                 .WithMessage("Такого работника не существует!")
                 .MustAsync(async (id, CancellationToken) =>
                  {
-                     var employee = await employeeReadRepository.GetByIdAsync(id!.Value, CancellationToken);
-                     if (employee == null)
-                     {
-                         return false;
-                     }
-                     return employee!.EmployeeType == EmployeeTypes.Teacher;
+                     var employeeExistsWithTeacher = await employeeReadRepository.AnyByIdWithTeacherAsync(id!.Value, CancellationToken);
+                     return employeeExistsWithTeacher;
                  })
                  .WithMessage("Работник не соответствует категории учителя!");
         }

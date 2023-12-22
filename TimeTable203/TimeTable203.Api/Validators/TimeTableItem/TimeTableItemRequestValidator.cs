@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using TimeTable203.Api.ModelsRequest.TimeTableItem;
-using TimeTable203.Context.Contracts.Enums;
 using TimeTable203.Repositories.Contracts;
 
 namespace TimeTable203.Api.Validators.TimeTableItem
@@ -45,8 +44,8 @@ namespace TimeTable203.Api.Validators.TimeTableItem
                 .WithMessage("Дисциплина не должна быть пустым или null")
                 .MustAsync(async (id, CancellationToken) =>
                 {
-                    var discipline = await disciplineReadRepository.GetByIdAsync(id, CancellationToken);
-                    return discipline != null;
+                    var disciplineExists = await disciplineReadRepository.AnyByIdAsync(id, CancellationToken);
+                    return disciplineExists;
                 })
                 .WithMessage("Такой дисциплины не существует!");
 
@@ -56,8 +55,8 @@ namespace TimeTable203.Api.Validators.TimeTableItem
                .WithMessage("Группа не должна быть пустым или null")
                .MustAsync(async (id, CancellationToken) =>
                {
-                   var group = await groupReadRepository.GetByIdAsync(id, CancellationToken);
-                   return group != null;
+                   var groupExists = await groupReadRepository.AnyByIdAsync(id, CancellationToken);
+                   return groupExists;
                })
                .WithMessage("Такой группы не существует!");
 
@@ -67,18 +66,14 @@ namespace TimeTable203.Api.Validators.TimeTableItem
                .WithMessage("Учитель не должен быть пустым или null")
                .MustAsync(async (id, CancellationToken) =>
                {
-                   var employee = await employeeReadRepository.GetByIdAsync(id, CancellationToken);
-                   return employee != null;
+                   var employeeExist = await employeeReadRepository.AnyByIdAsync(id, CancellationToken);
+                   return employeeExist;
                })
                .WithMessage("Такого учителя не существует!")
                .MustAsync(async (id, CancellationToken) =>
                {
-                   var employee = await employeeReadRepository.GetByIdAsync(id, CancellationToken);
-                   if (employee == null)
-                   {
-                       return false;
-                   }
-                   return employee!.EmployeeType == EmployeeTypes.Teacher;
+                   var employeeExistsWithTeacher = await employeeReadRepository.AnyByIdWithTeacherAsync(id, CancellationToken);
+                   return employeeExistsWithTeacher;
                })
                 .WithMessage("Работник не соответствует категории: учитель!");
         }

@@ -11,8 +11,8 @@ namespace TimeTable203.Context.Configuration
             builder.ToTable("Persons");
             builder.HasIdAsKey();
             builder.PropertyAuditConfiguration();
-            builder.Property(x => x.FirstName).IsRequired();
-            builder.Property(x => x.LastName).IsRequired();
+            builder.Property(x => x.FirstName).IsRequired().HasMaxLength(80);
+            builder.Property(x => x.LastName).IsRequired().HasMaxLength(80);
             builder.Property(x => x.Email).IsRequired();
             builder.Property(x => x.Phone).IsRequired();
 

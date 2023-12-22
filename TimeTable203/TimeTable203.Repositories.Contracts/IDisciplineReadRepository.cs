@@ -16,6 +16,13 @@ namespace TimeTable203.Repositories.Contracts
         /// Получить <see cref="Discipline"/> по идентификатору
         /// </summary>
         Task<Discipline?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+
+        /// <summary>
+        /// Проверка есть ли <see cref="Discipline"/> по указанному id
+        /// </summary>
+        Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken);
+
         /// <summary>
         /// Получить список <see cref="Discipline"/> по идентификаторам
         /// </summary>
