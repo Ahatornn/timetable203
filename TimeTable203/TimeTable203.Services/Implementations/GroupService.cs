@@ -104,9 +104,12 @@ namespace TimeTable203.Services.Implementations
                 throw new TimeTableEntityNotFoundException<Group>(source.Id);
             }
 
-            var employee = await employeeReadRepository.GetByIdAsync(source.ClassroomTeacher!.Value, cancellationToken);
-            targetGroup.EmployeeId = employee!.Id;
-            targetGroup.Employee = employee;
+            if (source.ClassroomTeacher.HasValue)
+            {
+                var employee = await employeeReadRepository.GetByIdAsync(source.ClassroomTeacher!.Value, cancellationToken);
+                targetGroup.EmployeeId = employee!.Id;
+                targetGroup.Employee = employee;
+            }
 
             targetGroup.Name = source.Name;
             targetGroup.Description = source.Description;

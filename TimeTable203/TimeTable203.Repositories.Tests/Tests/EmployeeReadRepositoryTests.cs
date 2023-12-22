@@ -34,7 +34,7 @@ namespace TimeTable203.Repositories.Tests.Tests
         }
 
         /// <summary>
-        /// Возвращает список работников (Почему то возвращает пустой список работников!)
+        /// Возвращает список работников
         /// </summary>
         [Fact]
         public async Task GetAllEmployeeValue()

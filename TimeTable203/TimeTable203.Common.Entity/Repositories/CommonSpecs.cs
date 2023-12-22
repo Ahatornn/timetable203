@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using TimeTable203.Common.Entity.EntityInterface;
 using Microsoft.EntityFrameworkCore;
+using TimeTable203.Common.Entity.EntityInterface;
 
 namespace TimeTable203.Common.Entity.Repositories
 {

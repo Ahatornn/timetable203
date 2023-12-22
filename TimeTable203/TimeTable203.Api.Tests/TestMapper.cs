@@ -1,6 +1,6 @@
-﻿using Xunit;
+﻿using FluentAssertions;
 using FluentAssertions.Extensions;
-using FluentAssertions;
+using Xunit;
 
 namespace TimeTable203.Api.Tests
 {

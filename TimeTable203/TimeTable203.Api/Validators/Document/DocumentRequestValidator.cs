@@ -20,14 +20,18 @@ namespace TimeTable203.Api.Validators.Document
                .WithMessage("Id не должен быть пустым или null");
 
             RuleFor(x => x.Number)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("Номер не должен быть пустым или null");
+               .NotNull()
+               .NotEmpty()
+               .WithMessage("Номер не должен быть пустым или null")
+               .MaximumLength(8)
+               .WithMessage("Номер больше 8 символов");
 
             RuleFor(x => x.Series)
                 .NotNull()
                 .NotEmpty()
-                .WithMessage("Серия не должна быть пустым или null");
+                .WithMessage("Серия не должна быть пустым или null")
+                .MaximumLength(12)
+                .WithMessage("Серия больше 12 символов");
 
             RuleFor(x => x.IssuedAt)
                 .NotNull()
@@ -44,8 +48,8 @@ namespace TimeTable203.Api.Validators.Document
                 .WithMessage("Персона не должна быть пустым или null")
                 .MustAsync(async (id, CancellationToken) =>
                 {
-                    var person = await personReadRepository.GetByIdAsync(id, CancellationToken);
-                    return person != null;
+                    var personExists = await personReadRepository.AnyByIdAsync(id, CancellationToken);
+                    return personExists;
                 })
                 .WithMessage("Такой персоны не существует!");
         }

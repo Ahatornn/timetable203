@@ -36,9 +36,9 @@ namespace TimeTable203.Api.Validators.Person
                .WithMessage("Требуется действительная почта!");
 
             RuleFor(x => x.Phone)
-             .NotNull()
-             .NotEmpty()
-             .WithMessage("Телефон не должна быть пустой или null");
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("Телефон не должна быть пустой или null");
         }
     }
 }

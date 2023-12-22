@@ -46,7 +46,7 @@ namespace TimeTable203.Repositories.Implementations
                 .ThenBy(x => x.FirstName)
                 .ThenBy(x => x.Patronymic)
                 .ToReadOnlyCollectionAsync(cancellationToken);
-        public Task<bool> AnyByIdAsync(Guid id, CancellationToken cancellationToken)
+        Task<bool> IPersonReadRepository.AnyByIdAsync(Guid id, CancellationToken cancellationToken)
             => reader.Read<Person>()
                 .NotDeletedAt()
                 .ById(id)
