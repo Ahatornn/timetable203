@@ -37,19 +37,15 @@ jobs:
     - name: Build
       working-directory: TimeTable203\TimeTable203.Api
       run: dotnet build --configuration Debug --no-restore
-
-    - name: Test Context
-      working-directory: TimeTable203\TimeTable203.Context.Tests
-      run: dotnet test --no-restore
       
     - name: Test Repository
       working-directory: TimeTable203\TimeTable203.Repositories.Tests
-      run: dotnet test --no-restore
+      run: dotnet test
 
     - name: Test Service
       working-directory: TimeTable203\TimeTable203.Services.Tests
-      run: dotnet test --no-restore
+      run: dotnet test
       
     - name: Test Api
       working-directory: TimeTable203\TimeTable203.Api.Tests
-      run: dotnet test --no-restore
+      run: dotnet test
