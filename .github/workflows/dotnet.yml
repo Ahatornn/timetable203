@@ -40,4 +40,4 @@ jobs:
     
     - name: Test
       working-directory: TimeTable203\
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test --no-restore --verbosity diagnostic
