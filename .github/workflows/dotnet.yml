@@ -34,11 +34,18 @@ jobs:
       working-directory: TimeTable203\TimeTable203.Api
       run: dotnet restore 
       
-      
     - name: Build
       working-directory: TimeTable203\TimeTable203.Api
       run: dotnet build --configuration Debug --no-restore
-    
-    - name: Test
-      working-directory: TimeTable203\TimeTable203.Api
-      run: dotnet test --no-restore --verbosity normal
+      
+    - name: Test Repository
+      working-directory: TimeTable203\TimeTable203.Repositories.Tests
+      run: dotnet test
+
+    - name: Test Service
+      working-directory: TimeTable203\TimeTable203.Services.Tests\TimeTable203.Services.Tests.csproj
+      run: dotnet test
+      
+    - name: Test Api
+      working-directory: TimeTable203\TimeTable203.Api.Tests
+      run: dotnet test
