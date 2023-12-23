@@ -40,16 +40,16 @@ jobs:
 
     - name: Test Context
       working-directory: TimeTable203\TimeTable203.Context.Tests
-      run: dotnet test --no-restore --verbosity
+      run: dotnet test --no-restore
       
     - name: Test Repository
       working-directory: TimeTable203\TimeTable203.Repositories.Tests
-      run: dotnet test --no-restore --verbosity
+      run: dotnet test --no-restore
 
     - name: Test Service
       working-directory: TimeTable203\TimeTable203.Services.Tests
-      run: dotnet test --no-restore --verbosity
+      run: dotnet test --no-restore
       
     - name: Test Api
       working-directory: TimeTable203\TimeTable203.Api.Tests
-      run: dotnet test --no-restore --verbosity
+      run: dotnet test --no-restore
