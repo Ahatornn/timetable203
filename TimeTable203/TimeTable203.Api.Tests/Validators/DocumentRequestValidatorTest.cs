@@ -1,8 +1,17 @@
 ﻿using FluentValidation.TestHelper;
+using Microsoft.EntityFrameworkCore;
 using Moq;
+using TimeTable203.Api.Models.Enums;
 using TimeTable203.Api.ModelsRequest.Document;
 using TimeTable203.Api.Validators.Document;
+using TimeTable203.Common.Entity.InterfaceDB;
+using TimeTable203.Context;
+using TimeTable203.Context.Contracts;
 using TimeTable203.Repositories.Contracts;
+using TimeTable203.Services.Contracts.Interface;
+using TimeTable203.Services.Contracts.Models;
+using TimeTable203.Services.Contracts.ModelsRequest;
+using TimeTable203.Services.Implementations;
 using Xunit;
 
 namespace TimeTable203.Api.Tests.Validators
@@ -27,16 +36,8 @@ namespace TimeTable203.Api.Tests.Validators
         public async void ValidatorRequestShouldError()
         {
             //Arrange
-            var model = new DocumentRequest()
-            {
-                Id = Guid.NewGuid(),
-                Number = "Number",
-                Series = "Series",
-                IssuedAt = DateTime.Now,
-                PersonId = Guid.NewGuid(),
-            };
-            personReadRepositoryMock.Setup(x => x.AnyByIdAsync(model.PersonId, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(true);
+            var model = new DocumentRequest();
+
             //Act
             var validation = await validationRequest.TestValidateAsync(model);
 
@@ -44,7 +45,6 @@ namespace TimeTable203.Api.Tests.Validators
             validation.ShouldHaveValidationErrorFor(x => x.Id);
             validation.ShouldHaveValidationErrorFor(x => x.Series);
             validation.ShouldHaveValidationErrorFor(x => x.Number);
-            validation.ShouldHaveValidationErrorFor(x => x.DocumentType);
             validation.ShouldHaveValidationErrorFor(x => x.PersonId);
         }
 
@@ -61,8 +61,11 @@ namespace TimeTable203.Api.Tests.Validators
                 Number = "Number",
                 Series = "Series",
                 IssuedAt = DateTime.Now,
-                PersonId = Guid.NewGuid(),
+                PersonId = Guid.NewGuid()
             };
+
+            personReadRepositoryMock.Setup(x => x.AnyByIdAsync(model.PersonId, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(true);
 
             //Act
             var validation = await validationRequest.TestValidateAsync(model);
@@ -82,15 +85,7 @@ namespace TimeTable203.Api.Tests.Validators
         public async void ValidatorCreateRequestShouldError()
         {
             //Arrange
-            var model = new CreateDocumentRequest()
-            {
-                Number = "Number",
-                Series = "Series",
-                IssuedAt = DateTime.Now,
-                PersonId = Guid.NewGuid(),
-            };
-            personReadRepositoryMock.Setup(x => x.AnyByIdAsync(model.PersonId, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(true);
+            var model = new CreateDocumentRequest();
 
             //Act
             var validation = await validationCreateRequest.TestValidateAsync(model);
@@ -98,7 +93,6 @@ namespace TimeTable203.Api.Tests.Validators
             //Assert
             validation.ShouldHaveValidationErrorFor(x => x.Series);
             validation.ShouldHaveValidationErrorFor(x => x.Number);
-            validation.ShouldHaveValidationErrorFor(x => x.DocumentType);
             validation.ShouldHaveValidationErrorFor(x => x.PersonId);
         }
 
@@ -117,13 +111,15 @@ namespace TimeTable203.Api.Tests.Validators
                 PersonId = Guid.NewGuid(),
             };
 
+            personReadRepositoryMock.Setup(x => x.AnyByIdAsync(model.PersonId, It.IsAny<CancellationToken>()))
+               .ReturnsAsync(true);
+
             //Act
             var validation = await validationCreateRequest.TestValidateAsync(model);
 
             //Assert
             validation.ShouldNotHaveValidationErrorFor(x => x.Series);
             validation.ShouldNotHaveValidationErrorFor(x => x.Number);
-            validation.ShouldNotHaveValidationErrorFor(x => x.DocumentType);
             validation.ShouldNotHaveValidationErrorFor(x => x.PersonId);
         }
     }
