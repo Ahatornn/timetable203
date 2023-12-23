@@ -39,5 +39,5 @@ jobs:
       run: dotnet build --configuration Debug --no-restore
     
     - name: Test Api
-      working-directory: TimeTable203\TimeTable203.Api.Tests\TimeTable203.Api.Tests
+      working-directory: TimeTable203\TimeTable203.Api.Tests
       run: dotnet test
