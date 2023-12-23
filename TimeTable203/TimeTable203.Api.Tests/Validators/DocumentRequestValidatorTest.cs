@@ -1,17 +1,8 @@
 ﻿using FluentValidation.TestHelper;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using TimeTable203.Api.Models.Enums;
 using TimeTable203.Api.ModelsRequest.Document;
 using TimeTable203.Api.Validators.Document;
-using TimeTable203.Common.Entity.InterfaceDB;
-using TimeTable203.Context;
-using TimeTable203.Context.Contracts;
 using TimeTable203.Repositories.Contracts;
-using TimeTable203.Services.Contracts.Interface;
-using TimeTable203.Services.Contracts.Models;
-using TimeTable203.Services.Contracts.ModelsRequest;
-using TimeTable203.Services.Implementations;
 using Xunit;
 
 namespace TimeTable203.Api.Tests.Validators

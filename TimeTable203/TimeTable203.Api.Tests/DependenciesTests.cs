@@ -1,10 +1,10 @@
-﻿using FluentAssertions;
+﻿using System.Reflection;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Testing;
+using TimeTable203.Api.Controllers;
 using TimeTable203.Api.Tests.Infrastructures;
 using Xunit;
-using TimeTable203.Api.Controllers;
 
 namespace TimeTable203.Api.Tests
 {
