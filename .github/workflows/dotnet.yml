@@ -44,7 +44,7 @@ jobs:
 
     - name: Test Service
       working-directory: TimeTable203\TimeTable203.Services.Tests
-      run: dotnet test
+      run: dotnet test ~/TimeTable203.Services.Tests.csproj
       
     - name: Test Api
       working-directory: TimeTable203\TimeTable203.Api.Tests
