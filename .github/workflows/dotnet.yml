@@ -41,4 +41,4 @@ jobs:
     
     - name: Test
       working-directory: TimeTable203\TimeTable203.Api
-      run: dotnet test --no-restore --verbosity detail
+      run: dotnet test --no-restore --verbosity diag
