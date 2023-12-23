@@ -38,6 +38,6 @@ jobs:
       working-directory: TimeTable203\TimeTable203.Api
       run: dotnet build --configuration Debug --no-restore
     
-    - name: Test
-      working-directory: TimeTable203\
-      run: dotnet test --no-restore --verbosity diagnostic
+    - name: Test Api
+      working-directory: TimeTable203\TimeTable203.Api.Tests\TimeTable203.Api.Tests
+      run: dotnet test
