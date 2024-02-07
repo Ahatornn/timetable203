@@ -16,7 +16,7 @@
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// Описание
+        /// Описание дисциплины
         /// </summary>
         public string Description { get; set; } = string.Empty;
     }

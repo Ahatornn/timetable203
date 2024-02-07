@@ -21,7 +21,7 @@
         public string Description { get; set; } = string.Empty;
 
         /// <summary>
-        /// Студенты группы
+        /// Студенты группы и пр
         /// </summary>
         public ICollection<PersonModel>? Students { get; set; }
 
